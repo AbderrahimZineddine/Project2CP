@@ -5,20 +5,9 @@ import { User } from '../models/User';
 
 const router = express.Router();
 
-router.post('/signup', authController.signup);
-router.post('/verifyEmail', authController.verifyEmail);
-router.post('/login', authController.login);
-router.get('/logout', authController.logout);
-router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword', authController.resetPassword);
-
 router.use(authController.protect);
 
-router.post(
-  '/signupAsWorker',
-  authController.restrictTo('User'),
-  authController.signupAsWorker
-);
+
 
 router.get('/me', userController.getMe, userController.getUser);
 router.patch(
