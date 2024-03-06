@@ -18,7 +18,6 @@ router.get('/me', userController.getMe, workerController.getWorker);
 router.patch(
   '/editMe',
   userController.uploadProfilePicture,
-  userController.resizeProfilePicture,
   workerController.editMeWorker,
   userController.editMe(Worker)
 );

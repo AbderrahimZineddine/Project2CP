@@ -18,6 +18,8 @@ const app = express();
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
+// app.use(express.urlencoded({extended:true})); //TODO i donno
+
 app.use(cors());
 app.options('*', cors());
 app.use(morgan('dev'))

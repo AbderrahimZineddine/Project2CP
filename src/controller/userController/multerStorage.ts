@@ -5,25 +5,23 @@ import sharp from 'sharp';
 import { MyRequest } from './userController';
 import { v2 as cloudinary } from 'cloudinary';
 
-
-// const multerStorage = multer.diskStorage({
-//   destination: (
-//     _req: Request,
-//     file: Express.Multer.File,
-//     cb: (error: Error | null, destination: string) => void
-//   ) => {
-//     cb(null, 'src/public/img/users');
-//   },
-//   filename: (
-//     req: MyRequest,
-//     file: Express.Multer.File,
-//     cb: (error: Error | null, filename: string) => void
-//   ) => {
-//     const ext = file.mimetype.split('/')[1];
-//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-//   },
-// });
-const multerStorage = multer.memoryStorage(); // cz we first need to resize it !
+const multerStorage = multer.diskStorage({
+  // destination: (
+  //   _req: Request,
+  //   file: Express.Multer.File,
+  //   cb: (error: Error | null, destination: string) => void
+  // ) => {
+  //   cb(null, 'src/public/img/users');
+  // },
+  filename: (
+    req: MyRequest,
+    file: Express.Multer.File,
+    cb: (error: Error | null, filename: string) => void
+  ) => {
+    cb(null, file.originalname);
+  },
+});
+// const multerStorage = multer.memoryStorage(); // cz we first need to resize it !
 
 const multerFilter = (
   req: MyRequest,
@@ -39,7 +37,7 @@ const multerFilter = (
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter }); // if not specified ( call multer() ), stored only in memory
 
 export const uploadProfilePicture = upload.single('profilePicture');
-export const resizeProfilePicture = (
+export const resizeProfilePicture = async (
   req: MyRequest,
   res: Response,
   next: NextFunction
@@ -48,15 +46,15 @@ export const resizeProfilePicture = (
     return next();
   }
   //cz we need it later
-  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  // req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
   //width, height : we need  a square, this crops by default !
-  sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat('jpeg')
-    .jpeg({ quality: 90 })
-    .toFile(`src/public/img/users/${req.file.filename}`); //TODO check quality
-    
+  // sharp(req.file.buffer)
+  //   .resize(500, 500)
+  //   .toFormat('jpeg')
+  //   .jpeg({ quality: 90 }); //TODO check quality
+  // .toFile(`src/public/img/users/${req.file.filename}`);
+
   // console.log(process.env.API_KEY);
 
   console.log(req.file);
@@ -64,20 +62,39 @@ export const resizeProfilePicture = (
     api_key: process.env.API_KEY,
     cloud_name: process.env.CLOUD_NAME,
     api_secret: process.env.API_SECRET,
-    
   });
-  
-  cloudinary.uploader.upload(
-    `src/public/img/users/${req.file.filename}`,
+
+  const result = await cloudinary.uploader.upload(
+    req.file.path,
+    {
+      transformation: {
+        width: 500,
+        height: 500,
+        crop: 'crop',
+        format: 'jpg',
+        quality: 90,
+      },
+    },
     function (err, result) {
       if (err) {
         console.log(err);
         res.status(500).json({
-          message: 'error',
+          message: err.message,
         });
       }
-      
     }
   );
+
+  // cloudinary.uploader.upload(
+  //   req.file.path,
+  //   function (result : any) {
+  //     console.log(result);
+  //   },
+  //   { upload_preset: 'ta2ozk9e' }
+  // );
+
+  req.user.profilePicture = result.secure_url;
+  await req.user.save({ validateBeforeSave: false });
+  console.log(result.secure_url);
   next(); // to editMeUser
 };

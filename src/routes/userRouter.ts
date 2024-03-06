@@ -12,7 +12,6 @@ router.patch(
   '/editMe',
   authController.restrictTo('User'),
   userController.uploadProfilePicture,
-  userController.resizeProfilePicture,
   userController.editMe(User)
 );
 

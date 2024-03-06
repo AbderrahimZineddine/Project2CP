@@ -30,8 +30,8 @@ export const editMe = (role: any ) => {
         return next(new AppError('You cannot change your first name or last name', 400)) //TODO check 400 ?
     }
 
-      const oldfilename = req.user.profilePicture;
-      let model;
+      // const oldfilename = req.user.profilePicture;
+      // let model;
       // if (role === Role.Worker) {
       //   model = Worker;
       // } else {
@@ -56,22 +56,22 @@ export const editMe = (role: any ) => {
           'contacts.linkedin': req.body.contacts
             ? req.body.contacts.linkedin
             : req.user.contacts.linkedin,
-          profilePicture: req.file
-            ? req.file.filename
-            : req.user.profilePicture,
+          // profilePicture: req.file
+          //   ? req.file.filename
+          //   : req.user.profilePicture,
         },
         { new: true, runValidators: true }
       );
 
-      try {
-        if (req.file && oldfilename != 'default.jpg') {
-          // delete the previous image !
-          const unlinkPromisified = promisify(unlink);
-          await unlinkPromisified(`src/public/img/users/${oldfilename}`);
-        }
-      } catch (error) {
-        return next(new AppError('Error deleting old profile picture !', 400)); //400??
-      }
+      // try {
+      //   if (req.file && oldfilename != 'default.jpg') {
+      //     // delete the previous image !
+      //     const unlinkPromisified = promisify(unlink);
+      //     await unlinkPromisified(`src/public/img/users/${oldfilename}`);
+      //   }
+      // } catch (error) {
+      //   return next(new AppError('Error deleting old profile picture !', 400)); //400??
+      // }
       res.status(200).json({
         status: 'success',
         data: {

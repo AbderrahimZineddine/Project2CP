@@ -11,10 +11,10 @@ import {
   getUser,
   updateUser,
 } from './getAllUsers';
-import { resizeProfilePicture, uploadProfilePicture } from './multerStorage';
 import { editMe } from './editMeUser';
 import { getMe } from './getMe';
 import { updateEmail } from '../authController/updateEmail';
+import uploadProfilePicture from './uploadPfp';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
@@ -26,10 +26,9 @@ const userController = {
   deleteUser: deleteUser,
   updateUser: updateUser,
   createUser: createUser,
-  uploadProfilePicture: uploadProfilePicture,
-  resizeProfilePicture: resizeProfilePicture,
   getMe: getMe,
   editMe: editMe,
+  uploadProfilePicture : uploadProfilePicture
 };
 
 export default userController;
