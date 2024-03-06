@@ -8,7 +8,6 @@ import { MyRequest, Role } from './authController';
 
 export const switchRole = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    console.log(req.user.currentRole);
     if (req.user.currentRole === Role.Worker) {
       // switch from worker to user :
       req.user = await Worker.findByIdAndUpdate(
@@ -18,7 +17,6 @@ export const switchRole = catchAsync(
       );
       return createAndSendToken(req.user, 200, req, res);
       // this should end here
-      console.log('not ended there ');
     }
     // already signed in as worker :
     if (req.user.role === Role.Worker) {

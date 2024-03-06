@@ -12,6 +12,7 @@ import AppError from './utils/appError'
 import userRouter from './routes/userRouter'
 import workerRouter from './routes/workerRouter'
 import authRouter from './routes/authRouter'
+import morgan from 'morgan';
 const app = express();
 
 app.use(compression());
@@ -19,7 +20,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors());
 app.options('*', cors());
-
+app.use(morgan('dev'))
 // app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/src/public')));
 

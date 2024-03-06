@@ -52,7 +52,7 @@ export const protect = catchAsync(
     //3) Check if user still exists or password is still the same
     let currentUser: UserDoc | WorkerDoc;
     const currentRole = decoded.currentRole;
-    console.log(currentRole);
+    console.log('current role: ' + currentRole);
     if (currentRole == Role.Worker) {
       //TODO :check
       currentUser = await Worker.findById(decoded.id);

@@ -3,6 +3,8 @@ import { Response, NextFunction } from 'express';
 import multer from 'multer';
 import sharp from 'sharp';
 import { MyRequest } from './userController';
+import { v2 as cloudinary } from 'cloudinary';
+
 
 // const multerStorage = multer.diskStorage({
 //   destination: (
@@ -54,5 +56,28 @@ export const resizeProfilePicture = (
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`src/public/img/users/${req.file.filename}`); //TODO check quality
+    
+  // console.log(process.env.API_KEY);
+
+  console.log(req.file);
+  cloudinary.config({
+    api_key: process.env.API_KEY,
+    cloud_name: process.env.CLOUD_NAME,
+    api_secret: process.env.API_SECRET,
+    
+  });
+  
+  cloudinary.uploader.upload(
+    `src/public/img/users/${req.file.filename}`,
+    function (err, result) {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          message: 'error',
+        });
+      }
+      
+    }
+  );
   next(); // to editMeUser
 };
