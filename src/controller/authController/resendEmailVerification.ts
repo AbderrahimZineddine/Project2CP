@@ -1,54 +1,36 @@
 import { User } from '../../models/User';
-import { UserDoc } from 'models/UserDoc';
 import catchAsync from '../../utils/catchAsync';
 import { NextFunction, Response } from 'express';
 import { MyRequest } from './authController';
-import Email from '../../utils/email';
-import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import AppError from '../../utils/appError';
+import { createAndSendToken } from './createAndSendToken';
+import Email from '../../utils/email';
 
-export const signup = catchAsync(
+export const sendVerificationEmail = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
+    if (!req.body.email) {
+      return next(new AppError('Enter an email to resend the code', 400)); //400 ??
+    }
+
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
     const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
 
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      wilaya,
-      phoneNumber,
-      passwordConfirm,
-    } = req.body;
+    const user = await User.findOne({ newEmail: req.body.email });
+    if(!user) {
+        return next(new AppError('This is the wrong email address', 400)); //400 ??
+    }
 
-    const user: UserDoc = await User.create({
-      firstName,
-      lastName,
-      email,
-      newEmail: email,
-      phoneNumber,
-      wilaya,
-      authentication: {
-        password,
-        passwordConfirm,
-        otp: hashedOTP,
-        otpExpires: new Date(Date.now() + 10 * 60 * 1000),
-      },
-    });
+    user.authentication.otp = hashedOTP;
+    user.authentication.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
 
-    // createAndSendToken(user, 201, req, res);
-
-    // req.user.authentication.otp = hashedOTP;
-    // req.user.authentication.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
-    // await req.user.save({ validateBeforeSave: false });
+    user.save({ validateBeforeSave: false });
 
     try {
       await new Email(user, otp).sendOTPEmail();
 
       res.status(200).json({
-        status: 'PENDING',
+        status: 'success',
         message: 'Verification email sent',
         email: user.newEmail,
       });
@@ -67,3 +49,5 @@ export const signup = catchAsync(
     }
   }
 );
+
+export default sendVerificationEmail;
