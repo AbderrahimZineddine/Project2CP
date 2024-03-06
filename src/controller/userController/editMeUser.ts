@@ -4,13 +4,13 @@ import { Response, NextFunction } from 'express';
 import { unlink } from 'node:fs';
 import { promisify } from 'util';
 import { MyRequest } from './userController';
-import { Role, UserDoc } from 'models/UserDoc';
+import { Role } from '../../models/UserDoc';
 // import { User } from 'models/User';
 // import { Worker } from 'models/Worker';
 // import { Model } from 'mongoose';
 // import { WorkerDoc } from 'models/WorkerDoc';
 
-export const editMeUser = (role: any ) => {
+export const editMe = (role: any ) => {
   return catchAsync(
     async (req: MyRequest, res: Response, next: NextFunction) => {
       if (

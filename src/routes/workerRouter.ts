@@ -10,16 +10,14 @@ const router = express.Router();
 // CRUD :
 router
   .route('/')
-  .get( workerController.getAllWorkers)
-  .post( authController.restrictTo('admin'), workerController.createWorker);
+  .get(workerController.getAllWorkers)
+  .post(workerController.createWorker);
 
 router
   .route('/:id')
-  .get( workerController.getWorker)
-  .patch(authController.restrictTo('admin'), workerController.updateWorker)
-  .delete(authController.restrictTo('admin'), workerController.deleteWorker);
-
-
+  .get(workerController.getWorker)
+  .patch(workerController.updateWorker)
+  .delete(workerController.deleteWorker);
 
 router.use(authController.protect);
 
@@ -32,7 +30,7 @@ router.patch(
   userController.uploadProfilePicture,
   userController.resizeProfilePicture,
   workerController.editMeWorker,
-  userController.editMeUser(Worker)
+  userController.editMe(Worker)
 );
 
 export default router;

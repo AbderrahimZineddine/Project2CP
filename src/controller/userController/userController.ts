@@ -12,7 +12,7 @@ import {
   updateUser,
 } from './getAllUsers';
 import { resizeProfilePicture, uploadProfilePicture } from './multerStorage';
-import { editMeUser } from './editMeUser';
+import { editMe } from './editMeUser';
 import { getMe } from './getMe';
 import { updateEmail } from '../authController/updateEmail';
 
@@ -29,7 +29,7 @@ const userController = {
   uploadProfilePicture: uploadProfilePicture,
   resizeProfilePicture: resizeProfilePicture,
   getMe: getMe,
-  editMeUser: editMeUser,
+  editMe: editMe,
 };
 
 export default userController;

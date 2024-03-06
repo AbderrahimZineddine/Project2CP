@@ -1,9 +1,7 @@
 import { MyRequest } from 'controller/authController/authController';
 import { NextFunction, Response } from 'express';
-import AppError from 'utils/appError';
-import catchAsync from 'utils/catchAsync';
-import { Worker } from '../../models/Worker';
-import { WorkerDoc } from 'models/WorkerDoc';
+import catchAsync from '../../utils/catchAsync';
+import { WorkerDoc } from '../../models/WorkerDoc';
 
 export const editMeWorker = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {

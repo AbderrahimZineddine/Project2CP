@@ -10,7 +10,8 @@ import path from 'path';
 
 import AppError from './utils/appError'
 import userRouter from './routes/userRouter'
-
+import workerRouter from './routes/workerRouter'
+import authRouter from './routes/authRouter'
 const app = express();
 
 app.use(compression());
@@ -24,6 +25,8 @@ app.use(express.static(path.join(__dirname, '/src/public')));
 
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/workers', workerRouter);
+app.use('/api/v1/auth', authRouter);
 
 app.all('*', (req, res, next) => {
     // express knows that it's an error ( anything is assumed to be an error )
