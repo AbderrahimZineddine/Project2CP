@@ -15,9 +15,16 @@ import { editMe } from './editMeUser';
 import { getMe } from './getMe';
 import { updateEmail } from '../authController/updateEmail';
 import uploadProfilePicture from './uploadPfp';
+import upload from './upload';
+import uploadId from './uploadId';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
+  certeficates?: {
+    title: string;
+    image: string;
+  }[];
+  idPicture?: string;
 }
 
 const userController = {
@@ -28,7 +35,10 @@ const userController = {
   createUser: createUser,
   getMe: getMe,
   editMe: editMe,
-  uploadProfilePicture : uploadProfilePicture
+  upload : upload,
+  uploadProfilePicture: uploadProfilePicture,
+  uploadId : uploadId,
+
 };
 
 export default userController;

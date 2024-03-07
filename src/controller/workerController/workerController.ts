@@ -12,6 +12,7 @@ import {
 import { getMe } from '../userController/getMe';
 import { editMeWorker } from './editMeWorker';
 import { updateEmail } from '../authController/updateEmail';
+import uploadCerteficates from './uploadCerteficate';
 
 const workerController = {
   getWorker: getWorker,
@@ -20,6 +21,8 @@ const workerController = {
   updateWorker: updateWorker,
   createWorker: createWorker,
   editMeWorker: editMeWorker,
+  uploadCerteficates : uploadCerteficates,
+  
 };
 
 export default workerController;

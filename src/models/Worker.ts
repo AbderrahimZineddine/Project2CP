@@ -15,7 +15,7 @@ const workerSchema = new mongoose.Schema(
     certificates: [
       {
         title: String,
-        picture: String,
+        image: String,
       },
     ],
     // isCertified: Boolean,// TODO: change to Virtual

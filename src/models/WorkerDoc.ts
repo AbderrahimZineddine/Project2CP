@@ -12,7 +12,7 @@ export interface WorkerDoc extends UserDoc {
   certificates: [
     {
       title: string;
-      picture: string;
+      image: string;
     }
   ];
   isVerified: boolean;

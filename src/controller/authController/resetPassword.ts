@@ -8,6 +8,10 @@ import { MyRequest } from './authController';
 
 export const resetPassword = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
+    if (!req.body.otp) {
+      return next(new AppError('Empty otp details are not allowed', 400)); //400 ??
+    }
+
     //1) get user based on password reset token :
     const hashedOTP = crypto
       .createHash('sha256')
@@ -16,6 +20,7 @@ export const resetPassword = catchAsync(
 
     //* be careful when querying nested ducuments
     const user = await User.findOne({
+      email: req.body.email,
       'authentication.otp': hashedOTP,
       'authentication.otpExpires': { $gt: Date.now() },
     });

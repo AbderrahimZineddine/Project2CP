@@ -15,6 +15,7 @@ import { restrictTo } from './restrictTo';
 import { logout } from './logout';
 import { updateEmail } from './updateEmail';
 import sendVerificationEmail from './resendEmailVerification';
+import verifyAlreadySignedUp from './verifyWorkerSignup';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
@@ -38,7 +39,8 @@ const authController = {
   verifyEmail: verifyEmail,
   restrictTo: restrictTo,
   updateEmail :updateEmail,
-  sendVerificationEmail : sendVerificationEmail
+  sendVerificationEmail : sendVerificationEmail,
+  verifyAlreadySignedUp : verifyAlreadySignedUp,
 };
 
 export default authController;

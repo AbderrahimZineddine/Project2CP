@@ -6,34 +6,41 @@ import { Worker } from '../models/Worker';
 
 const router = express.Router();
 
-
 router.use(authController.protect);
 
 router.use(authController.restrictTo('Worker'));
 
-router.route('/')
-  .get(workerController.getAllWorkers)
+router.route('/').get(workerController.getAllWorkers);
 router.get('/me', userController.getMe, workerController.getWorker);
 
 router.patch(
   '/editMe',
+  // userController.upload.single('profilePicture'),
+  userController.upload.fields([
+    {
+      name: 'profilePicture',
+      maxCount: 1,
+    },
+    {
+      name: 'certeficatesImages',
+      maxCount: 10,
+    },
+  ]),
   userController.uploadProfilePicture,
+  // userController.upload.array('certeficates'),
+  workerController.uploadCerteficates,
   workerController.editMeWorker,
   userController.editMe(Worker)
 );
 
-
 // router.use(restrictTo('admin')); //TODO add later
 // CRUD :
-router
-  .route('/')
-  .post(workerController.createWorker);
+router.route('/').post(workerController.createWorker);
 
 router
-  .route('/:id')  //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
+  .route('/:id') //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
   .get(workerController.getWorker)
   .patch(workerController.updateWorker)
   .delete(workerController.deleteWorker);
-
 
 export default router;
