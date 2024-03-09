@@ -3,7 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import AppError from '../../utils/appError';
 import { Response, NextFunction } from 'express';
 import { createAndSendToken } from './createAndSendToken';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 
 export const updatePassword = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {

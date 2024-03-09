@@ -1,7 +1,7 @@
 import { User } from '../../models/User';
 import catchAsync from '../../utils/catchAsync';
 import { NextFunction, Response } from 'express';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 import crypto from 'crypto';
 import AppError from '../../utils/appError';
 import { createAndSendToken } from './createAndSendToken';
@@ -17,8 +17,8 @@ export const sendVerificationEmail = catchAsync(
     const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
 
     const user = await User.findOne({ newEmail: req.body.email });
-    if(!user) {
-        return next(new AppError('This is the wrong email address', 400)); //400 ??
+    if (!user) {
+      return next(new AppError('This is the wrong email address', 400)); //400 ??
     }
 
     user.authentication.otp = hashedOTP;

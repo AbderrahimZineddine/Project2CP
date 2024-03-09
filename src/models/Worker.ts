@@ -14,8 +14,8 @@ const workerSchema = new mongoose.Schema(
     },
     certificates: [
       {
-        title: String,
-        image: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Certificate",
       },
     ],
     // isCertified: Boolean,// TODO: change to Virtual
@@ -50,7 +50,7 @@ const workerSchema = new mongoose.Schema(
 );
 
 workerSchema.virtual('isCertified').get(function () {
-  return this.certificates?.length > 0;
+  return this.certificates?.length > 0; //TODO
 });
 
 export const Worker = User.discriminator('Worker', workerSchema);

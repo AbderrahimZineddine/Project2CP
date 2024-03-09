@@ -9,12 +9,14 @@ enum Job {
 export interface WorkerDoc extends UserDoc {
   workerAccountVerified: boolean;
   job: Job;
-  certificates: [
-    {
-      title: string;
-      image: string;
-    }
-  ];
+  // certificates: [
+  //   {
+  //     title: string;
+  //     image: string;
+  //     isValid: boolean;
+  //   }
+  // ];
+  certificates:  mongoose.Types.ObjectId[];
   isVerified: boolean;
   isCertified: boolean;
   idPicture: string;

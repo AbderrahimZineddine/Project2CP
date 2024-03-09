@@ -1,27 +1,17 @@
 import AppError from '../../utils/appError';
 import { Request, Response, NextFunction } from 'express';
-import multer from 'multer';
-import { MyRequest } from '../userController/userController';
+import { MyRequest } from '../userController';
 import { v2 as cloudinary } from 'cloudinary';
 
-interface uploadedFiles {
-  profilePicture: Express.Multer.File[];
-  certeficatesImages: Express.Multer.File[];
-}
 
-const uploadProfilePicture = async (
-  req: MyRequest,
-  res: Response,
-  next: NextFunction
-) => {
+
+const uploadProfilePicture = async (req: MyRequest, res: Response, next: NextFunction) => {
   // Check if file exists
-  const files = req.files as unknown as uploadedFiles;
+  const file = req.file
 
-  if (!files || !files.profilePicture || files.profilePicture.length === 0) {
-    return next(); //500 ??
-  } else if (files.profilePicture.length > 1) {
-    return next(new AppError('Please upload only one profile picture', 400));
-  }
+  if (!file) {
+    return next();
+  } 
 
   // Configure cloudinary
   cloudinary.config({
@@ -29,10 +19,10 @@ const uploadProfilePicture = async (
     cloud_name: process.env.CLOUD_NAME,
     api_secret: process.env.API_SECRET,
   });
-
+  
   try {
     // Upload and resize image using cloudinary
-    const result = await cloudinary.uploader.upload(files.profilePicture[0].path, {
+    const result = await cloudinary.uploader.upload(file.path, {
       transformation: {
         width: 500,
         height: 500,
@@ -40,11 +30,11 @@ const uploadProfilePicture = async (
         format: 'jpg',
         quality: 90,
       },
+      folder: req.user.id,
     });
 
     // Update user profile picture and save
-    req.user.profilePicture = result.secure_url;
-    await req.user.save({ validateBeforeSave: false });
+    req.certificate = result.secure_url;
   } catch (err) {
     // Handle cloudinary upload errors
     return next(new AppError(err.message, 500));

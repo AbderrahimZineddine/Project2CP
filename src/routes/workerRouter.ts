@@ -1,12 +1,19 @@
 import express from 'express';
-import workerController from '../controller/workerController/workerController';
-import authController from '../controller/authController/authController';
-import userController from '../controller/userController/userController';
+import workerController from '../controller/workerController';
+import authController from '../controller/authController';
+import userController from '../controller/userController';
 import { Worker } from '../models/Worker';
+import uploadController from '../controller/uploadController';
+import upload from 'controller/uploadController/upload';
 
 const router = express.Router();
 
 router.use(authController.protect);
+
+router.patch('/certificates/:id', workerController.updateCertificate);
+router.get('/certificates/:id', workerController.getCertificateById);
+router.delete('/certificates/:id', workerController.deleteCertificateById);
+router.post('/certificates/', uploadController.upload.single('certificate'), uploadController.uploadCertificate, workerController.addCertificate)
 
 router.use(authController.restrictTo('Worker'));
 
@@ -16,19 +23,10 @@ router.get('/me', userController.getMe, workerController.getWorker);
 router.patch(
   '/editMe',
   // userController.upload.single('profilePicture'),
-  userController.upload.fields([
-    {
-      name: 'profilePicture',
-      maxCount: 1,
-    },
-    {
-      name: 'certeficatesImages',
-      maxCount: 10,
-    },
-  ]),
-  userController.uploadProfilePicture,
-  // userController.upload.array('certeficates'),
-  workerController.uploadCerteficates,
+  uploadController.upload.single('profilePicture'),
+  uploadController.uploadProfilePicture,
+  // userController.upload.array('certificates'),
+  // uploadController.uploadCertificates,
   workerController.editMeWorker,
   userController.editMe(Worker)
 );

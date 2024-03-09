@@ -1,8 +1,9 @@
 import express from 'express';
-import userController from '../controller/userController/userController';
-import authController from '../controller/authController/authController';
+import userController from '../controller/userController';
+import authController from '../controller/authController';
 import { User } from '../models/User';
-import upload from 'controller/userController/upload';
+import upload from 'controller/uploadController/upload';
+import uploadController from '../controller/uploadController';
 
 const router = express.Router();
 
@@ -12,8 +13,13 @@ router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/editMe',
   authController.restrictTo('User'),
-  userController.upload.single('profilePicture'),
-  userController.uploadProfilePicture,
+  uploadController.upload.fields([
+    {
+      name: 'profilePicture',
+      maxCount: 1,
+    },
+  ]),
+  uploadController.uploadProfilePicture,
   userController.editMe(User)
 );
 

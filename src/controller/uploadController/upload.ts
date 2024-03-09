@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { MyRequest } from './userController';
+import { MyRequest } from '../userController';
 import AppError from '../../utils/appError';
 
 const multerStorage = multer.diskStorage({
@@ -20,9 +20,8 @@ const multerFilter = (
 };
 
 const upload = multer({
-    storage: multerStorage,
-    fileFilter: multerFilter,
-  });
-
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
 
 export default upload;

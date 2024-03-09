@@ -2,7 +2,7 @@ import AppError from '../../utils/appError';
 import { Response, NextFunction } from 'express';
 import multer from 'multer';
 import sharp from 'sharp';
-import { MyRequest } from './userController';
+import { MyRequest } from '../userController';
 import { v2 as cloudinary } from 'cloudinary';
 
 const multerStorage = multer.diskStorage({

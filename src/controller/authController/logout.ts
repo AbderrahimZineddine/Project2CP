@@ -1,6 +1,6 @@
 import catchAsync from '../../utils/catchAsync';
 import { Response } from 'express';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 
 export const logout = catchAsync(async (req: MyRequest, res: Response) => {
   res.cookie('jwt', 'loggedout', {

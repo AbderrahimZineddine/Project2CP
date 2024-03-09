@@ -4,7 +4,7 @@ import AppError from '../../utils/appError';
 import { Response, NextFunction } from 'express';
 import crypto from 'crypto';
 import { createAndSendToken } from './createAndSendToken';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 
 export const resetPassword = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {

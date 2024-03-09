@@ -1,19 +1,15 @@
 import AppError from '../../utils/appError';
 import { Request, Response, NextFunction } from 'express';
 import multer from 'multer';
-import { MyRequest } from './userController';
+import { MyRequest } from '../userController';
 import { v2 as cloudinary } from 'cloudinary';
 
 interface uploadedFiles {
   idPicture: Express.Multer.File[];
-  certeficatesImages: Express.Multer.File[];
+  certificatesImages: Express.Multer.File[];
 }
 
-const uploadId = async (
-  req: MyRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const uploadId = async (req: MyRequest, res: Response, next: NextFunction) => {
   // Check if file exists
   const files = req.files as unknown as uploadedFiles;
 
@@ -34,12 +30,9 @@ const uploadId = async (
     // Upload and resize image using cloudinary
     const result = await cloudinary.uploader.upload(files.idPicture[0].path, {
       transformation: {
-        width: 500,
-        height: 500,
-        crop: 'crop',
         format: 'jpg',
-        quality: 90,
       },
+      folder: req.user.id,
     });
 
     // Update user profile picture and save

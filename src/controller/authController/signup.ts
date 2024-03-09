@@ -2,7 +2,7 @@ import { User } from '../../models/User';
 import { UserDoc } from 'models/UserDoc';
 import catchAsync from '../../utils/catchAsync';
 import { NextFunction, Response } from 'express';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 import Email from '../../utils/email';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';

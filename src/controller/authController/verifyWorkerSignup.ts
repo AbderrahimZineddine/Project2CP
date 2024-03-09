@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express';
-import { MyRequest } from '../../controller/userController/userController';
+import { MyRequest } from '../userController';
 import { Role } from '../../models/UserDoc';
 import AppError from '../../utils/appError';
 

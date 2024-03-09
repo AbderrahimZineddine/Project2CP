@@ -1,7 +1,8 @@
 import express from 'express';
-import authController from '../controller/authController/authController';
-import userController from '../controller/userController/userController';
-import workerController from '../controller/workerController/workerController';
+import authController from '../controller/authController';
+import userController from '../controller/userController';
+import workerController from '../controller/workerController';
+import uploadController from '../controller/uploadController';
 
 const router = express.Router();
 
@@ -25,19 +26,19 @@ router.post(
   authController.restrictTo('User'),
   authController.verifyAlreadySignedUp,
   // userController.upload.single('idPicture'),
-  // userController.upload.array('certeficatesImages', 10),
-  userController.upload.fields([
+  // userController.upload.array('certificatesImages', 10),
+  uploadController.upload.fields([
     {
       name: 'idPicture',
       maxCount: 1,
     },
     {
-      name: 'certeficatesImages',
+      name: 'certificatesImages',
       maxCount: 10,
     },
   ]),
-  userController.uploadId,
-  workerController.uploadCerteficates,
+  uploadController.uploadId,
+  uploadController.uploadCertificates,
   authController.signupAsWorker
 );
 export default router;

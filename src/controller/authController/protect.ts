@@ -6,13 +6,13 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { Worker } from '../../models/Worker';
 import { WorkerDoc } from '../../models/WorkerDoc';
-import { MyRequest, Role } from './authController';
+import { MyRequest, Role } from '../authController';
 
 export const protect = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     //1) get Token or return an error :
     let token;
-    if (
+    if ( 
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
     ) {
@@ -52,7 +52,6 @@ export const protect = catchAsync(
     //3) Check if user still exists or password is still the same
     let currentUser: UserDoc | WorkerDoc;
     const currentRole = decoded.currentRole;
-    console.log('current role: ' + currentRole);
     if (currentRole == Role.Worker) {
       //TODO :check
       currentUser = await Worker.findById(decoded.id);
@@ -68,7 +67,10 @@ export const protect = catchAsync(
 
     if (!currentUser.authentication.isVerified) {
       return next(
-        new AppError('You are not verified! Please verify your email account and login', 400)
+        new AppError(
+          'You are not verified! Please verify your email account and login',
+          400
+        )
       ); //TODO 400 ?
     }
 

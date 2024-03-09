@@ -1,7 +1,7 @@
 import { User } from '../../models/User';
 import catchAsync from '../../utils/catchAsync';
 import { NextFunction, Response } from 'express';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 import crypto from 'crypto';
 import AppError from '../../utils/appError';
 import { createAndSendToken } from './createAndSendToken';

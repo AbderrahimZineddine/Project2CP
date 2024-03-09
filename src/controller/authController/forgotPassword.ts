@@ -3,7 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import AppError from '../../utils/appError';
 import { Response, NextFunction } from 'express';
 import Email from '../../utils/email';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 
 // export const restrictToCurrentRole = (...roles: string[]) => {
 //   //*?  answer : return a function cz express expects that, so we "call" (ex : restrictTo(['user'])) this function, which return a function (a) , then express uses (a) to do whatever it needs; other middlewares are used directly so we don't call them
@@ -38,7 +38,6 @@ export const forgotPassword = catchAsync(
 
     //3) send the token via email
     try {
-      
       await new Email(user, otp).sendPassswordReset();
 
       res.status(200).json({

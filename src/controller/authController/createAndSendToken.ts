@@ -1,7 +1,7 @@
 import { UserDoc } from 'models/UserDoc';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 
 export function createAndSendToken(
   user: UserDoc,

@@ -3,7 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import AppError from '../../utils/appError';
 import { Response, NextFunction } from 'express';
 import { createAndSendToken } from './createAndSendToken';
-import { MyRequest } from './authController';
+import { MyRequest } from '../authController';
 
 export const login = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -27,7 +27,10 @@ export const login = catchAsync(
 
     if (!user.authentication.isVerified) {
       return next(
-        new AppError('You are not verified! Please verify your email account and login', 400)
+        new AppError(
+          'You are not verified! Please verify your email account and login',
+          400
+        )
       ); //TODO 400 ?
     }
     // everything good

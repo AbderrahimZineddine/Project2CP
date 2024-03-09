@@ -4,7 +4,7 @@ import { Response, NextFunction } from 'express';
 import { Worker } from '../../models/Worker';
 import { WorkerDoc } from '../../models/WorkerDoc';
 import { createAndSendToken } from './createAndSendToken';
-import { MyRequest, Role } from './authController';
+import { MyRequest, Role } from '../authController';
 
 export const switchRole = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
