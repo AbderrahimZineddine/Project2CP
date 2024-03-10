@@ -9,9 +9,11 @@ import { editMeWorker } from './workerController/editMeWorker';
 import uploadCertificates from './uploadController/uploadCertificate';
 import {
   addCertificate,
+  checkTitle,
   deleteCertificateById,
   getCertificateById,
-  updateCertificate,
+  updateCertificateImage,
+  updateCertificateTitle,
 } from './workerController/certificatesController';
 
 const workerController = {
@@ -21,10 +23,12 @@ const workerController = {
   updateWorker: updateWorker,
   createWorker: createWorker,
   editMeWorker: editMeWorker,
-  updateCertificate: updateCertificate,
+  updateCertificateImage: updateCertificateImage,
+  updateCertificateTitle: updateCertificateTitle,
   getCertificateById: getCertificateById,
   deleteCertificateById: deleteCertificateById,
   addCertificate: addCertificate,
+  checkTitle: checkTitle,
 };
 
 export default workerController;

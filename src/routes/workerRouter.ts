@@ -10,10 +10,24 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.patch('/certificates/:id', workerController.updateCertificate);
+router.patch(
+  '/certificates/:id/image',
+  uploadController.upload.single('certificate'),
+  uploadController.uploadCertificate,
+  workerController.updateCertificateImage
+);
+router.patch(
+  '/certificates/:id/title',
+  workerController.updateCertificateTitle
+);
 router.get('/certificates/:id', workerController.getCertificateById);
 router.delete('/certificates/:id', workerController.deleteCertificateById);
-router.post('/certificates/', uploadController.upload.single('certificate'), uploadController.uploadCertificate, workerController.addCertificate)
+router.post(
+  '/certificates/',
+  uploadController.upload.single('certificate'),
+  uploadController.uploadCertificate,
+  workerController.addCertificate
+);
 
 router.use(authController.restrictTo('Worker'));
 

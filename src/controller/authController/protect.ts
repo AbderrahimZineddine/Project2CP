@@ -83,7 +83,7 @@ export const protect = catchAsync(
     //we good : grant access to protected route :
     // (req as MyRequest).user = currentUser;
     req.user = currentUser;
-    res.locals.user = currentUser;
+    res.locals.user = currentUser; //TODO do you need need this
     // go to protected route
     next();
   }
