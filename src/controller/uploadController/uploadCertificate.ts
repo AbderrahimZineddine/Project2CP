@@ -60,7 +60,7 @@ const uploadCertificates = async (
       });
       i++;
       return {
-        title: titles[i] ?? file.originalname,
+        title: titles[i-1] ?? file.originalname,
         image: result.secure_url,
       };
     });
@@ -68,10 +68,11 @@ const uploadCertificates = async (
 
     const certificates = await Promise.all(uploadPromises);
     req.certificates = certificates;
-    console.log(req.certificates);
+    console.log(certificates);
     next();
   } catch (err) {
     // Handle cloudinary upload errors
+    console.log(err);
     return next(new AppError('Error while uploading the files', 500));
   }
 };

@@ -25,7 +25,8 @@ export interface MyRequest extends Request {
     image: string;
   }[];
   idPicture?: string;
-  certificate: string,
+  certificate?: string,
+  profilePicture?: string
 }
 
 const userController = {

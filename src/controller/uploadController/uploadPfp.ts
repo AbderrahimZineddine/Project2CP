@@ -34,7 +34,8 @@ const uploadProfilePicture = async (req: MyRequest, res: Response, next: NextFun
     });
 
     // Update user profile picture and save
-    req.certificate = result.secure_url;
+    req.profilePicture = result.secure_url;
+    
   } catch (err) {
     // Handle cloudinary upload errors
     return next(new AppError(err.message, 500));

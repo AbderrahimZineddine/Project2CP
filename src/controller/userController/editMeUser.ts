@@ -5,6 +5,7 @@ import { unlink } from 'node:fs';
 import { promisify } from 'util';
 import { MyRequest } from '../userController';
 import { Role } from '../../models/UserDoc';
+import uploadController from '../../controller/uploadController';
 // import { User } from 'models/User';
 // import { Worker } from 'models/Worker';
 // import { Model } from 'mongoose';
@@ -42,6 +43,7 @@ export const editMe = (role: any) => {
       // } else {
       //   model = User;
       // }
+      const oldPfp = req.user.profilePicture;
       const updatedUser = await role.findByIdAndUpdate(
         req.user.id,
         {
@@ -61,12 +63,14 @@ export const editMe = (role: any) => {
           'contacts.linkedin': req.body.contacts
             ? req.body.contacts.linkedin
             : req.user.contacts.linkedin,
-          // profilePicture: req.file
-          //   ? req.file.filename
-          //   : req.user.profilePicture,
+          profilePicture: req.profilePicture ?? req.user.profilePicture,
         },
         { new: true, runValidators: true }
       );
+
+      if (updatedUser.profilePicture != oldPfp) {
+        await uploadController.deleteFromCloudinary(oldPfp);
+      }
 
       // try {
       //   if (req.file && oldfilename != 'default.jpg') {

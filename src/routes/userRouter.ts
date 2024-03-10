@@ -13,12 +13,7 @@ router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/editMe',
   authController.restrictTo('User'),
-  uploadController.upload.fields([
-    {
-      name: 'profilePicture',
-      maxCount: 1,
-    },
-  ]),
+  uploadController.upload.single('profilePicture'),
   uploadController.uploadProfilePicture,
   userController.editMe(User)
 );

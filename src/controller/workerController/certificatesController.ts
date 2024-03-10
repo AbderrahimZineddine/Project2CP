@@ -86,9 +86,21 @@ export const addCertificate = catchAsync(
       title: req.body.title,
     });
     (req.user as WorkerDoc).certificates.push(certificate.id);
+    try {
+      await ValidateCertificateCreate(req.user.id, certificate.id);
 
-    res.status(200).json({
-      status: 'success',
-    });
+      res.status(200).json({
+        status: 'success',
+        certificate,
+      });
+    } catch (error) {
+      (req.user as WorkerDoc).certificates.pop();
+      return next(
+        new AppError(
+          'Error while sending validation request!, please try again later',
+          500
+        )
+      );
+    }
   }
 );

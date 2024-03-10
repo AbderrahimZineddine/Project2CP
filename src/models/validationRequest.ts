@@ -15,17 +15,14 @@ export interface validationRequestDoc extends mongoose.Document {
 }
 const validationRequestSchema = new mongoose.Schema({
   worker: {
-    id: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Worker',
-      required: [
-        true,
-        'A certificate must reference a worker, provide worker id!',
-      ],
-    },
-    name: String, //TODO check later
-    job: String,
+    type: mongoose.Schema.ObjectId,
+    ref: 'Worker',
+    required: [
+      true,
+      'A certificate must reference a worker, provide worker id!',
+    ],
   },
+
   certificate: {
     type: mongoose.Schema.ObjectId,
     ref: 'Certificate',
@@ -44,7 +41,7 @@ const validationRequestSchema = new mongoose.Schema({
 });
 
 export const ValidationRequest = mongoose.model<validationRequestDoc>(
-  'CertificateAdmin',
+  'ValidationRequest',
   validationRequestSchema
 );
 
