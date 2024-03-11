@@ -93,49 +93,34 @@ export const getCertificateById = catchAsync(
 export const deleteCertificateById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     console.log('deleteCertificate');
-    if (
-      (req.user as WorkerDoc).certificates.includes(
-        req.params.id as unknown as mongoose.Types.ObjectId
-      )
-    ) {
-      // await Certificate.findByIdAndDelete(req.params.id);
-      const certificate = await Certificate.findById(req.params.id);
-      if (!certificate) {
-        return next(
-          new AppError(
-            'No certificate found with this id :' + req.params.id,
-            404
-          )
-        );
-      }
-      try {
-        await uploadController.deleteFromCloudinary(certificate.image);
-      } catch (error) {
-        return next(
-          new AppError(
-            'Error deleting certificate! Please try again later',
-            500
-          )
-        );
-      }
-      (req.user as WorkerDoc).certificates = (
-        req.user as WorkerDoc
-      ).certificates.filter(
-        (certificate) =>
-          certificate != (req.params.id as unknown as mongoose.Types.ObjectId)
-      );
-      await req.user.save({ validateBeforeSave: false });
-      await ValidationRequest.findOneAndDelete({ certificate: req.params.id });
-      await Certificate.findByIdAndDelete(certificate.id);
 
-      res.status(200).json({
-        status: 'success',
-      });
-    } else {
+    // await Certificate.findByIdAndDelete(req.params.id);
+    const certificate = await Certificate.findById(req.params.id);
+    if (!certificate) {
       return next(
-        new AppError('this certificate does not belong to this worker', 404)
+        new AppError('No certificate found with this id :' + req.params.id, 404)
       );
     }
+    try {
+      await uploadController.deleteFromCloudinary(certificate.image);
+    } catch (error) {
+      return next(
+        new AppError('Error deleting certificate! Please try again later', 500)
+      );
+    }
+    (req.user as WorkerDoc).certificates = (
+      req.user as WorkerDoc
+    ).certificates.filter(
+      (certificate) =>
+        certificate != (req.params.id as unknown as mongoose.Types.ObjectId)
+    );
+    await req.user.save({ validateBeforeSave: false });
+    await ValidationRequest.findOneAndDelete({ certificate: req.params.id });
+    await Certificate.findByIdAndDelete(certificate.id);
+
+    res.status(200).json({
+      status: 'success',
+    });
   }
 );
 
@@ -151,9 +136,11 @@ export const checkTitle = catchAsync(
 export const addCertificate = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     if (!req.certificate || !req.body.title) {
-      return next(new AppError('Please provide a certificate image and title !', 404));
+      return next(
+        new AppError('Please provide a certificate image and title !', 404)
+      );
     }
-    console.log(req)
+    // console.log(req);
     let pushed = false;
     try {
       const certificate = await Certificate.create({
@@ -161,6 +148,7 @@ export const addCertificate = catchAsync(
         title: req.body.title,
       });
       (req.user as WorkerDoc).certificates.push(certificate.id);
+      req.user.save({validateBeforeSave: false});
       pushed = true;
       await ValidateCertificateCreate(req.user.id, certificate.id);
 
@@ -187,5 +175,33 @@ export const addCertificate = catchAsync(
         )
       );
     }
+  }
+);
+
+export const checkOwnerCertificate = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    if (
+      !(req.user as WorkerDoc).certificates.includes(
+        req.params.id as unknown as mongoose.Types.ObjectId
+      )
+    ) {
+      return next(
+        new AppError('This certificate does not belong to this user', 404)
+      );
+    }
+    next();
+  }
+);
+
+export const getMyCertificates = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    const certificates = [];
+    for (const certId of (req.user as WorkerDoc).certificates) {
+      certificates.push(await Certificate.findById(certId));
+    }
+    res.status(200).json({
+      status: 'success',
+      certificates,
+    });
   }
 );

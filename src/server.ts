@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 //* This should be first :
 process.on('unhandledException', (err) => {
-  console.log('unhadled exception, shutting down...');
+  console.log('unhandled exception, shutting down...');
   console.log(err.name, err.message);
   process.exit(1);
 });

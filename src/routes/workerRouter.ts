@@ -12,19 +12,26 @@ router.use(authController.protect);
 
 router.patch(
   '/certificates/:id/image',
+  workerController.checkOwnerCertificate,
   uploadController.upload.single('certificate'),
   uploadController.uploadCertificate,
   workerController.updateCertificateImage
 );
 router.patch(
   '/certificates/:id/title',
+  workerController.checkOwnerCertificate,
   workerController.updateCertificateTitle
 );
 router.get('/certificates/:id', workerController.getCertificateById);
-router.delete('/certificates/:id', workerController.deleteCertificateById);
+router.get('/certificates/', workerController.getMyCertificate);
+router.delete(
+  '/certificates/:id',
+  workerController.checkOwnerCertificate,
+  workerController.deleteCertificateById
+);
 router.post(
-  '/certificates/',
-  // workerController.checkTitle, //* deosnt' work
+  '/certificates',
+  // workerController.checkTitle, //* doesn't' work
   uploadController.upload.single('certificate'),
   uploadController.uploadCertificate,
   workerController.addCertificate
