@@ -6,6 +6,7 @@ import upload from 'controller/uploadController/upload';
 import uploadController from '../controller/uploadController';
 
 const router = express.Router();
+router.route('/').get(userController.getAllUsers);
 
 router.use(authController.protect);
 
@@ -20,10 +21,8 @@ router.patch(
 
 // router.use(restrictTo('admin')); //TODO add later
 // CRUD :
-router
-  .route('/')
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+router.route('/').post(userController.createUser);
+// .get(userController.getAllUsers)
 
 router
   .route('/:id')
