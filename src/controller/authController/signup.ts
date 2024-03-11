@@ -63,7 +63,7 @@ export const signup = catchAsync(
 
       return next(
         new AppError(
-          'There was an error sending the email. Try again later!',
+          'There was an error sending the email. Try again later!' + error.message,
           500
         )
       );
