@@ -4,7 +4,6 @@ import authController from '../controller/authController';
 import userController from '../controller/userController';
 import { Worker } from '../models/Worker';
 import uploadController from '../controller/uploadController';
-import upload from 'controller/uploadController/upload';
 
 const router = express.Router();
 
