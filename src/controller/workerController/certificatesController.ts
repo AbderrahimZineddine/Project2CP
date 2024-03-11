@@ -43,7 +43,7 @@ export const updateCertificateImage = catchAsync(
       }
       return next(
         new AppError(
-          'Error sending certificate validation request! Please try again',
+          'Error sending certificate validation request! Please try again' + error.message, 
           500
         )
       ); //500?
