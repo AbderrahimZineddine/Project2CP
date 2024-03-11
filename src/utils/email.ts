@@ -63,7 +63,7 @@ export default class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Welcome to the Natours Family');
+    await this.send('welcome', 'Welcome to the EasyHome Family');
   }
   async sendPassswordReset() {
     await this.send(

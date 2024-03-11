@@ -45,6 +45,9 @@ export const signup = catchAsync(
     // await req.user.save({ validateBeforeSave: false });
 
     try {
+      console.log('user : ', user);
+      console.log('otp : ', otp);
+
       await new Email(user, otp).sendOTPEmail();
 
       res.status(200).json({

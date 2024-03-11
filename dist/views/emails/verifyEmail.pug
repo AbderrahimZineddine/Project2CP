@@ -1,0 +1,18 @@
+extends baseEmail
+
+block content
+  p Hi #{firstName},
+    p Welcome to EasyHome, we're glad to have you 🎉🙏
+    p Firts, enter #{otp} to verify your email address 
+    p This code expires in 10 minutes !
+    table.btn.btn-primary(role='presentation' border='0' cellpadding='0' cellspacing='0')
+      tbody
+        tr
+          td(align='left')
+            table(role='presentation' border='0' cellpadding='0' cellspacing='0')
+              tbody
+                tr
+                  td
+                    a(href=`${url}` target='_blank') Upload user photo
+    p If you need any help, please don't hesitate to contact me!
+    p - Abderrahim Zineddine, CEO

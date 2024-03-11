@@ -32,6 +32,8 @@ exports.signup = (0, catchAsync_1.default)(async (req, res, next) => {
     // req.user.authentication.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
     // await req.user.save({ validateBeforeSave: false });
     try {
+        console.log('user : ', user);
+        console.log('otp : ', otp);
         await new email_1.default(user, otp).sendOTPEmail();
         res.status(200).json({
             status: 'PENDING',
