@@ -57,7 +57,7 @@ class Email {
         await this.newTransport().sendMail(mailOptions);
     }
     async sendWelcome() {
-        await this.send('welcome', 'Welcome to the Natours Family');
+        await this.send('welcome', 'Welcome to the EasyHome Family');
     }
     async sendPassswordReset() {
         await this.send('passwordReset', 'Your Password reset token (valid for only 10 minutes)');
