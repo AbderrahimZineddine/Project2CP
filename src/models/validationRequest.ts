@@ -11,7 +11,7 @@ export interface validationRequestDoc extends mongoose.Document {
   certificate: mongoose.Schema.Types.ObjectId;
   idPicture: string;
   status: ['new', 'viewed'];
-  type: ['Ceritficate', 'IdPicture'];
+  type: ['Certificate', 'IdPicture'];
 }
 const validationRequestSchema = new mongoose.Schema({
   worker: {
@@ -35,7 +35,7 @@ const validationRequestSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['Ceritficate', 'idPicture'],
+    enum: ['Certificate', 'idPicture'],
     required: [true, 'Please specify the type of the validation request'],
   },
 });

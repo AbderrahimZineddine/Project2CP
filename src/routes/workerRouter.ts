@@ -24,6 +24,7 @@ router.get('/certificates/:id', workerController.getCertificateById);
 router.delete('/certificates/:id', workerController.deleteCertificateById);
 router.post(
   '/certificates/',
+  // workerController.checkTitle, //* deosnt' work
   uploadController.upload.single('certificate'),
   uploadController.uploadCertificate,
   workerController.addCertificate

@@ -70,7 +70,7 @@ export const signupAsWorker = catchAsync(
         const v2 = await ValidationRequest.create({
           worker: user.id,
           certificate: cert,
-          type: 'Ceritficate',
+          type: 'Certificate',
         });
         console.log(v2);
       }

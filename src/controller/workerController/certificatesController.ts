@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { MyRequest } from '../userController';
 import catchAsync from '../../utils/catchAsync';
-import { Certificate } from '../../models/Certificate';
+import { Certificate, CertificateDoc } from '../../models/Certificate';
 import {
   ValidateCertificateCreate,
   ValidationRequest,
@@ -15,18 +15,32 @@ export const updateCertificateImage = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     const id = req.params.id;
     if (!req.certificate) {
-      return next(new AppError('Certificate image not found', 404)); //404 ??
+      throw new AppError('Certificate image not found', 404); //404 ??
     }
     const cert = await Certificate.findById(id);
-    const oldCert = cert;
+    if (!cert) {
+      throw new AppError('No Certificate found with that id', 404);
+    }
+    // const oldCert = {...cert}; //! error
+    const oldImage = cert.image;
+    const oldIsValid = cert.isValid;
     (cert.image = req.certificate), (cert.isValid = false), await cert.save();
     try {
-      await ValidateCertificateCreate(req.user.id, cert.id);
+      await ValidationRequest.create({
+        worker: req.user.id,
+        certificate: cert.id,
+        type: 'Certificate',
+      });
+      await uploadController.deleteFromCloudinary(oldImage);
     } catch (error) {
-      cert.image = oldCert.image;
+      cert.image = oldImage;
       uploadController.deleteFromCloudinary(req.certificate);
-      cert.isValid = oldCert.isValid;
-      cert.save();
+      cert.isValid = oldIsValid;
+      cert.save({ validateBeforeSave: false });
+      console.log(error);
+      if (error instanceof AppError) {
+        return next(error);
+      }
       return next(
         new AppError(
           'Error sending certificate validation request! Please try again',
@@ -48,10 +62,16 @@ export const updateCertificateTitle = catchAsync(
     if (!req.body.title) {
       return next(new AppError('Certificate title not found', 404)); //404 ??
     }
-    const cert = await Certificate.findByIdAndUpdate(req.params.id, {
-      title: req.body.title,
-    });
-   
+    const cert = await Certificate.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: req.body.title,
+      },
+      {
+        new: true,
+      }
+    );
+
     res.status(200).json({
       status: 'success',
       message: 'Certificate sent to admin successfully',
@@ -72,11 +92,10 @@ export const getCertificateById = catchAsync(
 
 export const deleteCertificateById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    if (!req.params.id) {
-    }
+    console.log('deleteCertificate');
     if (
       (req.user as WorkerDoc).certificates.includes(
-        req.params.id as unknown as mongoose.Types.ObjectId //! ?
+        req.params.id as unknown as mongoose.Types.ObjectId
       )
     ) {
       // await Certificate.findByIdAndDelete(req.params.id);
@@ -107,9 +126,15 @@ export const deleteCertificateById = catchAsync(
       );
       await req.user.save({ validateBeforeSave: false });
       await ValidationRequest.findOneAndDelete({ certificate: req.params.id });
+      await Certificate.findByIdAndDelete(certificate.id);
+
       res.status(200).json({
         status: 'success',
       });
+    } else {
+      return next(
+        new AppError('this certificate does not belong to this worker', 404)
+      );
     }
   }
 );
@@ -125,9 +150,10 @@ export const checkTitle = catchAsync(
 
 export const addCertificate = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    if (!req.certificate) {
-      return next(new AppError('Please provide a certificate image !', 404));
+    if (!req.certificate || !req.body.title) {
+      return next(new AppError('Please provide a certificate image and title !', 404));
     }
+    console.log(req)
     let pushed = false;
     try {
       const certificate = await Certificate.create({
