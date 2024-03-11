@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start:prod" : "ts-node src/serverOnline.ts",
+    "start:prod": "node ./dist/serverOnline.js",
     "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build" : "tsc"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "-": "^0.0.1",
+    "@cld-apis/types": "^0.1.6",
     "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",
     "@types/dotenv": "^8.2.0",
