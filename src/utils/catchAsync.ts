@@ -17,4 +17,4 @@ export default (
 };
 
 //error ends up in global error handler
-//* .catch(err => next(err)); is equivalant to .catch(next);
+//* .catch(err => next(err)); is equivalent to .catch(next);

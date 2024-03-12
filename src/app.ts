@@ -42,7 +42,7 @@ app.all('*', (req, res, next) => {
 
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
-
+app.use()
 // app.use(function (err: any, req: any, res: any, next: any) {
 //   console.log('This is the invalid field ->', err.field)
 //   next(err)

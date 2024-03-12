@@ -108,8 +108,8 @@ export default class Email {
         },
       });
     } else {
-      console.log(process.env.EMAIL_USERNAME)
-      console.log(process.env.EMAIL_PASSWORD)
+      console.log(process.env.EMAIL_USERNAME);
+      console.log(process.env.EMAIL_PASSWORD);
       return nodemailer.createTransport({
         host: 'sandbox.smtp.mailtrap.io',
         port: 2525,
@@ -125,8 +125,12 @@ export default class Email {
     try {
       // 1) Render the HTML based on a Pug template
       const html = pug.renderFile(
-        `<span class="math-inline">\{\_\_dirname\}/\.\./views/emails/</span>{template}.pug`,
-        { firstName: this.firstName, otp: this.otp, subject }
+        `${__dirname}/../views/emails/${template}.pug`,
+        {
+          firstName: this.firstName,
+          otp: this.otp,
+          subject,
+        }
       );
 
       // 2) Define the email options
@@ -139,7 +143,7 @@ export default class Email {
       };
 
       // 3) Create a transport and send the email
-      
+
       (await this.newTransport()).sendMail(mailOptions);
       console.log('Email sent successfully!');
     } catch (error) {
