@@ -14,11 +14,12 @@ const userRouter_1 = __importDefault(require("./routes/userRouter"));
 const workerRouter_1 = __importDefault(require("./routes/workerRouter"));
 const authRouter_1 = __importDefault(require("./routes/authRouter"));
 const morgan_1 = __importDefault(require("morgan"));
+const errorController_1 = __importDefault(require("./controller/errorController"));
 const app = (0, express_1.default)();
 app.use((0, compression_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use(body_parser_1.default.urlencoded({
-    extended: false
+    extended: false,
 }));
 app.use(body_parser_1.default.json());
 // app.use(express.urlencoded({extended:true})); //TODO i donno
@@ -37,6 +38,7 @@ app.all('*', (req, res, next) => {
     // err.statusCode = 404;
     next(new appError_1.default(`Can't find ${req.originalUrl} on this server`, 404));
 });
+app.use(errorController_1.default);
 // app.use(function (err: any, req: any, res: any, next: any) {
 //   console.log('This is the invalid field ->', err.field)
 //   next(err)

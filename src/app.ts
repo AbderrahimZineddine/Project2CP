@@ -13,14 +13,17 @@ import userRouter from './routes/userRouter';
 import workerRouter from './routes/workerRouter';
 import authRouter from './routes/authRouter';
 import morgan from 'morgan';
+import errorController from './controller/errorController';
 const app = express();
 
 app.use(compression());
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({
-  extended: false
-}))
-app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+app.use(bodyParser.json());
 
 // app.use(express.urlencoded({extended:true})); //TODO i donno
 
@@ -42,7 +45,7 @@ app.all('*', (req, res, next) => {
 
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
-app.use()
+app.use(errorController);
 // app.use(function (err: any, req: any, res: any, next: any) {
 //   console.log('This is the invalid field ->', err.field)
 //   next(err)

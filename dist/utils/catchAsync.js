@@ -6,5 +6,5 @@ exports.default = (fn) => {
     };
 };
 //error ends up in global error handler
-//* .catch(err => next(err)); is equivalant to .catch(next);
+//* .catch(err => next(err)); is equivalent to .catch(next);
 //# sourceMappingURL=catchAsync.js.map
