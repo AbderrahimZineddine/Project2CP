@@ -102,12 +102,14 @@ async function cancelSingupAsWorker(
   user.job = undefined;
   user.location = undefined;
   let errorMessages = [];
-  for (const cert of req.certificates) {
-    try {
-      await uploadController.deleteFromCloudinary(cert.image);
-    } catch (error) {
-      errorMessages.push(`Error deleting certificate image: ${error.message}`);
-      // Log or handle the error as needed
+  if (req.certificates && req.certificates.length > 0) {
+    for (const cert of req.certificates) {
+      try {
+        await uploadController.deleteFromCloudinary(cert.image);
+      } catch (error) {
+        errorMessages.push(`Error deleting certificate image: ${error.message}`);
+        // Log or handle the error as needed
+      }
     }
   }
   user.certificates = undefined;
