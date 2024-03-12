@@ -96,21 +96,21 @@ const errorController = (
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (process.env.NODE_ENV === 'development') {
+//   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, req, res);
-  } else if (process.env.NODE_ENV === 'production') {
-    let error = { ...err }; //! this is BULLSHIIIIITTT
-    error.msg = err.msg; //* or use this
-    if (err.name === 'CastError') {
-      err = handleCastErrorDB(err);
-    }
-    if (err.code === 11000) err = handleDuplicateFieldsDB(err);
-    if (err.name === 'ValidationError') err = handleValidationErrorDB(err);
-    if (err.name === 'JsonWebTokenError') err = handleJWTError();
-    if (err.name === 'TokenExpiredError') err = handleJWTExpiredError();
+//   } else if (process.env.NODE_ENV === 'production') {
+//     let error = { ...err }; //! this is BULLSHIIIIITTT
+//     error.msg = err.msg; //* or use this
+//     if (err.name === 'CastError') {
+//       err = handleCastErrorDB(err);
+//     }
+//     if (err.code === 11000) err = handleDuplicateFieldsDB(err);
+//     if (err.name === 'ValidationError') err = handleValidationErrorDB(err);
+//     if (err.name === 'JsonWebTokenError') err = handleJWTError();
+//     if (err.name === 'TokenExpiredError') err = handleJWTExpiredError();
 
-    sendErrorProd(err, req, res);
-  }
+//     sendErrorProd(err, req, res);
+//   }
 };
 
 export default errorController;

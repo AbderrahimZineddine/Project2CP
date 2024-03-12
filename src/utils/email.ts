@@ -99,15 +99,15 @@ export default class Email {
   }
 
   async newTransport() {
-    if (process.env.NODE_ENV === 'production') {
-      return nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD,
-        },
-      });
-    } else {
+    // if (process.env.NODE_ENV === 'production') {
+    //   return nodemailer.createTransport({
+    //     service: 'SendGrid',
+    //     auth: {
+    //       user: process.env.SENDGRID_USERNAME,
+    //       pass: process.env.SENDGRID_PASSWORD,
+    //     },
+    //   });
+    // } else {
       console.log(process.env.EMAIL_USERNAME);
       console.log(process.env.EMAIL_PASSWORD);
       return nodemailer.createTransport({
@@ -126,7 +126,7 @@ export default class Email {
       //     pass: '5595cdd8c92a04edc59e8b210af05119',
       //   },
       // });
-    }
+    // }
   }
 
   async send(template: string, subject: string) {
