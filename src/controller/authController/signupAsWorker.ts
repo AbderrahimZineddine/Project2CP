@@ -128,17 +128,7 @@ async function cancelSingupAsWorker(
     runValidators: false,
   });
 
-  // if (process.env.NODE_ENV !== 'production' && errorMessages.length > 0) {
-  //   return next(
-  //     new AppError(
-  //       `Some uploaded images failed to delete during signup: ${errorMessages.join(
-  //         ', '
-  //       )}`,
-  //       400
-  //     )
-  //   );
-  // }
-  if (process.env.NODE_ENV !== 'aaaaaa' && errorMessages.length > 0) {
+  if (process.env.NODE_ENV !== 'production' && errorMessages.length > 0) {
     return next(
       new AppError(
         `Some uploaded images failed to delete during signup: ${errorMessages.join(
@@ -148,4 +138,14 @@ async function cancelSingupAsWorker(
       )
     );
   }
+  // if (process.env.NODE_ENV !== 'aaaaaa' && errorMessages.length > 0) {
+  //   return next(
+  //     new AppError(
+  //       `Some uploaded images failed to delete during signup: ${errorMessages.join(
+  //         ', '
+  //       )}`,
+  //       400
+  //     )
+  //   );
+  // }
 }
