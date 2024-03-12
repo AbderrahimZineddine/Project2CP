@@ -110,22 +110,22 @@ export default class Email {
     } else {
       console.log(process.env.EMAIL_USERNAME);
       console.log(process.env.EMAIL_PASSWORD);
-      // return nodemailer.createTransport({
-      //   host: 'sandbox.smtp.mailtrap.io',
-      //   port: 2525,
-      //   auth: {
-      //     user: process.env.EMAIL_USERNAME,
-      //     pass: process.env.EMAIL_PASSWORD,
-      //   },
-      // });
       return nodemailer.createTransport({
-        host: 'live.smtp.mailtrap.io',
-        port: 587,
+        host: 'sandbox.smtp.mailtrap.io',
+        port: 2525,
         auth: {
-          user: 'api',
-          pass: '5595cdd8c92a04edc59e8b210af05119',
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
         },
       });
+      // return nodemailer.createTransport({
+      //   host: 'live.smtp.mailtrap.io',
+      //   port: 587,
+      //   auth: {
+      //     user: 'api',
+      //     pass: '5595cdd8c92a04edc59e8b210af05119',
+      //   },
+      // });
     }
   }
 
