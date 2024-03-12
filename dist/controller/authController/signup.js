@@ -46,7 +46,7 @@ exports.signup = (0, catchAsync_1.default)(async (req, res, next) => {
         user.authentication.otp = undefined;
         user.authentication.otpExpires = undefined;
         await user.save({ validateBeforeSave: false });
-        return next(new appError_1.default('There was an error sending the email. Try again later!', 500));
+        return next(new appError_1.default('There was an error sending the email. Try again later!' + error.message, 500));
     }
 });
 //# sourceMappingURL=signup.js.map

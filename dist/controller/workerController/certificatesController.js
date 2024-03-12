@@ -39,7 +39,7 @@ exports.updateCertificateImage = (0, catchAsync_1.default)(async (req, res, next
         if (error instanceof appError_1.default) {
             return next(error);
         }
-        return next(new appError_1.default('Error sending certificate validation request! Please try again', 500)); //500?
+        return next(new appError_1.default('Error sending certificate validation request! Please try again' + error.message, 500)); //500?
     }
     res.status(200).json({
         status: 'success',
