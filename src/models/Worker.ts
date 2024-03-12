@@ -5,7 +5,7 @@ const workerSchema = new mongoose.Schema(
   {
     workerAccountVerified: {
       type: Boolean,
-      default: false,
+      default: true, //TODO change later
     },
     job: {
       type: String,
