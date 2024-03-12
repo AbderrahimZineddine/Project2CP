@@ -114,7 +114,9 @@ async function cancelSingupAsWorker(
   }
   user.certificates = undefined;
   try {
-    await uploadController.deleteFromCloudinary(req.idPicture);
+    if (req.idPicture) {
+      await uploadController.deleteFromCloudinary(req.idPicture);
+    }
     user.idPicture = undefined;
   } catch (error) {
     errorMessages.push(`Error deleting idPicture: ${error.message}`);

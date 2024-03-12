@@ -14,7 +14,7 @@ const uploadId = async (req: MyRequest, res: Response, next: NextFunction) => {
   const files = req.files as unknown as uploadedFiles;
 
   if (!files || !files.idPicture || files.idPicture.length === 0) {
-    return next(); //500 ??
+    return next(); 
   } else if (files.idPicture.length > 1) {
     return next(new AppError('Please upload only one id picture', 400));
   }
