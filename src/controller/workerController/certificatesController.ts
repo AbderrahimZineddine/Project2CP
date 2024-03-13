@@ -43,7 +43,8 @@ export const updateCertificateImage = catchAsync(
       }
       return next(
         new AppError(
-          'Error sending certificate validation request! Please try again' + error.message, 
+          'Error sending certificate validation request! Please try again' +
+            error.message,
           500
         )
       ); //500?
@@ -83,6 +84,9 @@ export const updateCertificateTitle = catchAsync(
 export const getCertificateById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     const certificate = await Certificate.findById(req.params.id);
+    if (!certificate) {
+      return next(new AppError('No Certificate found with that id', 404));
+    }
     res.status(200).json({
       status: 'success',
       certificate,
@@ -148,7 +152,7 @@ export const addCertificate = catchAsync(
         title: req.body.title,
       });
       (req.user as WorkerDoc).certificates.push(certificate.id);
-      req.user.save({validateBeforeSave: false});
+      req.user.save({ validateBeforeSave: false });
       pushed = true;
       await ValidateCertificateCreate(req.user.id, certificate.id);
 
@@ -181,12 +185,28 @@ export const addCertificate = catchAsync(
 export const checkOwnerCertificate = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     if (
-      !(req.user as WorkerDoc).certificates.includes(
-        req.params.id as unknown as mongoose.Types.ObjectId
+      !(req.user as WorkerDoc).certificates.find(
+        (val : any) => val.id === req.params.id
       )
     ) {
       return next(
         new AppError('This certificate does not belong to this user', 404)
+      );
+    }
+    next();
+  }
+);
+
+export const checkOwnerPortfolioPost = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+
+    if (
+      !(req.user as WorkerDoc).portfolioPosts.find( //TODO : check this algo again
+        (val: any) => val.id === req.params.id
+      )
+    ) {
+      return next(
+        new AppError('This portfolio post not belong to this user', 404)
       );
     }
     next();

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { UserDoc } from './UserDoc';
+import { PortfolioPostDoc } from './PortfolioPost';
 
 enum Job {
   Architect = 'Architect',
@@ -23,5 +24,5 @@ export interface WorkerDoc extends UserDoc {
   location: string;
   rating: number;
   experience: number;
-  portfolioPosts: mongoose.Types.ObjectId[];
+  portfolioPosts: PortfolioPostDoc[];
 }

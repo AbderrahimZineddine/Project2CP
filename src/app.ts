@@ -14,17 +14,20 @@ import workerRouter from './routes/workerRouter';
 import authRouter from './routes/authRouter';
 import morgan from 'morgan';
 import errorController from './controller/errorController';
+import ExpressFormidable from 'express-formidable';
+import multer from 'multer';
 const app = express();
 
 app.use(compression());
 app.use(cookieParser());
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: true,
   })
 );
 app.use(bodyParser.json());
-
+// app.use(ExpressFormidable());
+// app.use(multer().any());
 // app.use(express.urlencoded({extended:true})); //TODO i donno
 
 app.use(cors());

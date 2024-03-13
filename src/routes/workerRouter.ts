@@ -4,18 +4,28 @@ import authController from '../controller/authController';
 import userController from '../controller/userController';
 import { Worker } from '../models/Worker';
 import uploadController from '../controller/uploadController';
+import portfolioPostsController from '../controller/workerController/portfolioPostsController';
 
 const router = express.Router();
 
 router.use(authController.protect);
 
-router.patch(
-  '/certificates/:id/image',
-  workerController.checkOwnerCertificate,
-  uploadController.upload.single('certificate'),
-  uploadController.uploadCertificate,
-  workerController.updateCertificateImage
+router.post(
+  '/portfolio',
+  uploadController.upload.array('images'),
+  uploadController.uploadPortfolioPostImages,
+  portfolioPostsController.createPortfolioPost
 );
+router.patch(
+  '/portfolio/:id',
+  workerController.checkOwnerPortfolioPost,
+  uploadController.upload.array('images'),
+  uploadController.uploadPortfolioPostImages,
+  portfolioPostsController.updatePortfolioPost
+);
+
+router.get('/portfolio/:id', portfolioPostsController.getPortfolioPostById);
+
 router.patch(
   '/certificates/:id/title',
   workerController.checkOwnerCertificate,

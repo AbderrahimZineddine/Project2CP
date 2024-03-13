@@ -10,6 +10,7 @@ import uploadCertificates from './uploadController/uploadCertificate';
 import {
   addCertificate,
   checkOwnerCertificate,
+  checkOwnerPortfolioPost,
   checkTitle,
   deleteCertificateById,
   getCertificateById,
@@ -32,7 +33,8 @@ const workerController = {
   deleteCertificateById: deleteCertificateById,
   addCertificate: addCertificate,
   checkTitle: checkTitle,
-  checkOwnerCertificate: checkOwnerCertificate
+  checkOwnerCertificate: checkOwnerCertificate,
+  checkOwnerPortfolioPost: checkOwnerPortfolioPost,
 };
 
 export default workerController;

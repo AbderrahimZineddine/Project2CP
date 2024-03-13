@@ -26,6 +26,7 @@ export interface MyRequest extends Request {
   }[];
   idPicture?: string;
   certificate?: string,
+  images?: string[],
   profilePicture?: string
 }
 

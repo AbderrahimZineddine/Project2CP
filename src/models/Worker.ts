@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { User } from './User';
+import { NextFunction } from 'express';
 
 const workerSchema = new mongoose.Schema(
   {
@@ -51,6 +52,19 @@ const workerSchema = new mongoose.Schema(
 
 workerSchema.virtual('isCertified').get(function () {
   return this.certificates?.length > 0; //TODO
+});
+
+// workerSchema.pre(/^find/, function <any> (next : NextFunction) {
+//   if (this.options._recursed) {
+//     return next();
+//   }
+//   this.populate({ path: "followers following", options: { _recursed: true } });
+//   next();
+// });
+
+workerSchema.pre(/^find/, function <WorkerDoc> (next : NextFunction) { 
+  this.populate("portfolioPosts").populate("certificates");
+  next();
 });
 
 export const Worker = User.discriminator('Worker', workerSchema);
