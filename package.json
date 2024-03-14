@@ -30,7 +30,7 @@
     "@cld-apis/types": "^0.1.6",
     "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",
-    "@types/dotenv": "^8.2.0",
+     "@types/dotenv": "^8.2.0",
     "@types/helmet": "^4.0.0",
     "@types/html-to-text": "^9.0.4",
     "@types/morgan": "^1.9.9",
