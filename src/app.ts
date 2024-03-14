@@ -16,7 +16,6 @@ import certificateRouter from './routes/certificateRouter';
 import authRouter from './routes/authRouter';
 import morgan from 'morgan';
 import errorController from './controller/errorController';
-import ExpressFormidable from 'express-formidable';
 import multer from 'multer';
 const app = express();
 
