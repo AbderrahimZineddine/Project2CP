@@ -197,21 +197,6 @@ export const checkOwnerCertificate = catchAsync(
   }
 );
 
-export const checkOwnerPortfolioPost = catchAsync(
-  async (req: MyRequest, res: Response, next: NextFunction) => {
-
-    if (
-      !(req.user as WorkerDoc).portfolioPosts.find( //TODO : check this algo again
-        (val: any) => val.id === req.params.id
-      )
-    ) {
-      return next(
-        new AppError('This portfolio post not belong to this user', 404)
-      );
-    }
-    next();
-  }
-);
 
 export const getMyCertificates = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {

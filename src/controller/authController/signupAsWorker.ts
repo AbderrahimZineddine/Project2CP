@@ -18,6 +18,7 @@ export const signupAsWorker = catchAsync(
     const { job, location } = req.body;
 
     // if (!job || !location || !req.idPicture) {  //TODO require location !
+    console.log(req.idPicture)
     if (!job || !req.idPicture) {
       await cancelSingupAsWorker(req.user as WorkerDoc, req, next);
 

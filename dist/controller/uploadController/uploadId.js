@@ -9,10 +9,10 @@ const uploadId = async (req, res, next) => {
     // Check if file exists
     const files = req.files;
     if (!files || !files.idPicture || files.idPicture.length === 0) {
-        return next(); //500 ??
+        return next();
     }
     else if (files.idPicture.length > 1) {
-        return next(new appError_1.default('Please upload only one id picture', 400));
+        return next(new appError_1.default('Please upload only ONE id picture', 400));
     }
     // Configure cloudinary
     cloudinary_1.v2.config({

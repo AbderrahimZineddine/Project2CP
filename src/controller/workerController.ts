@@ -2,7 +2,7 @@ import {
   createWorker,
   deleteWorker,
   getAllWorkers,
-  getWorker,
+  getWorkerById,
   updateWorker,
 } from './workerController/workerCRUD';
 import { editMeWorker } from './workerController/editMeWorker';
@@ -10,7 +10,6 @@ import uploadCertificates from './uploadController/uploadCertificate';
 import {
   addCertificate,
   checkOwnerCertificate,
-  checkOwnerPortfolioPost,
   checkTitle,
   deleteCertificateById,
   getCertificateById,
@@ -18,9 +17,10 @@ import {
   updateCertificateImage,
   updateCertificateTitle,
 } from './workerController/certificatesController';
+import { checkOwnerPortfolioPost } from './workerController/portfolioPostController.ts/checkOwnerPortfolioPost';
 
 const workerController = {
-  getWorker: getWorker,
+  getWorkerById: getWorkerById,
   getAllWorkers: getAllWorkers,
   deleteWorker: deleteWorker,
   updateWorker: updateWorker,
@@ -34,7 +34,6 @@ const workerController = {
   addCertificate: addCertificate,
   checkTitle: checkTitle,
   checkOwnerCertificate: checkOwnerCertificate,
-  checkOwnerPortfolioPost: checkOwnerPortfolioPost,
 };
 
 export default workerController;

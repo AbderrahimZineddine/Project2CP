@@ -9,6 +9,7 @@ const deleteFromCloudinary = async (url) => {
         api_secret: process.env.API_SECRET,
     });
     const publicId = (0, cloudinary_build_url_1.extractPublicId)(url);
+    console.log(publicId);
     await cloudinary_1.v2.uploader.destroy(publicId);
 };
 exports.default = deleteFromCloudinary;

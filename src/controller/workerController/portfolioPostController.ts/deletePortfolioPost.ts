@@ -1,0 +1,24 @@
+import { MyRequest } from '../../userController';
+import { NextFunction, Response } from 'express';
+import catchAsync from '../../../utils/catchAsync';
+import AppError from '../../../utils/appError';
+import { PortfolioPost } from '../../../models/PortfolioPost';
+import uploadController from '../../uploadController';
+
+export const deletePortfolioPostById = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    const portfolioPost = await PortfolioPost.findById(req.params.id);
+    if (!portfolioPost) {
+      return next(new AppError('No portfolio post found with that id', 404));
+    }
+    for (const url of portfolioPost.images) {
+      await uploadController.deleteFromCloudinary(url);
+    }
+    await PortfolioPost.findByIdAndDelete(portfolioPost.id);
+    //TODO delete likes associated with this post !  Likes.deleteMany({ post : portfolioPost.id})
+    
+    res.status(200).json({
+      status: 'success',
+    });
+  }
+);

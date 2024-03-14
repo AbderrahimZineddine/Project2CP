@@ -16,7 +16,7 @@ const uploadId = async (req: MyRequest, res: Response, next: NextFunction) => {
   if (!files || !files.idPicture || files.idPicture.length === 0) {
     return next(); 
   } else if (files.idPicture.length > 1) {
-    return next(new AppError('Please upload only one id picture', 400));
+    return next(new AppError('Please upload only ONE id picture', 400));
   }
 
   // Configure cloudinary

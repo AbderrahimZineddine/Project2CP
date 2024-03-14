@@ -39,7 +39,8 @@ exports.updateCertificateImage = (0, catchAsync_1.default)(async (req, res, next
         if (error instanceof appError_1.default) {
             return next(error);
         }
-        return next(new appError_1.default('Error sending certificate validation request! Please try again' + error.message, 500)); //500?
+        return next(new appError_1.default('Error sending certificate validation request! Please try again' +
+            error.message, 500)); //500?
     }
     res.status(200).json({
         status: 'success',
@@ -65,6 +66,9 @@ exports.updateCertificateTitle = (0, catchAsync_1.default)(async (req, res, next
 });
 exports.getCertificateById = (0, catchAsync_1.default)(async (req, res, next) => {
     const certificate = await Certificate_1.Certificate.findById(req.params.id);
+    if (!certificate) {
+        return next(new appError_1.default('No Certificate found with that id', 404));
+    }
     res.status(200).json({
         status: 'success',
         certificate,
@@ -127,7 +131,7 @@ exports.addCertificate = (0, catchAsync_1.default)(async (req, res, next) => {
     }
 });
 exports.checkOwnerCertificate = (0, catchAsync_1.default)(async (req, res, next) => {
-    if (!req.user.certificates.includes(req.params.id)) {
+    if (!req.user.certificates.find((val) => val.id === req.params.id)) {
         return next(new appError_1.default('This certificate does not belong to this user', 404));
     }
     next();

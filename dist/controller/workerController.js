@@ -4,7 +4,7 @@ const workerCRUD_1 = require("./workerController/workerCRUD");
 const editMeWorker_1 = require("./workerController/editMeWorker");
 const certificatesController_1 = require("./workerController/certificatesController");
 const workerController = {
-    getWorker: workerCRUD_1.getWorker,
+    getWorkerById: workerCRUD_1.getWorkerById,
     getAllWorkers: workerCRUD_1.getAllWorkers,
     deleteWorker: workerCRUD_1.deleteWorker,
     updateWorker: workerCRUD_1.updateWorker,
@@ -17,7 +17,7 @@ const workerController = {
     deleteCertificateById: certificatesController_1.deleteCertificateById,
     addCertificate: certificatesController_1.addCertificate,
     checkTitle: certificatesController_1.checkTitle,
-    checkOwnerCertificate: certificatesController_1.checkOwnerCertificate
+    checkOwnerCertificate: certificatesController_1.checkOwnerCertificate,
 };
 exports.default = workerController;
 //# sourceMappingURL=workerController.js.map

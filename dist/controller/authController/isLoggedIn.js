@@ -35,9 +35,13 @@ const isLoggedIn = async (req, res, next) => {
             return next();
         }
         //we good
-        res.locals.user = currentUser;
+        req.user = currentUser;
+        console.log('we good');
+        res.locals.user = currentUser; //TODO check what is this
+        next();
     }
     catch (error) {
+        console.log(error);
         return next(); // return without setting the user
     }
 };

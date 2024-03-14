@@ -9,7 +9,7 @@ const User_1 = require("./User");
 const workerSchema = new mongoose_1.default.Schema({
     workerAccountVerified: {
         type: Boolean,
-        default: false,
+        default: true, //TODO change later
     },
     job: {
         type: String,
@@ -52,6 +52,17 @@ const workerSchema = new mongoose_1.default.Schema({
 });
 workerSchema.virtual('isCertified').get(function () {
     return this.certificates?.length > 0; //TODO
+});
+// workerSchema.pre(/^find/, function <any> (next : NextFunction) {
+//   if (this.options._recursed) {
+//     return next();
+//   }
+//   this.populate({ path: "followers following", options: { _recursed: true } });
+//   next();
+// });
+workerSchema.pre(/^find/, function (next) {
+    this.populate("portfolioPosts").populate("certificates");
+    next();
 });
 exports.Worker = User_1.User.discriminator('Worker', workerSchema);
 //# sourceMappingURL=Worker.js.map

@@ -9,6 +9,7 @@ const uploadCertificate_1 = __importDefault(require("./uploadController/uploadCe
 const uploadId_1 = __importDefault(require("./uploadController/uploadId"));
 const uploadPfp_1 = __importDefault(require("./uploadController/uploadPfp"));
 const deleteCloudinary_1 = __importDefault(require("./uploadController/deleteCloudinary"));
+const uploadPortfolioPostImages_1 = __importDefault(require("./uploadController/uploadPortfolioPostImages"));
 const uploadController = {
     upload: upload_1.default,
     uploadId: uploadId_1.default,
@@ -16,6 +17,7 @@ const uploadController = {
     uploadCertificates: uploadCertificate_1.default,
     uploadCertificate: uploadCert_1.default,
     deleteFromCloudinary: deleteCloudinary_1.default,
+    uploadPortfolioPostImages: uploadPortfolioPostImages_1.default,
 };
 exports.default = uploadController;
 //# sourceMappingURL=uploadController.js.map

@@ -44,7 +44,7 @@ connectDB();
 // connectLocalDb();
 const port = process.env.PORT || 3000;
 const server = app_1.default.listen(port, () => {
-    console.log(`App running on port ${port}...`);
+    console.log(`App running on port ${port}... in environment ${process.env.NODE_ENV}`);
 });
 //* for safety
 process.on('unhandledRejection', (err) => {

@@ -40,7 +40,10 @@ const uploadCertificates = async (
     // console.log(req.files)
     // console.log(files.profilePicture);
     // console.log(files.certificatesImages);
-    if (titles.length != files.certificatesImages.length) {
+    if (
+      titles instanceof Array &&
+      titles.length != files.certificatesImages.length
+    ) {
       return next(
         new AppError(
           'Please make sure to upload each certificate with a title',
@@ -48,25 +51,45 @@ const uploadCertificates = async (
         )
       );
     }
+    let certificates: {
+      title: string;
+      image: string;
+    }[] = [];
 
-    let i = 0;
-    // Upload and resize image using cloudinary
-    const uploadPromises = files.certificatesImages.map(async (file) => {
-      const result = await cloudinary.uploader.upload(file.path, {
-        transformation: {
-          format: 'jpg',
-        },
-        folder: req.user.id,
+    if (titles instanceof Array) {
+      let i = 0;
+      // Upload and resize image using cloudinary
+      const uploadPromises = files.certificatesImages.map(async (file) => {
+        const result = await cloudinary.uploader.upload(file.path, {
+          transformation: {
+            format: 'jpg',
+          },
+          folder: req.user.id,
+        });
+        i++;
+        return {
+          title: titles[i - 1] ?? file.originalname,
+          image: result.secure_url,
+        };
       });
-      i++;
-      return {
-        title: titles[i-1] ?? file.originalname,
-        image: result.secure_url,
-      };
-    });
-    // Update user profile picture and save
+      // Update user profile picture and save
 
-    const certificates = await Promise.all(uploadPromises);
+      certificates = await Promise.all(uploadPromises);
+    } else {
+      const result = await cloudinary.uploader.upload(
+        files.certificatesImages[0].path,
+        {
+          transformation: {
+            format: 'jpg',
+          },
+          folder: req.user.id,
+        }
+      );
+      certificates.push({
+        title: titles,
+        image: result.secure_url,
+      });
+    }
     req.certificates = certificates;
     console.log(certificates);
     next();

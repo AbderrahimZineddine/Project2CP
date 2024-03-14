@@ -11,6 +11,8 @@ import path from 'path';
 import AppError from './utils/appError';
 import userRouter from './routes/userRouter';
 import workerRouter from './routes/workerRouter';
+import portfolioRouter from './routes/portfolioRouter';
+import certificateRouter from './routes/certificateRouter';
 import authRouter from './routes/authRouter';
 import morgan from 'morgan';
 import errorController from './controller/errorController';
@@ -37,6 +39,8 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '/src/public')));
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/workers/certificate', portfolioRouter );
+app.use('/api/v1/workers/certificate', certificateRouter);
 app.use('/api/v1/workers', workerRouter);
 app.use('/api/v1/auth', authRouter);
 

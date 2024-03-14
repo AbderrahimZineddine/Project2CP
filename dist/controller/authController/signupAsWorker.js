@@ -14,6 +14,7 @@ const uploadController_1 = __importDefault(require("../../controller/uploadContr
 exports.signupAsWorker = (0, catchAsync_1.default)(async (req, res, next) => {
     const { job, location } = req.body;
     // if (!job || !location || !req.idPicture) {  //TODO require location !
+    console.log(req.idPicture);
     if (!job || !req.idPicture) {
         await cancelSingupAsWorker(req.user, req, next);
         return next(new appError_1.default('Please provide all required information for signing up as a worker', 400));
@@ -76,18 +77,22 @@ async function cancelSingupAsWorker(user, req, next) {
     user.job = undefined;
     user.location = undefined;
     let errorMessages = [];
-    for (const cert of req.certificates) {
-        try {
-            await uploadController_1.default.deleteFromCloudinary(cert.image);
-        }
-        catch (error) {
-            errorMessages.push(`Error deleting certificate image: ${error.message}`);
-            // Log or handle the error as needed
+    if (req.certificates && req.certificates.length > 0) {
+        for (const cert of req.certificates) {
+            try {
+                await uploadController_1.default.deleteFromCloudinary(cert.image);
+            }
+            catch (error) {
+                errorMessages.push(`Error deleting certificate image: ${error.message}`);
+                // Log or handle the error as needed
+            }
         }
     }
     user.certificates = undefined;
     try {
-        await uploadController_1.default.deleteFromCloudinary(req.idPicture);
+        if (req.idPicture) {
+            await uploadController_1.default.deleteFromCloudinary(req.idPicture);
+        }
         user.idPicture = undefined;
     }
     catch (error) {
@@ -102,5 +107,15 @@ async function cancelSingupAsWorker(user, req, next) {
     if (process.env.NODE_ENV !== 'production' && errorMessages.length > 0) {
         return next(new appError_1.default(`Some uploaded images failed to delete during signup: ${errorMessages.join(', ')}`, 400));
     }
+    // if (process.env.NODE_ENV !== 'aaaaaa' && errorMessages.length > 0) {
+    //   return next(
+    //     new AppError(
+    //       `Some uploaded images failed to delete during signup: ${errorMessages.join(
+    //         ', '
+    //       )}`,
+    //       400
+    //     )
+    //   );
+    // }
 }
 //# sourceMappingURL=signupAsWorker.js.map

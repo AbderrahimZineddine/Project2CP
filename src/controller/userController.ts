@@ -17,6 +17,7 @@ import { updateEmail } from './authController/updateEmail';
 import uploadProfilePicture from './uploadController/uploadPfp';
 import upload from './uploadController/upload';
 import uploadId from './uploadController/uploadId';
+import { ToggleFavoriteWorker } from './userController/ToggleFavoriteWorker';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
@@ -25,9 +26,9 @@ export interface MyRequest extends Request {
     image: string;
   }[];
   idPicture?: string;
-  certificate?: string,
-  images?: string[],
-  profilePicture?: string
+  certificate?: string;
+  images?: string[];
+  profilePicture?: string;
 }
 
 const userController = {
@@ -38,6 +39,7 @@ const userController = {
   createUser: createUser,
   getMe: getMe,
   editMe: editMe,
+  ToggleFavoriteWorker: ToggleFavoriteWorker,
 };
 
 export default userController;
