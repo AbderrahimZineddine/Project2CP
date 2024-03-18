@@ -13,7 +13,7 @@ router.use(authController.restrictTo('Worker'));
 router.post(
   '/',
   uploadController.upload.array('images'),
-  uploadController.uploadPortfolioPostImages,
+  uploadController.uploadImages,
   portfolioPostsController.createPortfolioPost
 );
 router.patch('/:id/like', portfolioPostsController.toggleLikePortfolioPost);
@@ -21,7 +21,7 @@ router.patch(
   '/:id',
   portfolioPostsController.checkOwnerPortfolioPost,
   uploadController.upload.array('images'),
-  uploadController.uploadPortfolioPostImages,
+  uploadController.uploadImages,
   portfolioPostsController.updatePortfolioPost
 );
 router.delete(

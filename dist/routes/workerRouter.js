@@ -11,13 +11,13 @@ const userController_1 = __importDefault(require("../controller/userController")
 const Worker_1 = require("../models/Worker");
 const uploadController_1 = __importDefault(require("../controller/uploadController"));
 exports.router = express_1.default.Router();
+exports.router.get('/me', authController_1.default.protect, authController_1.default.restrictTo('Worker'), userController_1.default.getMe, workerController_1.default.getWorkerById);
 exports.router.route('/').get(workerController_1.default.getAllWorkers);
 exports.router.get('/:id', authController_1.default.isLoggedIn, workerController_1.default.getWorkerById);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
 exports.router.use(authController_1.default.protect);
 exports.router.patch('/:id/favorite', userController_1.default.ToggleFavoriteWorker);
 exports.router.use(authController_1.default.restrictTo('Worker'));
-exports.router.get('/me', userController_1.default.getMe, workerController_1.default.getWorkerById);
 exports.router.patch('/editMe', 
 // userController.upload.single('profilePicture'),
 uploadController_1.default.upload.single('profilePicture'), uploadController_1.default.uploadProfilePicture, 

@@ -7,6 +7,14 @@ import uploadController from '../controller/uploadController';
 
 export const router = express.Router();
 
+router.get(
+  '/me',
+  authController.protect,
+  authController.restrictTo('Worker'),
+  userController.getMe,
+  workerController.getWorkerById
+);
+
 router.route('/').get(workerController.getAllWorkers);
 router.get('/:id', authController.isLoggedIn, workerController.getWorkerById);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
@@ -16,8 +24,6 @@ router.use(authController.protect);
 router.patch('/:id/favorite', userController.ToggleFavoriteWorker);
 
 router.use(authController.restrictTo('Worker'));
-
-router.get('/me', userController.getMe, workerController.getWorkerById);
 
 router.patch(
   '/editMe',

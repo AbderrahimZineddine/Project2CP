@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { UserDoc } from './UserDoc';
 import { PortfolioPostDoc } from './PortfolioPost';
 
-enum Job {
+export enum Job {
   Architect = 'Architect',
   Designer = 'Designer',
 }
@@ -17,7 +17,8 @@ export interface WorkerDoc extends UserDoc {
   //     isValid: boolean;
   //   }
   // ];
-  certificates:  mongoose.Types.ObjectId[];
+  certificates: mongoose.Types.ObjectId[];
+  savedPosts: mongoose.Types.ObjectId[];
   isVerified: boolean;
   isCertified: boolean;
   idPicture: string;

@@ -16,7 +16,7 @@ const workerSchema = new mongoose.Schema(
     certificates: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Certificate",
+        ref: 'Certificate',
       },
     ],
     // isCertified: Boolean,// TODO: change to Virtual
@@ -42,6 +42,12 @@ const workerSchema = new mongoose.Schema(
         ref: 'PortfolioPost',
       },
     ],
+    savedPosts: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Post',
+      },
+    ],
   },
   {
     // show virtual properties
@@ -62,8 +68,34 @@ workerSchema.virtual('isCertified').get(function () {
 //   next();
 // });
 
-workerSchema.pre(/^find/, function <WorkerDoc> (next : NextFunction) { 
-  this.populate("portfolioPosts").populate("certificates");
+workerSchema.pre(/^find/, function <WorkerDoc>(next: NextFunction) {
+  console.log(
+    '****************************************************************'
+  );
+  // console.log(this);
+  // console.log('****************************************************************')
+
+  const fields = this._userProvidedFields; // Get requested fields
+  // console.log(this._userProvidedFields);
+  // if (
+  //   fields &&
+  //   !fields.includes('portfolioPosts') &&
+  //   !fields.includes('certificates')
+  // ) {
+  //   next();
+  // } else {
+  //   this.populate('portfolioPosts').populate('certificates');
+  //   next();
+  // }
+
+  if (fields) {
+    if (fields.portfolioPosts) {
+      this.populate('portfolioPosts');
+    }
+    if (fields.certificates) {
+      this.populate('certificates');
+    }
+  }
   next();
 });
 

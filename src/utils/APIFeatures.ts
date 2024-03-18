@@ -46,11 +46,11 @@ class APIFeatures {
   paginate() {
     const page = (this.queryString.page as any) * 1 || 1; //TODO check as any
     const limit = (this.queryString.limit as any) * 1 || 100; //TODO check as any
-    const skip = (page - 1) * limit; 
+    const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);
 
-    return this; 
+    return this;
   }
 }
 

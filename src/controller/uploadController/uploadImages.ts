@@ -4,15 +4,15 @@ import catchAsync from '../../utils/catchAsync';
 import AppError from '../../utils/appError';
 import { v2 as cloudinary } from 'cloudinary';
 import { PortfolioPost } from '../../models/PortfolioPost';
-import uploadController from '../../controller/uploadController';
+import uploadController from '../uploadController';
 
-const uploadPortfolioPostImages = catchAsync(
+const uploadImages = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     if (!req.files) {
       // return next(
       //   new AppError('Please upload at least one image for this post', 404)
       // );
-      return next()
+      return next();
     }
     cloudinary.config({
       api_key: process.env.API_KEY,
@@ -63,4 +63,4 @@ const uploadPortfolioPostImages = catchAsync(
   }
 );
 
-export default uploadPortfolioPostImages;
+export default uploadImages;

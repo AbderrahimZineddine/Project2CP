@@ -15,6 +15,7 @@ const workerRouter_1 = __importDefault(require("./routes/workerRouter"));
 const portfolioRouter_1 = __importDefault(require("./routes/portfolioRouter"));
 const certificateRouter_1 = __importDefault(require("./routes/certificateRouter"));
 const authRouter_1 = __importDefault(require("./routes/authRouter"));
+const postRouter_1 = __importDefault(require("./routes/postRouter"));
 const morgan_1 = __importDefault(require("morgan"));
 const errorController_1 = __importDefault(require("./controller/errorController"));
 const app = (0, express_1.default)();
@@ -32,11 +33,12 @@ app.options('*', (0, cors_1.default)());
 app.use((0, morgan_1.default)('dev'));
 // app.use(express.static(path.join(__dirname, '/public')));
 app.use(express_1.default.static(path_1.default.join(__dirname, '/src/public')));
-app.use('/api/v1/users', userRouter_1.default);
-app.use('/api/v1/workers/certificate', portfolioRouter_1.default);
-app.use('/api/v1/workers/certificate', certificateRouter_1.default);
-app.use('/api/v1/workers', workerRouter_1.default);
 app.use('/api/v1/auth', authRouter_1.default);
+app.use('/api/v1/users/posts', postRouter_1.default);
+app.use('/api/v1/users', userRouter_1.default);
+app.use('/api/v1/workers/certificates', certificateRouter_1.default);
+app.use('/api/v1/workers/portfolioPosts', portfolioRouter_1.default);
+app.use('/api/v1/workers', workerRouter_1.default);
 app.all('*', (req, res, next) => {
     // express knows that it's an error ( anything is assumed to be an error )
     // const err = new Error(`Can't find ${req.originalUrl} on this server`);

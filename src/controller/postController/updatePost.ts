@@ -1,29 +1,21 @@
-import { MyRequest } from '../../userController';
+import { MyRequest } from '../userController';
 import { NextFunction, Response } from 'express';
-import catchAsync from '../../../utils/catchAsync';
-import AppError from '../../../utils/appError';
-import { PortfolioPost } from '../../../models/PortfolioPost';
-import uploadController from '../../../controller/uploadController';
+import catchAsync from '../../utils/catchAsync';
+import AppError from '../../utils/appError';
+import { Post } from '../../models/Post';
+import uploadController from '../uploadController';
 
-export const updatePortfolioPost = catchAsync(
+export const updatePost = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     // add new images
     // delete removed images
     // edit description
-    const post = await PortfolioPost.findById(req.params.id);
-    if (!post) {
-      return next(new AppError('No portfolio post found with that id', 404));
-    }
-    if (req.body.description) {
-      post.description = req.body.description;
-    }
-    let urls = post.images;
+    let urls = req.post.images;
     const removed = req.body.removedPicturesUrls
       ? req.body.removedPicturesUrls instanceof Array
         ? req.body.removedPicturesUrls.length
         : 1
       : 0;
-    const added = req.images ? req.images.length : 0;
     if (removed > urls.length) {
       return next(
         new AppError(
@@ -32,17 +24,7 @@ export const updatePortfolioPost = catchAsync(
         )
       );
     }
-    if (urls.length - removed + added < 1) {
-      if (req.images) {
-        for (const url of req.images) {
-          await uploadController.deleteFromCloudinary(url);
-        }
-      }
-      return next(
-        new AppError('You must have at least one image in your post!', 400)
-      );
-    }
-    console.log(req.body.removedPicturesUrls);
+
     if (req.body.removedPicturesUrls) {
       urls = urls.filter((url) => !req.body.removedPicturesUrls.includes(url));
       // for (const url in req.body.removedPicturesUrls) {
@@ -65,7 +47,6 @@ export const updatePortfolioPost = catchAsync(
         }
       } else {
         try {
-          console.log(typeof req.body.removedPicturesUrls);
           await uploadController.deleteFromCloudinary(
             req.body.removedPicturesUrls
           );
@@ -84,12 +65,24 @@ export const updatePortfolioPost = catchAsync(
     if (req.images) {
       urls = urls.concat(req.images);
     }
-    post.images = urls;
 
-    await post.save();
+    req.post.images = urls;
+    await req.post.save({ validateBeforeSave: false });
+
+    const post = await Post.findByIdAndUpdate(
+      req.params.id,
+      {
+        job: req.body.job,
+        description: req.body.description,
+        title: req.body.title,
+        selectedWorkers: req.body.selectedWorkers,
+      },
+      { new: true, runValidators: true }
+    );
+
     res.status(200).json({
       status: 'success',
-      portfolioPost: post,
+      post,
     });
   }
 );

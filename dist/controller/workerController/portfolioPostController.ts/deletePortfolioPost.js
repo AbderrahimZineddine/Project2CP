@@ -8,6 +8,7 @@ const catchAsync_1 = __importDefault(require("../../../utils/catchAsync"));
 const appError_1 = __importDefault(require("../../../utils/appError"));
 const PortfolioPost_1 = require("../../../models/PortfolioPost");
 const uploadController_1 = __importDefault(require("../../uploadController"));
+const Like_1 = require("../../../models/Like");
 exports.deletePortfolioPostById = (0, catchAsync_1.default)(async (req, res, next) => {
     const portfolioPost = await PortfolioPost_1.PortfolioPost.findById(req.params.id);
     if (!portfolioPost) {
@@ -18,6 +19,7 @@ exports.deletePortfolioPostById = (0, catchAsync_1.default)(async (req, res, nex
     }
     await PortfolioPost_1.PortfolioPost.findByIdAndDelete(portfolioPost.id);
     //TODO delete likes associated with this post !  Likes.deleteMany({ post : portfolioPost.id})
+    await Like_1.Like.deleteMany({ postId: portfolioPost.id });
     res.status(200).json({
         status: 'success',
     });

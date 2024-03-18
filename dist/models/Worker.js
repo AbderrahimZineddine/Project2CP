@@ -19,7 +19,7 @@ const workerSchema = new mongoose_1.default.Schema({
     certificates: [
         {
             type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Certificate",
+            ref: 'Certificate',
         },
     ],
     // isCertified: Boolean,// TODO: change to Virtual
@@ -45,6 +45,12 @@ const workerSchema = new mongoose_1.default.Schema({
             ref: 'PortfolioPost',
         },
     ],
+    savedPosts: [
+        {
+            type: mongoose_1.default.Schema.ObjectId,
+            ref: 'Post',
+        },
+    ],
 }, {
     // show virtual properties
     toJSON: { virtuals: true },
@@ -61,7 +67,29 @@ workerSchema.virtual('isCertified').get(function () {
 //   next();
 // });
 workerSchema.pre(/^find/, function (next) {
-    this.populate("portfolioPosts").populate("certificates");
+    console.log('****************************************************************');
+    // console.log(this);
+    // console.log('****************************************************************')
+    const fields = this._userProvidedFields; // Get requested fields
+    // console.log(this._userProvidedFields);
+    // if (
+    //   fields &&
+    //   !fields.includes('portfolioPosts') &&
+    //   !fields.includes('certificates')
+    // ) {
+    //   next();
+    // } else {
+    //   this.populate('portfolioPosts').populate('certificates');
+    //   next();
+    // }
+    if (fields) {
+        if (fields.portfolioPosts) {
+            this.populate('portfolioPosts');
+        }
+        if (fields.certificates) {
+            this.populate('certificates');
+        }
+    }
     next();
 });
 exports.Worker = User_1.User.discriminator('Worker', workerSchema);

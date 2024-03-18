@@ -18,7 +18,7 @@ export const resetPassword = catchAsync(
       .update(req.body.otp)
       .digest('hex');
 
-    //* be careful when querying nested ducuments
+    //* be careful when querying nested documents
     const user = await User.findOne({
       email: req.body.email,
       'authentication.otp': hashedOTP,
