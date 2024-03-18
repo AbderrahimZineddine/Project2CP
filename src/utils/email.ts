@@ -111,12 +111,12 @@ export default class Email {
       console.log(process.env.EMAIL_USERNAME);
       console.log(process.env.EMAIL_PASSWORD);
       return nodemailer.createTransport({
-        host: 'sandbox.smtp.mailtrap.io',
+        host: "sandbox.smtp.mailtrap.io",
         port: 2525,
         auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD,
-        },
+          user: "5fe9eb77ef7ca8",
+          pass: "75a32a2d7258d3"
+        }
       });
     }
   }
