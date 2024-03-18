@@ -11,9 +11,9 @@ const router = (0, express_1.Router)();
 router.get('/:id', portfolioPostsController_1.default.getPortfolioPostById);
 router.use(authController_1.default.protect);
 router.use(authController_1.default.restrictTo('Worker'));
-router.post('/', uploadController_1.default.upload.array('images'), uploadController_1.default.uploadPortfolioPostImages, portfolioPostsController_1.default.createPortfolioPost);
+router.post('/', uploadController_1.default.upload.array('images'), uploadController_1.default.uploadImages, portfolioPostsController_1.default.createPortfolioPost);
 router.patch('/:id/like', portfolioPostsController_1.default.toggleLikePortfolioPost);
-router.patch('/:id', portfolioPostsController_1.default.checkOwnerPortfolioPost, uploadController_1.default.upload.array('images'), uploadController_1.default.uploadPortfolioPostImages, portfolioPostsController_1.default.updatePortfolioPost);
+router.patch('/:id', portfolioPostsController_1.default.checkOwnerPortfolioPost, uploadController_1.default.upload.array('images'), uploadController_1.default.uploadImages, portfolioPostsController_1.default.updatePortfolioPost);
 router.delete('/:id', portfolioPostsController_1.default.checkOwnerPortfolioPost, portfolioPostsController_1.default.deletePortfolioPostById);
 exports.default = router;
 //# sourceMappingURL=portfolioRouter.js.map

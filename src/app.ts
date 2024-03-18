@@ -14,9 +14,9 @@ import workerRouter from './routes/workerRouter';
 import portfolioRouter from './routes/portfolioRouter';
 import certificateRouter from './routes/certificateRouter';
 import authRouter from './routes/authRouter';
+import postRouter from './routes/postRouter';
 import morgan from 'morgan';
 import errorController from './controller/errorController';
-import ExpressFormidable from 'express-formidable';
 import multer from 'multer';
 const app = express();
 
@@ -38,11 +38,12 @@ app.use(morgan('dev'));
 // app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/src/public')));
 
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/workers/certificate', portfolioRouter );
-app.use('/api/v1/workers/certificate', certificateRouter);
-app.use('/api/v1/workers', workerRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users/posts', postRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/workers/certificates', certificateRouter);
+app.use('/api/v1/workers/portfolioPosts', portfolioRouter);
+app.use('/api/v1/workers', workerRouter);
 
 app.all('*', (req, res, next) => {
   // express knows that it's an error ( anything is assumed to be an error )

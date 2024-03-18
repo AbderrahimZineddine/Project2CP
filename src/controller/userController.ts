@@ -18,6 +18,7 @@ import uploadProfilePicture from './uploadController/uploadPfp';
 import upload from './uploadController/upload';
 import uploadId from './uploadController/uploadId';
 import { ToggleFavoriteWorker } from './userController/ToggleFavoriteWorker';
+import { PostDoc } from '../models/Post';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
@@ -29,6 +30,7 @@ export interface MyRequest extends Request {
   certificate?: string;
   images?: string[];
   profilePicture?: string;
+  post: PostDoc,
 }
 
 const userController = {

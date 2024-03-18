@@ -4,6 +4,7 @@ import catchAsync from '../../../utils/catchAsync';
 import AppError from '../../../utils/appError';
 import { PortfolioPost } from '../../../models/PortfolioPost';
 import uploadController from '../../uploadController';
+import { Like } from '../../../models/Like';
 
 export const deletePortfolioPostById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -16,7 +17,7 @@ export const deletePortfolioPostById = catchAsync(
     }
     await PortfolioPost.findByIdAndDelete(portfolioPost.id);
     //TODO delete likes associated with this post !  Likes.deleteMany({ post : portfolioPost.id})
-    
+    await Like.deleteMany({ postId: portfolioPost.id });
     res.status(200).json({
       status: 'success',
     });

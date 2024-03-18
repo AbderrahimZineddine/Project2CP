@@ -4,7 +4,7 @@ import uploadCertificates from './uploadController/uploadCertificate';
 import uploadId from './uploadController/uploadId';
 import uploadProfilePicture from './uploadController/uploadPfp';
 import deleteFromCloudinary from './uploadController/deleteCloudinary';
-import uploadPortfolioPostImages from './uploadController/uploadPortfolioPostImages';
+import uploadImages from './uploadController/uploadImages';
 const uploadController = {
   upload: upload,
   uploadId: uploadId,
@@ -12,7 +12,7 @@ const uploadController = {
   uploadCertificates: uploadCertificates,
   uploadCertificate: uploadCertificate,
   deleteFromCloudinary: deleteFromCloudinary,
-  uploadPortfolioPostImages: uploadPortfolioPostImages,
+  uploadImages: uploadImages,
 };
 
 export default uploadController;
