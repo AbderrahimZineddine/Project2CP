@@ -29,6 +29,6 @@ const PostSchema = new mongoose_1.default.Schema({
             ref: 'Worker',
         },
     ],
-});
+}, { timestamps: true });
 exports.Post = mongoose_1.default.model('Post', PostSchema);
 //# sourceMappingURL=Post.js.map

@@ -13,32 +13,37 @@ export interface validationRequestDoc extends mongoose.Document {
   status: ['new', 'viewed'];
   type: ['Certificate', 'IdPicture'];
 }
-const validationRequestSchema = new mongoose.Schema({
-  worker: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Worker',
-    required: [
-      true,
-      'A certificate must reference a worker, provide worker id!',
-    ],
-  },
+const validationRequestSchema = new mongoose.Schema(
+  {
+    worker: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Worker',
+      required: [
+        true,
+        'A certificate must reference a worker, provide worker id!',
+      ],
+    },
 
-  certificate: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Certificate',
+    certificate: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Certificate',
+    },
+    idPicture: String,
+    status: {
+      type: String,
+      enum: ['new', 'viewed'],
+      default: 'new',
+    },
+    type: {
+      type: String,
+      enum: ['Certificate', 'idPicture'],
+      required: [true, 'Please specify the type of the validation request'],
+    },
   },
-  idPicture: String,
-  status: {
-    type: String,
-    enum: ['new', 'viewed'],
-    default: 'new',
-  },
-  type: {
-    type: String,
-    enum: ['Certificate', 'idPicture'],
-    required: [true, 'Please specify the type of the validation request'],
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const ValidationRequest = mongoose.model<validationRequestDoc>(
   'ValidationRequest',

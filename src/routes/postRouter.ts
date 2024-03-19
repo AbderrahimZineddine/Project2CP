@@ -2,6 +2,7 @@ import authController from '../controller/authController';
 import uploadController from '../controller/uploadController';
 import postController from '../controller/postController';
 import { Router } from 'express';
+import applicationController from '../controller/applicationController';
 
 const router = Router();
 
@@ -24,6 +25,8 @@ router.patch(
 );
 
 router.use(authController.restrictTo('User'));
+
+router.get('/:id/applications',postController.checkOwnerPost, applicationController.getMyPostsApplications);
 
 router.post(
   '/',

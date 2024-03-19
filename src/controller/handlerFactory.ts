@@ -6,7 +6,6 @@ import { PopulateOptions } from 'mongoose';
 
 export const getAll = (Model: any) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-
     // let filter = {};
     // if (req.params.id) {
     //   filter = { user: req.params.id };
@@ -71,6 +70,5 @@ export const deleteOne = (Model: any) =>
     if (!doc) {
       return next(new AppError('no Document found with that ID', 404));
     }
-
-    res.status(204).json({ status: 'success', data: null }); //* 204
+    res.status(204).json({ status: 'success' }); //* 204
   });
