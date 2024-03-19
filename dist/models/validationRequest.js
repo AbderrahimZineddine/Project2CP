@@ -29,6 +29,8 @@ const validationRequestSchema = new mongoose_1.default.Schema({
         enum: ['Certificate', 'idPicture'],
         required: [true, 'Please specify the type of the validation request'],
     },
+}, {
+    timestamps: true,
 });
 exports.ValidationRequest = mongoose_1.default.model('ValidationRequest', validationRequestSchema);
 const ValidateCertificateCreate = async (id, certificate) => {

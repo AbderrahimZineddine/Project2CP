@@ -65,7 +65,7 @@ const deleteOne = (Model) => (0, catchAsync_1.default)(async (req, res, next) =>
     if (!doc) {
         return next(new appError_1.default('no Document found with that ID', 404));
     }
-    res.status(204).json({ status: 'success', data: null }); //* 204
+    res.status(204).json({ status: 'success' }); //* 204
 });
 exports.deleteOne = deleteOne;
 //# sourceMappingURL=handlerFactory.js.map

@@ -33,6 +33,6 @@ const PostSchema = new mongoose.Schema({
       ref: 'Worker',
     },
   ],
-});
+}, {timestamps : true});
 
 export const Post = mongoose.model<PostDoc>('Post', PostSchema);
