@@ -4,8 +4,17 @@ import authController from '../controller/authController';
 import userController from '../controller/userController';
 import { Worker } from '../models/Worker';
 import uploadController from '../controller/uploadController';
+import reviewController from '../controller/reviewController';
 
 export const router = express.Router();
+
+router.get(
+  '/me/reviews',
+  authController.protect,
+  authController.restrictTo('Worker'),
+  reviewController.getMyWorkerReviews,
+  reviewController.getAllReviews
+);
 
 router.get(
   '/me',
@@ -16,12 +25,18 @@ router.get(
 );
 
 router.route('/').get(workerController.getAllWorkers);
+router.get('/:id/reviews', reviewController.getWorkerReviews, reviewController.getAllReviews);
+
+router.patch(
+  '/:id/favorite',
+  authController.protect,
+  userController.ToggleFavoriteWorker
+);
+
 router.get('/:id', authController.isLoggedIn, workerController.getWorkerById);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
 
 router.use(authController.protect);
-
-router.patch('/:id/favorite', userController.ToggleFavoriteWorker);
 
 router.use(authController.restrictTo('Worker'));
 

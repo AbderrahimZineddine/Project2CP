@@ -1,6 +1,6 @@
 import { Deal } from '../models/Deal';
 import { getDealById, getMyDeals } from './dealController/getMyDeals';
-import { deleteOne, getOne } from './handlerFactory';
+import { deleteOne, getAll, getOne } from './handlerFactory';
 import { updateDeal } from './dealController/updateDeal';
 import {
   finishDealDecline,
@@ -18,6 +18,7 @@ const dealController = {
   finishDealDecline: finishDealDecline,
   finishDealRequest: finishDealRequest,
   deleteDealById: deleteOne(Deal),
+  getAllDeals: getAll(Deal),
   checkOwnerDeal: checkOwnerDeal,
 };
 export default dealController;

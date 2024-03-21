@@ -16,5 +16,6 @@ router.patch('/:id', dealController_1.default.checkOwnerDeal, dealController_1.d
 router.patch('/:id/finishRequest', dealController_1.default.checkOwnerDeal, dealController_1.default.finishDealRequest);
 router.patch('/:id/finishDecline', dealController_1.default.checkOwnerDeal, dealController_1.default.finishDealDecline);
 router.delete('/:id', dealController_1.default.checkOwnerDeal, dealController_1.default.deleteDealById);
+router.get('/', dealController_1.default.getAllDeals);
 exports.default = router;
 //# sourceMappingURL=dealRouter.js.map

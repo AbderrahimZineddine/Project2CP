@@ -14,6 +14,7 @@ import { ToggleFavoriteWorker } from './userController/ToggleFavoriteWorker';
 import { PostDoc } from '../models/Post';
 import { ApplicationDoc } from 'models/Application';
 import { DealDoc } from '../models/Deal';
+import { ReviewDoc } from '../models/Review';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
@@ -29,6 +30,7 @@ export interface MyRequest extends Request {
   application: ApplicationDoc,
   deal : DealDoc,
   dealRole: Role,
+  review : ReviewDoc,
 }
 
 const userController = {

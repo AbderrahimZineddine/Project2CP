@@ -36,4 +36,5 @@ router.delete(
   dealController.deleteDealById
 );
 
+router.get('/', dealController.getAllDeals);
 export default router;

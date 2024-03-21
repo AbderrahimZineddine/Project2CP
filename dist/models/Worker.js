@@ -34,6 +34,9 @@ const workerSchema = new mongoose_1.default.Schema({
         max: [5, 'must be below 5'],
         default: 0,
     },
+    ratingsNumber: {
+        type: Number, default: 0,
+    },
     experience: {
         type: Number,
         default: 0,

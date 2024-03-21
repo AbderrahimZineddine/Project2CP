@@ -16,6 +16,7 @@ const dealController = {
     finishDealDecline: finishDeal_1.finishDealDecline,
     finishDealRequest: finishDeal_1.finishDealRequest,
     deleteDealById: (0, handlerFactory_1.deleteOne)(Deal_1.Deal),
+    getAllDeals: (0, handlerFactory_1.getAll)(Deal_1.Deal),
     checkOwnerDeal: checkOwnerDeal_1.checkOwnerDeal,
 };
 exports.default = dealController;

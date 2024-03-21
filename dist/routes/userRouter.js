@@ -8,9 +8,11 @@ const userController_1 = __importDefault(require("../controller/userController")
 const authController_1 = __importDefault(require("../controller/authController"));
 const User_1 = require("../models/User");
 const uploadController_1 = __importDefault(require("../controller/uploadController"));
+const reviewController_1 = __importDefault(require("../controller/reviewController"));
 const router = express_1.default.Router();
 router.route('/').get(userController_1.default.getAllUsers);
 router.use(authController_1.default.protect);
+router.get('/me/reviews', reviewController_1.default.getMyReviews, reviewController_1.default.getAllReviews);
 router.get('/me', userController_1.default.getMe, userController_1.default.getUser);
 router.patch('/editMe', authController_1.default.restrictTo('User'), uploadController_1.default.upload.single('profilePicture'), uploadController_1.default.uploadProfilePicture, userController_1.default.editMe(User_1.User));
 // router.use(restrictTo('admin')); //TODO add later

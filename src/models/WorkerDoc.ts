@@ -24,6 +24,7 @@ export interface WorkerDoc extends UserDoc {
   idPicture: string;
   location: string;
   rating: number;
+  ratingsNumber : number;
   experience: number;
   portfolioPosts: PortfolioPostDoc[];
 }
