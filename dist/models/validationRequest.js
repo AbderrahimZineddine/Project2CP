@@ -3,8 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ValidateIdPictureCreate = exports.ValidateCertificateCreate = exports.ValidationRequest = void 0;
+exports.ValidateIdPictureCreate = exports.ValidateCertificateCreate = exports.ValidationRequest = exports.ValidationType = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+var ValidationType;
+(function (ValidationType) {
+    ValidationType["Certificate"] = "Certificate";
+    ValidationType["IdPicture"] = "IdPicture";
+})(ValidationType || (exports.ValidationType = ValidationType = {}));
 const validationRequestSchema = new mongoose_1.default.Schema({
     worker: {
         type: mongoose_1.default.Schema.ObjectId,
@@ -18,7 +23,7 @@ const validationRequestSchema = new mongoose_1.default.Schema({
         type: mongoose_1.default.Schema.ObjectId,
         ref: 'Certificate',
     },
-    idPicture: String,
+    // idPicture: String,
     status: {
         type: String,
         enum: ['new', 'viewed'],
@@ -26,11 +31,23 @@ const validationRequestSchema = new mongoose_1.default.Schema({
     },
     type: {
         type: String,
-        enum: ['Certificate', 'idPicture'],
+        enum: ValidationType,
         required: [true, 'Please specify the type of the validation request'],
     },
 }, {
     timestamps: true,
+});
+validationRequestSchema.pre(/^find/, function (next) {
+    console.log(this);
+    // if (this.certificate) {
+    //   this.populate('certificate');
+    // }
+    // if (this.worker) {
+    //   this.populate('worker');
+    // }
+    this.populate({ path: 'worker' });
+    this.populate({ path: 'certificate' });
+    next();
 });
 exports.ValidationRequest = mongoose_1.default.model('ValidationRequest', validationRequestSchema);
 const ValidateCertificateCreate = async (id, certificate) => {

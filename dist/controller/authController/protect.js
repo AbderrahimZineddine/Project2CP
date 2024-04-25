@@ -37,13 +37,17 @@ exports.protect = (0, catchAsync_1.default)(async (req, res, next) => {
             });
         });
     };
-    const decoded = await jwtVerifyPromisified(req.cookies.jwt, process.env.JWT_SECRET);
+    const decoded = await jwtVerifyPromisified(token, //* sorry
+    process.env.JWT_SECRET);
     //3) Check if user still exists or password is still the same
     let currentUser;
     const currentRole = decoded.currentRole;
     if (currentRole == authController_1.Role.Worker) {
         //TODO :check
         currentUser = await Worker_1.Worker.findById(decoded.id);
+        if (!currentUser.workerAccountVerified) {
+            return next(new appError_1.default('your account is not verified yet!', 400));
+        }
     }
     else {
         currentUser = await User_1.User.findById(decoded.id);

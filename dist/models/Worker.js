@@ -73,6 +73,7 @@ workerSchema.pre(/^find/, function (next) {
     console.log('****************************************************************');
     // console.log(this);
     // console.log('****************************************************************')
+    //TODO dont' select unvertified workers !
     const fields = this._userProvidedFields; // Get requested fields
     // console.log(this._userProvidedFields);
     // if (
