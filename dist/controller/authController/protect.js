@@ -45,7 +45,7 @@ exports.protect = (0, catchAsync_1.default)(async (req, res, next) => {
     if (currentRole == authController_1.Role.Worker) {
         //TODO :check
         currentUser = await Worker_1.Worker.findById(decoded.id);
-        if (!currentUser.workerAccountVerified) {
+        if (!currentUser || !currentUser.workerAccountVerified) {
             return next(new appError_1.default('your account is not verified yet!', 400));
         }
     }

@@ -57,7 +57,7 @@ export const protect = catchAsync(
     if (currentRole == Role.Worker) {
       //TODO :check
       currentUser = await Worker.findById(decoded.id);
-      if (!(currentUser as WorkerDoc).workerAccountVerified) {
+      if (!currentUser || !(currentUser as WorkerDoc).workerAccountVerified) {
         return next(new AppError('your account is not verified yet!', 400));
       }
     } else {
