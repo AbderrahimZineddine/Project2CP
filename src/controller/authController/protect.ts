@@ -12,7 +12,7 @@ export const protect = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     //1) get Token or return an error :
     let token;
-    if ( 
+    if (
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
     ) {
@@ -44,8 +44,10 @@ export const protect = catchAsync(
       });
     };
 
+    
+
     const decoded = await jwtVerifyPromisified(
-      req.cookies.jwt,
+      token, //* sorry
       process.env.JWT_SECRET
     );
 
@@ -55,6 +57,9 @@ export const protect = catchAsync(
     if (currentRole == Role.Worker) {
       //TODO :check
       currentUser = await Worker.findById(decoded.id);
+      if (!(currentUser as WorkerDoc).workerAccountVerified) {
+        return next(new AppError('your account is not verified yet!', 400));
+      }
     } else {
       currentUser = await User.findById(decoded.id);
     }

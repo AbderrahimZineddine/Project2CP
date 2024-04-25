@@ -18,6 +18,7 @@ import postRouter from './routes/postRouter';
 import applicationRouter from './routes/applicationRouter';
 import dealRouter from './routes/dealRouter';
 import reviewRouter from './routes/reviewRouter';
+import validationRequestRouter from './routes/validationRequestRouter';
 
 import morgan from 'morgan';
 import errorController from './controller/errorController';
@@ -43,6 +44,7 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '/src/public')));
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/validationRequests', validationRequestRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/deals', dealRouter);
 app.use('/api/v1/applications', applicationRouter);

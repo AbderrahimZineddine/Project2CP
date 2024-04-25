@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
 import AppError from 'utils/appError';
+import { WorkerDoc } from './WorkerDoc';
+import { CertificateDoc } from './Certificate';
+import { NextFunction } from 'express';
+
+export enum ValidationType {
+  Certificate = 'Certificate',
+  IdPicture = 'IdPicture',
+}
 
 export interface validationRequestDoc extends mongoose.Document {
   // worker: {
@@ -7,11 +15,13 @@ export interface validationRequestDoc extends mongoose.Document {
   //   name: string;
   //   job: string;
   // };
-  worker: mongoose.Schema.Types.ObjectId;
-  certificate: mongoose.Schema.Types.ObjectId;
-  idPicture: string;
+  // worker: mongoose.Schema.Types.ObjectId;
+  // certificate: mongoose.Schema.Types.ObjectId;
+  worker: WorkerDoc;
+  certificate: CertificateDoc;
+  // idPicture: string;
   status: ['new', 'viewed'];
-  type: ['Certificate', 'IdPicture'];
+  type: ValidationType;
 }
 const validationRequestSchema = new mongoose.Schema(
   {
@@ -28,7 +38,7 @@ const validationRequestSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'Certificate',
     },
-    idPicture: String,
+    // idPicture: String,
     status: {
       type: String,
       enum: ['new', 'viewed'],
@@ -36,7 +46,7 @@ const validationRequestSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['Certificate', 'idPicture'],
+      enum: ValidationType,
       required: [true, 'Please specify the type of the validation request'],
     },
   },
@@ -44,6 +54,19 @@ const validationRequestSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+validationRequestSchema.pre(/^find/, function <validationRequestDoc>(next: NextFunction) {
+  console.log(this)
+  // if (this.certificate) {
+  //   this.populate('certificate');
+  // }
+  // if (this.worker) {
+  //   this.populate('worker');
+  // }
+  this.populate({path : 'worker'})
+  this.populate({path : 'certificate'})
+  next();
+});
 
 export const ValidationRequest = mongoose.model<validationRequestDoc>(
   'ValidationRequest',
