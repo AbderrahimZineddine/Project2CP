@@ -109,7 +109,7 @@ const userSchema = new mongoose_1.default.Schema({
     },
     _deletedAt: {
         type: Date,
-        default: null, //TODO : check default and add validator 
+        default: null, //TODO : check default and add validator
     },
 }, { timestamps: true, discriminatorKey: 'role' });
 userSchema.pre('save', passwordBcryptMiddleware);
@@ -163,4 +163,9 @@ function createOTP() {
         return otp;
     };
 }
+userSchema.pre(/^find/, function (next) {
+    // Filter out documents with _deletedAt set (including non-null values)
+    this.where({ _deletedAt: { $exists: false } });
+    next();
+});
 //# sourceMappingURL=User.js.map

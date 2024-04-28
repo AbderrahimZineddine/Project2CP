@@ -30,14 +30,16 @@ const approveValidationRequest = (0, catchAsync_1.default)(async (req, res, next
         const cert = valReq.certificate;
         cert.isValid = true;
         await cert.save({ validateBeforeSave: false });
-        await validationRequest_1.ValidationRequest.findByIdAndDelete(req.params.id);
+        // await ValidationRequest.findByIdAndDelete(req.params.id);
+        await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
         res.status(200).json({ status: 'success', certificate: cert });
     }
     else {
         const worker = valReq.worker;
         worker.workerAccountVerified = true;
         await worker.save({ validateBeforeSave: false });
-        await validationRequest_1.ValidationRequest.findByIdAndDelete(req.params.id);
+        // await ValidationRequest.findByIdAndDelete(req.params.id);
+        await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
         res.status(200).json({ status: 'success', worker });
     }
 });
@@ -48,7 +50,8 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
     }
     if (valReq.type === validationRequest_1.ValidationType.Certificate) {
         await Certificate_1.Certificate.findByIdAndDelete(valReq.certificate.id);
-        await validationRequest_1.ValidationRequest.findByIdAndDelete(req.params.id);
+        // await ValidationRequest.findByIdAndDelete(req.params.id);
+        await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
         res.status(200).json({ status: 'success' });
     }
     else {
@@ -83,7 +86,8 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
             }
             worker.certificates = undefined;
         }
-        await validationRequest_1.ValidationRequest.findByIdAndDelete(req.params.id);
+        // await ValidationRequest.findByIdAndDelete(req.params.id);
+        await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
         res.status(200).json({ status: 'success', worker });
     }
 });

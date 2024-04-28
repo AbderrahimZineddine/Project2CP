@@ -16,7 +16,8 @@ exports.deletePostById = (0, catchAsync_1.default)(async (req, res, next) => {
     for (const url of post.images) {
         await uploadController_1.default.deleteFromCloudinary(url);
     }
-    await Post_1.Post.findByIdAndDelete(post.id);
+    // await Post.findByIdAndDelete(post.id);
+    await Post_1.Post.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
     res.status(200).json({
         status: 'success',
     });

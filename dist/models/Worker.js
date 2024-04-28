@@ -107,5 +107,10 @@ workerSchema.pre(/^find/, function (next) {
     }
     next();
 });
+workerSchema.pre(/^find/, function (next) {
+    // Filter out documents with _deletedAt set (including non-null values)
+    this.where({ _deletedAt: { $exists: false } });
+    next();
+});
 exports.Worker = User_1.User.discriminator('Worker', workerSchema);
 //# sourceMappingURL=Worker.js.map

@@ -34,8 +34,17 @@ const validationRequestSchema = new mongoose_1.default.Schema({
         enum: ValidationType,
         required: [true, 'Please specify the type of the validation request'],
     },
+    _deletedAt: {
+        type: Date,
+        default: null,
+    },
 }, {
     timestamps: true,
+});
+validationRequestSchema.pre(/^find/, function (next) {
+    // Filter out documents with _deletedAt set (including non-null values)
+    this.where({ _deletedAt: { $exists: false } });
+    next();
 });
 validationRequestSchema.pre(/^find/, function (next) {
     console.log(this);

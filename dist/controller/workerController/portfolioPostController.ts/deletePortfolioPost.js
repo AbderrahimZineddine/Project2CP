@@ -17,7 +17,8 @@ exports.deletePortfolioPostById = (0, catchAsync_1.default)(async (req, res, nex
     for (const url of portfolioPost.images) {
         await uploadController_1.default.deleteFromCloudinary(url);
     }
-    await PortfolioPost_1.PortfolioPost.findByIdAndDelete(portfolioPost.id);
+    // await PortfolioPost.findByIdAndDelete(portfolioPost.id);
+    await PortfolioPost_1.PortfolioPost.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
     //TODO delete likes associated with this post !  Likes.deleteMany({ post : portfolioPost.id})
     await Like_1.Like.deleteMany({ postId: portfolioPost.id });
     res.status(200).json({

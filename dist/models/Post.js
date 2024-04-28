@@ -29,7 +29,16 @@ const PostSchema = new mongoose_1.default.Schema({
             ref: 'Worker',
         },
     ],
+    _deletedAt: {
+        type: Date,
+        default: null,
+    },
 }, { timestamps: true });
+PostSchema.pre(/^find/, function (next) {
+    // Filter out documents with _deletedAt set (including non-null values)
+    this.where({ _deletedAt: { $exists: false } });
+    next();
+});
 PostSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'user',

@@ -15,7 +15,8 @@ exports.deleteReview = (0, catchAsync_1.default)(async (req, res, next) => {
             ? (worker.rating - req.review.rating) / worker.ratingsNumber
             : 0;
     await worker.save({ validateBeforeSave: false });
-    await Review_1.Review.findByIdAndDelete(req.review.id);
+    // await Review.findByIdAndDelete(req.review.id);
+    await Review_1.Review.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
     res.status(200).json({
         status: 'success',
     });

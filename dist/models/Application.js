@@ -29,6 +29,11 @@ const ApplicationSchema = new mongoose_1.default.Schema({
     timestamps: true,
 });
 ApplicationSchema.pre(/^find/, function (next) {
+    // Filter out documents with _deletedAt set (including non-null values)
+    this.where({ _deletedAt: { $exists: false } });
+    next();
+});
+ApplicationSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'worker',
         select: 'name profilePicture job', // Select specific fields from the user model
