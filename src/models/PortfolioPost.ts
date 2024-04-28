@@ -18,11 +18,22 @@ const PortfolioPostSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    _deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+PortfolioPostSchema.pre(/^find/, function (next) {
+  // Filter out documents with _deletedAt set (including non-null values)
+  ( this as any).where({ _deletedAt: { $exists: false } });
+  next();
+});
+
 
 export const PortfolioPost = mongoose.model<PortfolioPostDoc>('PortfolioPost', PortfolioPostSchema);
 

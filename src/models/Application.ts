@@ -39,6 +39,12 @@ const ApplicationSchema = new mongoose.Schema(
 );
 
 
+ApplicationSchema.pre(/^find/, function (next) {
+  // Filter out documents with _deletedAt set (including non-null values)
+  ( this as any).where({ _deletedAt: { $exists: false } });
+  next();
+});
+
 ApplicationSchema.pre(/^find/, function <ApplicationDoc> (next: NextFunction) {
   this.populate({
     path: 'worker',

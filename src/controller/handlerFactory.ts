@@ -27,11 +27,14 @@ export const getAll = (Model: any) =>
 export const getOne = (Model: any, populateOptions?: PopulateOptions) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = Model.findById(req.params.id);
+    query  = query.find({_deletedAt: null})
     if (populateOptions) {
       query = query.populate(populateOptions);
     }
     const doc = await query;
-    if (!doc) {
+    console.log(doc);
+    console.log(typeof doc);
+    if (!doc || Object.entries(doc).length === 0) {
       return next(new AppError('no Document found with that id', 404));
     }
     res.status(200).json({

@@ -39,13 +39,23 @@ const approveValidationRequest = catchAsync(
       const cert = valReq.certificate;
       cert.isValid = true;
       await cert.save({ validateBeforeSave: false });
-      await ValidationRequest.findByIdAndDelete(req.params.id);
+      // await ValidationRequest.findByIdAndDelete(req.params.id);
+      await ValidationRequest.findByIdAndUpdate(
+        req.params.id,
+        { _deletedAt: Date.now() },
+        { new: true }
+      );
       res.status(200).json({ status: 'success', certificate: cert });
     } else {
       const worker = valReq.worker;
       worker.workerAccountVerified = true;
       await worker.save({ validateBeforeSave: false });
-      await ValidationRequest.findByIdAndDelete(req.params.id);
+      // await ValidationRequest.findByIdAndDelete(req.params.id);
+      await ValidationRequest.findByIdAndUpdate(
+        req.params.id,
+        { _deletedAt: Date.now() },
+        { new: true }
+      );
       res.status(200).json({ status: 'success', worker });
     }
   }
@@ -65,7 +75,12 @@ const disapproveValidationRequest = catchAsync(
 
     if (valReq.type === ValidationType.Certificate) {
       await Certificate.findByIdAndDelete(valReq.certificate.id);
-      await ValidationRequest.findByIdAndDelete(req.params.id);
+      // await ValidationRequest.findByIdAndDelete(req.params.id);
+      await ValidationRequest.findByIdAndUpdate(
+        req.params.id,
+        { _deletedAt: Date.now() },
+        { new: true }
+      );
 
       res.status(200).json({ status: 'success' });
     } else {
@@ -106,7 +121,12 @@ const disapproveValidationRequest = catchAsync(
         worker.certificates = undefined;
       }
 
-      await ValidationRequest.findByIdAndDelete(req.params.id);
+      // await ValidationRequest.findByIdAndDelete(req.params.id);
+      await ValidationRequest.findByIdAndUpdate(
+        req.params.id,
+        { _deletedAt: Date.now() },
+        { new: true }
+      );
       res.status(200).json({ status: 'success', worker });
     }
   }

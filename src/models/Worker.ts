@@ -115,4 +115,10 @@ workerSchema.pre(/^find/, function <WorkerDoc>(next: NextFunction) {
   next();
 });
 
+workerSchema.pre(/^find/, function (next) {
+  // Filter out documents with _deletedAt set (including non-null values)
+  ( this as any).where({ _deletedAt: { $exists: false } });
+  next();
+});
+
 export const Worker = User.discriminator('Worker', workerSchema);

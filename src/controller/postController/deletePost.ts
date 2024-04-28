@@ -14,7 +14,12 @@ export const deletePostById = catchAsync(
     for (const url of post.images) {
       await uploadController.deleteFromCloudinary(url);
     }
-    await Post.findByIdAndDelete(post.id);
+    // await Post.findByIdAndDelete(post.id);
+    await Post.findByIdAndUpdate(
+      req.params.id,
+      { _deletedAt: Date.now() },
+      { new: true }
+    );
 
     res.status(200).json({
       status: 'success',

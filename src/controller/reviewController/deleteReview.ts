@@ -20,7 +20,12 @@ export const deleteReview = catchAsync(
         : 0;
     await worker.save({validateBeforeSave: false});
 
-    await Review.findByIdAndDelete(req.review.id);
+    // await Review.findByIdAndDelete(req.review.id);
+    await Review.findByIdAndUpdate(
+      req.params.id,
+      { _deletedAt: Date.now() },
+      { new: true }
+    );
 
     res.status(200).json({
       status: 'success',

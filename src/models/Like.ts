@@ -14,6 +14,7 @@ const LikeSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'PortfolioPost',
   },
+  
 });
 
 export const Like = mongoose.model<LikeDoc>('Like', LikeSchema);

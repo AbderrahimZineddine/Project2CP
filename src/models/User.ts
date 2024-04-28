@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A user must have a name'],
     },
-    
+
     email: {
       type: String,
       required: [true, 'A user must have an email address'],
@@ -108,7 +108,7 @@ const userSchema = new mongoose.Schema(
     },
     _deletedAt: {
       type: Date,
-      default: null, //TODO : check default and add validator 
+      default: null, //TODO : check default and add validator
     },
   },
   { timestamps: true, discriminatorKey: 'role' }
@@ -184,3 +184,9 @@ function createOTP(): any {
     return otp;
   };
 }
+
+userSchema.pre(/^find/, function (next) {
+  // Filter out documents with _deletedAt set (including non-null values)
+  ( this as any).where({ _deletedAt: { $exists: false } });
+  next();
+});

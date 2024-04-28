@@ -29,7 +29,18 @@ const ReviewSchema = new mongoose.Schema({
     min: [0, 'Rating cannot be below 0'],
     max: [5, 'Rating must be below or equal to 5'],
   },
+  _deletedAt: {
+    type: Date,
+    default: null,
+  },
 });
+
+ReviewSchema.pre(/^find/, function (next) {
+  // Filter out documents with _deletedAt set (including non-null values)
+  ( this as any).where({ _deletedAt: { $exists: false } });
+  next();
+});
+
 
 ReviewSchema.pre('save', async function (next: NextFunction) {
   if (this.isNew) {
