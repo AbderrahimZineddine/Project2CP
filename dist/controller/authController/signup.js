@@ -12,10 +12,9 @@ const appError_1 = __importDefault(require("../../utils/appError"));
 exports.signup = (0, catchAsync_1.default)(async (req, res, next) => {
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
     const hashedOTP = crypto_1.default.createHash('sha256').update(otp).digest('hex');
-    const { firstName, lastName, email, password, wilaya, phoneNumber, passwordConfirm, } = req.body;
+    const { name, email, password, wilaya, phoneNumber, passwordConfirm, } = req.body;
     const user = await User_1.User.create({
-        firstName,
-        lastName,
+        name,
         email,
         newEmail: email,
         phoneNumber,

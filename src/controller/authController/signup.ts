@@ -14,8 +14,7 @@ export const signup = catchAsync(
     const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
 
     const {
-      firstName,
-      lastName,
+      name,
       email,
       password,
       wilaya,
@@ -24,8 +23,7 @@ export const signup = catchAsync(
     } = req.body;
 
     const user: UserDoc = await User.create({
-      firstName,
-      lastName,
+     name,
       email,
       newEmail: email,
       phoneNumber,

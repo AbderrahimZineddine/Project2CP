@@ -81,12 +81,12 @@ const nodemailer_1 = __importDefault(require("nodemailer"));
 const pug_1 = __importDefault(require("pug"));
 class Email {
     to;
-    firstName;
+    name;
     otp;
     from;
     constructor(user, otp) {
         this.to = user.email;
-        this.firstName = user.firstName;
+        this.name = user.name;
         this.otp = otp;
         this.from = `Abderrahim Zineddine <${process.env.EMAIL_FROM}>`;
     }
@@ -117,7 +117,7 @@ class Email {
         try {
             // 1) Render the HTML based on a Pug template
             const html = pug_1.default.renderFile(`${__dirname}/../views/emails/${template}.pug`, {
-                firstName: this.firstName,
+                name: this.name,
                 otp: this.otp,
                 subject,
             });

@@ -33,7 +33,7 @@ const PostSchema = new mongoose_1.default.Schema({
 PostSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'user',
-        select: 'firstName profilePicture', // Select specific fields from the user model
+        select: 'name profilePicture', // Select specific fields from the user model
     });
     next();
 });

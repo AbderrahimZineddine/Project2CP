@@ -18,9 +18,7 @@ export const editMeWorker = catchAsync(
     //   }
     // }
 
-    // if (req.body.firstName || req.body.lastName ) {
-    //     return next(new AppError('You cannot change your first name or last name', 400)) //TODO check 400 ?
-    // }
+    
     if (req.body.job) {
       (req.user as WorkerDoc).job = req.body.job;
       req.user.save({ validateModifiedOnly: true });

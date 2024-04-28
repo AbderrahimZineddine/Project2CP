@@ -47,22 +47,23 @@ export const editMe = (role: any) => {
         const updatedUser = await role.findByIdAndUpdate(
           req.user.id,
           {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            name: req.body.name,
+            
             wilaya: req.body.wilaya,
             phoneNumber: req.body.phoneNumber,
-            'contacts.instagram': req.body.contacts
-              ? req.body.contacts.instagram
-              : req.user.contacts.instagram,
-            'contacts.facebook': req.body.contacts
-              ? req.body.contacts.facebook
-              : req.user.contacts.facebook,
-            'contacts.whatsapp': req.body.contacts
-              ? req.body.contacts.whatsapp
-              : req.user.contacts.whatsapp,
-            'contacts.linkedin': req.body.contacts
-              ? req.body.contacts.linkedin
-              : req.user.contacts.linkedin,
+            facebookAccount : req.body.facebookAccount,
+            // 'contacts.instagram': req.body.contacts
+            //   ? req.body.contacts.instagram
+            //   : req.user.contacts.instagram,
+            // 'contacts.facebook': req.body.contacts
+            //   ? req.body.contacts.facebook
+            //   : req.user.contacts.facebook,
+            // 'contacts.whatsapp': req.body.contacts
+            //   ? req.body.contacts.whatsapp
+            //   : req.user.contacts.whatsapp,
+            // 'contacts.linkedin': req.body.contacts
+            //   ? req.body.contacts.linkedin
+            //   : req.user.contacts.linkedin,
             profilePicture: req.profilePicture ?? req.user.profilePicture,
           },
           { new: true, runValidators: true }

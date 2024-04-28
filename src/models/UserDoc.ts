@@ -7,23 +7,24 @@ export enum Role {
 
 export interface UserDoc extends mongoose.Document {
   // id: mongoose.Types.ObjectId,
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   newEmail: string;
   profilePicture: string;
   wilaya: string;
   phoneNumber: string;
+  facebookAccount : string;
   reported: number;
   // role: 'User' | 'Worker'; //TODO : role check
   role: Role;
   currentRole: Role;
-  contacts: {
-    instagram: string;
-    facebook: string;
-    whatsapp: string;
-    linkedin: string;
-  };
+  // contacts: {
+  //   instagram: string;
+  //   facebook: string;
+  //   whatsapp: string;
+  //   linkedin: string;
+  // };
+
   // posts: mongoose.Schema.Types.ObjectId[];
   favoriteWorkers: mongoose.Schema.Types.ObjectId[];
   authentication: {

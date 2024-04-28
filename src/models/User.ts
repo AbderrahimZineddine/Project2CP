@@ -7,14 +7,11 @@ import { UserDoc, Role } from './UserDoc';
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
+    name: {
       type: String,
-      required: [true, 'A user must have a first name'],
+      required: [true, 'A user must have a name'],
     },
-    lastName: {
-      type: String,
-      required: [true, 'A user must have a last name'],
-    },
+    
     email: {
       type: String,
       required: [true, 'A user must have an email address'],
@@ -41,13 +38,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A user must enter his phone number'],
     },
-    contacts: {
-      //TODO check again
-      instagram: String,
-      whatsapp: String,
-      facebook: String,
-      linkedin: String,
-    },
+    // contacts: {
+    //   //TODO check again
+    //   instagram: String,
+    //   whatsapp: String,
+    //   facebook: String,
+    //   linkedin: String,
+    // },
+    facebookAccount: String,
     reported: {
       type: Number,
       min: [0, 'cannot be below 0'],

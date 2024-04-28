@@ -17,27 +17,27 @@ const editMe = (role) => {
                 throw new appError_1.default('This route is not for password updates. Please use /updateMyPassword', 400);
             }
             if (req.user.role === UserDoc_1.Role.Worker &&
-                (req.body.firstName || req.body.lastName)) {
-                throw new appError_1.default('You cannot change your first name or last name', 400);
+                (req.body.name)) {
+                throw new appError_1.default('You cannot change your name because it is linked to your id card!', 400);
             }
             const oldPfp = req.user.profilePicture;
             const updatedUser = await role.findByIdAndUpdate(req.user.id, {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
+                name: req.body.name,
                 wilaya: req.body.wilaya,
                 phoneNumber: req.body.phoneNumber,
-                'contacts.instagram': req.body.contacts
-                    ? req.body.contacts.instagram
-                    : req.user.contacts.instagram,
-                'contacts.facebook': req.body.contacts
-                    ? req.body.contacts.facebook
-                    : req.user.contacts.facebook,
-                'contacts.whatsapp': req.body.contacts
-                    ? req.body.contacts.whatsapp
-                    : req.user.contacts.whatsapp,
-                'contacts.linkedin': req.body.contacts
-                    ? req.body.contacts.linkedin
-                    : req.user.contacts.linkedin,
+                facebookAccount: req.body.facebookAccount,
+                // 'contacts.instagram': req.body.contacts
+                //   ? req.body.contacts.instagram
+                //   : req.user.contacts.instagram,
+                // 'contacts.facebook': req.body.contacts
+                //   ? req.body.contacts.facebook
+                //   : req.user.contacts.facebook,
+                // 'contacts.whatsapp': req.body.contacts
+                //   ? req.body.contacts.whatsapp
+                //   : req.user.contacts.whatsapp,
+                // 'contacts.linkedin': req.body.contacts
+                //   ? req.body.contacts.linkedin
+                //   : req.user.contacts.linkedin,
                 profilePicture: req.profilePicture ?? oldPfp,
             }, { new: true, runValidators: true });
             if (updatedUser && updatedUser.profilePicture != oldPfp) {

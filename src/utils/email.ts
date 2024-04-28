@@ -87,13 +87,13 @@ import catchAsync from './catchAsync';
 
 export default class Email {
   to: string;
-  firstName: any;
+  name: any;
   otp: string;
   from: string;
 
   constructor(user: UserDoc, otp: string) {
     this.to = user.email;
-    this.firstName = user.firstName;
+    this.name = user.name;
     this.otp = otp;
     this.from = `Abderrahim Zineddine <${process.env.EMAIL_FROM}>`;
   }
@@ -127,7 +127,7 @@ export default class Email {
       const html = pug.renderFile(
         `${__dirname}/../views/emails/${template}.pug`,
         {
-          firstName: this.firstName,
+          name: this.name,
           otp: this.otp,
           subject,
         }

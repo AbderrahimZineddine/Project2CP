@@ -1,14 +1,15 @@
+import { MyRequest } from "../controller/userController";
 import express from "express";
 
 export default (
   fn: (
-    req: express.Request,
+    req: express.Request | MyRequest,
     res: express.Response,
     next: express.NextFunction
   ) => Promise<void>
 ) => {
   return (
-    req: express.Request,
+    req: express.Request | MyRequest,
     res: express.Response,
     next: express.NextFunction
   ) => {

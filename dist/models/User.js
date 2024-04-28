@@ -10,13 +10,9 @@ const validator_1 = __importDefault(require("validator"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const UserDoc_1 = require("./UserDoc");
 const userSchema = new mongoose_1.default.Schema({
-    firstName: {
+    name: {
         type: String,
-        required: [true, 'A user must have a first name'],
-    },
-    lastName: {
-        type: String,
-        required: [true, 'A user must have a last name'],
+        required: [true, 'A user must have a name'],
     },
     email: {
         type: String,
@@ -43,13 +39,14 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: [true, 'A user must enter his phone number'],
     },
-    contacts: {
-        //TODO check again
-        instagram: String,
-        whatsapp: String,
-        facebook: String,
-        linkedin: String,
-    },
+    // contacts: {
+    //   //TODO check again
+    //   instagram: String,
+    //   whatsapp: String,
+    //   facebook: String,
+    //   linkedin: String,
+    // },
+    facebookAccount: String,
     reported: {
         type: Number,
         min: [0, 'cannot be below 0'],

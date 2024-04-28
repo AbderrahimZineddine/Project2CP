@@ -16,9 +16,6 @@ exports.editMeWorker = (0, catchAsync_1.default)(async (req, res, next) => {
     //     certificates.push(cert.id);
     //   }
     // }
-    // if (req.body.firstName || req.body.lastName ) {
-    //     return next(new AppError('You cannot change your first name or last name', 400)) //TODO check 400 ?
-    // }
     if (req.body.job) {
         req.user.job = req.body.job;
         req.user.save({ validateModifiedOnly: true });
