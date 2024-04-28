@@ -9,6 +9,7 @@ export function createAndSendToken(
   req: MyRequest,
   res: Response
 ) {
+  console.log("user is : \n", user)
   // payload : { _id: user._id.toString() }  This is the data you want to include in the JWT //TODO add current Role;
   const token = jwt.sign(
     { id: user.id.toString(), currentRole: user.currentRole },

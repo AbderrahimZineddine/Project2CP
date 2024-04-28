@@ -47,7 +47,7 @@ exports.signupAsWorker = (0, catchAsync_1.default)(async (req, res, next) => {
         const val1 = await validationRequest_1.ValidationRequest.create({
             worker: user.id,
             idPicture: req.idPicture,
-            type: 'idPicture',
+            type: validationRequest_1.ValidationType.IdPicture, //
         });
         console.log(val1);
         for (const cert of certificates) {

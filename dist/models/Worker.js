@@ -13,7 +13,17 @@ const workerSchema = new mongoose_1.default.Schema({
     },
     job: {
         type: String,
-        enum: ['Architect', 'Designer'],
+        enum: [
+            'Architect',
+            'Mason',
+            'Painter',
+            'Plumber',
+            'Electrician',
+            'Interior Designer',
+            'Landscaper',
+            'Cleaner',
+            'Security System Installer',
+        ],
         required: [true, 'A worker must have a job'],
     },
     certificates: [
@@ -35,7 +45,8 @@ const workerSchema = new mongoose_1.default.Schema({
         default: 0,
     },
     ratingsNumber: {
-        type: Number, default: 0,
+        type: Number,
+        default: 0,
     },
     experience: {
         type: Number,

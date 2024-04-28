@@ -19,6 +19,8 @@ import applicationRouter from './routes/applicationRouter';
 import dealRouter from './routes/dealRouter';
 import reviewRouter from './routes/reviewRouter';
 import validationRequestRouter from './routes/validationRequestRouter';
+import dashboardRouter from './routes/dashboardRouter';
+import modRouter from './routes/modRouter';
 
 import morgan from 'morgan';
 import errorController from './controller/errorController';
@@ -53,6 +55,8 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/workers/certificates', certificateRouter);
 app.use('/api/v1/workers/portfolioPosts', portfolioRouter);
 app.use('/api/v1/workers', workerRouter);
+app.use('/api/v1/dashboard', dashboardRouter);
+app.use('/api/v1/mod', modRouter);
 
 app.all('*', (req, res, next) => {
   // express knows that it's an error ( anything is assumed to be an error )

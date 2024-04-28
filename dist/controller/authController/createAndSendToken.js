@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAndSendToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 function createAndSendToken(user, statusCode, req, res) {
+    console.log("user is : \n", user);
     // payload : { _id: user._id.toString() }  This is the data you want to include in the JWT //TODO add current Role;
     const token = jsonwebtoken_1.default.sign({ id: user.id.toString(), currentRole: user.currentRole }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,

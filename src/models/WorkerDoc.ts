@@ -5,6 +5,13 @@ import { PortfolioPostDoc } from './PortfolioPost';
 export enum Job {
   Architect = 'Architect',
   Designer = 'Designer',
+  Painter = 'Painter',
+  Plumber = 'Plumber',
+  Electrician = 'Electrician',
+  InteriorDesigner = 'Interior Designer',
+  Landscaper = 'Landscaper',
+  Cleaner = 'Cleaner',
+  SecuritySystemInstaller = 'Security System Installer',
 }
 
 export interface WorkerDoc extends UserDoc {
@@ -24,7 +31,7 @@ export interface WorkerDoc extends UserDoc {
   idPicture: string;
   location: string;
   rating: number;
-  ratingsNumber : number;
+  ratingsNumber: number;
   experience: number;
   portfolioPosts: PortfolioPostDoc[];
 }

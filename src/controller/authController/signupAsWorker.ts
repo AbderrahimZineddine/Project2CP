@@ -7,6 +7,7 @@ import {
   ValidateIdPictureCreate,
   ValidationRequest,
   ValidateCertificateCreate,
+  ValidationType,
 } from '../../models/validationRequest';
 import { WorkerDoc } from '../../models/WorkerDoc';
 import { Certificate, CertificateDoc } from '../../models/Certificate';
@@ -63,7 +64,7 @@ export const signupAsWorker = catchAsync(
       const val1 = await ValidationRequest.create({
         worker: user.id,
         idPicture: req.idPicture,
-        type: 'idPicture',
+        type: ValidationType.IdPicture, //
       });
       console.log(val1);
       for (const cert of certificates) {

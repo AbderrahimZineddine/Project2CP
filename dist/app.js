@@ -20,6 +20,8 @@ const applicationRouter_1 = __importDefault(require("./routes/applicationRouter"
 const dealRouter_1 = __importDefault(require("./routes/dealRouter"));
 const reviewRouter_1 = __importDefault(require("./routes/reviewRouter"));
 const validationRequestRouter_1 = __importDefault(require("./routes/validationRequestRouter"));
+const dashboardRouter_1 = __importDefault(require("./routes/dashboardRouter"));
+const modRouter_1 = __importDefault(require("./routes/modRouter"));
 const morgan_1 = __importDefault(require("morgan"));
 const errorController_1 = __importDefault(require("./controller/errorController"));
 const app = (0, express_1.default)();
@@ -47,6 +49,8 @@ app.use('/api/v1/users', userRouter_1.default);
 app.use('/api/v1/workers/certificates', certificateRouter_1.default);
 app.use('/api/v1/workers/portfolioPosts', portfolioRouter_1.default);
 app.use('/api/v1/workers', workerRouter_1.default);
+app.use('/api/v1/dashboard', dashboardRouter_1.default);
+app.use('/api/v1/mod', modRouter_1.default);
 app.all('*', (req, res, next) => {
     // express knows that it's an error ( anything is assumed to be an error )
     // const err = new Error(`Can't find ${req.originalUrl} on this server`);

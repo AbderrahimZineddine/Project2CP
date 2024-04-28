@@ -21,8 +21,19 @@ const ApplicationSchema = new mongoose_1.default.Schema({
         required: [true, 'an application must have a description'],
     },
     price: Number,
+    _deletedAt: {
+        type: Date,
+        default: null, //TODO : check default and add validator 
+    },
 }, {
     timestamps: true,
+});
+ApplicationSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'worker',
+        select: 'name profilePicture job', // Select specific fields from the user model
+    });
+    next();
 });
 exports.Application = mongoose_1.default.model('Application', ApplicationSchema);
 //# sourceMappingURL=Application.js.map

@@ -54,12 +54,12 @@ const userSchema = new mongoose.Schema(
       max: [3, 'must be below 3'],
       default: 0,
     },
-    posts: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Post',
-      },
-    ],
+    // posts: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Post',
+    //   },
+    // ],
     favoriteWorkers: [
       {
         type: mongoose.Schema.ObjectId,
@@ -107,6 +107,10 @@ const userSchema = new mongoose.Schema(
           return !(el.role === Role.User && el.currentRole === Role.Worker);
         },
       },
+    },
+    _deletedAt: {
+      type: Date,
+      default: null, //TODO : check default and add validator 
     },
   },
   { timestamps: true, discriminatorKey: 'role' }

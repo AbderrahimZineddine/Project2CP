@@ -24,7 +24,7 @@ export interface UserDoc extends mongoose.Document {
     whatsapp: string;
     linkedin: string;
   };
-  posts: mongoose.Schema.Types.ObjectId[];
+  // posts: mongoose.Schema.Types.ObjectId[];
   favoriteWorkers: mongoose.Schema.Types.ObjectId[];
   authentication: {
     password: string;
@@ -34,6 +34,8 @@ export interface UserDoc extends mongoose.Document {
     otpExpires: Date;
     isVerified: boolean;
   };
+  _deletedAt: Date;
+  createdAt: Date;
   correctPassword: (
     candidatePassword: string,
     userPassword: string

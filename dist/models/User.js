@@ -56,12 +56,12 @@ const userSchema = new mongoose_1.default.Schema({
         max: [3, 'must be below 3'],
         default: 0,
     },
-    posts: [
-        {
-            type: mongoose_1.default.Schema.ObjectId,
-            ref: 'Post',
-        },
-    ],
+    // posts: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Post',
+    //   },
+    // ],
     favoriteWorkers: [
         {
             type: mongoose_1.default.Schema.ObjectId,
@@ -109,6 +109,10 @@ const userSchema = new mongoose_1.default.Schema({
                 return !(el.role === UserDoc_1.Role.User && el.currentRole === UserDoc_1.Role.Worker);
             },
         },
+    },
+    _deletedAt: {
+        type: Date,
+        default: null, //TODO : check default and add validator 
     },
 }, { timestamps: true, discriminatorKey: 'role' });
 userSchema.pre('save', passwordBcryptMiddleware);

@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import mongoose from 'mongoose';
 
 export interface ApplicationDoc extends mongoose.Document {
@@ -5,6 +6,8 @@ export interface ApplicationDoc extends mongoose.Document {
   post: mongoose.Schema.Types.ObjectId;
   description: string;
   price: number;
+  _deletedAt : Date;
+  _createdAt : Date;
 }
 
 const ApplicationSchema = new mongoose.Schema(
@@ -24,11 +27,25 @@ const ApplicationSchema = new mongoose.Schema(
       required: [true, 'an application must have a description'],
     },
     price: Number,
+    _deletedAt: {
+      type: Date,
+      default: null, //TODO : check default and add validator 
+    },
   },
+  
   {
     timestamps: true,
   }
 );
+
+
+ApplicationSchema.pre(/^find/, function <ApplicationDoc> (next: NextFunction) {
+  this.populate({
+    path: 'worker',
+    select: 'name profilePicture job', // Select specific fields from the user model
+  });
+  next();
+});
 
 export const Application = mongoose.model<ApplicationDoc>(
   'Application',

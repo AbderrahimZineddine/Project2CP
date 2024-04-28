@@ -30,5 +30,12 @@ const PostSchema = new mongoose_1.default.Schema({
         },
     ],
 }, { timestamps: true });
+PostSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'user',
+        select: 'firstName profilePicture', // Select specific fields from the user model
+    });
+    next();
+});
 exports.Post = mongoose_1.default.model('Post', PostSchema);
 //# sourceMappingURL=Post.js.map
