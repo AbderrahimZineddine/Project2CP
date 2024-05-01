@@ -32,11 +32,9 @@ export const getUser = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: {
-        user,
-        postsData,
-        reviewsData,
-      },
+      user,
+      postsData,
+      reviewsData,
     });
   }
 );

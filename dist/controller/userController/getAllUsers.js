@@ -27,11 +27,9 @@ exports.getUser = (0, catchAsync_1.default)(async (req, res, next) => {
     }
     res.status(200).json({
         status: 'success',
-        data: {
-            user,
-            postsData,
-            reviewsData,
-        },
+        user,
+        postsData,
+        reviewsData,
     });
 });
 exports.createUser = (0, handlerFactory_1.createOne)(User_1.User);
