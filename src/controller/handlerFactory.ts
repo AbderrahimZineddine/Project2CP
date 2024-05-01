@@ -19,15 +19,13 @@ export const getAll = (Model: any) =>
 
     const doc = await features.query;
 
-    res
-      .status(200)
-      .json({ status: 'success', results: doc.length, data: doc });
+    res.status(200).json({ status: 'success', results: doc.length, data: doc });
   });
 
 export const getOne = (Model: any, populateOptions?: PopulateOptions) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = Model.findById(req.params.id);
-    query  = query.find({_deletedAt: null})
+    query = query.find({ _deletedAt: null });
     if (populateOptions) {
       query = query.populate(populateOptions);
     }
@@ -39,9 +37,7 @@ export const getOne = (Model: any, populateOptions?: PopulateOptions) =>
     }
     res.status(200).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 export const createOne = (Model: any) =>
@@ -50,7 +46,7 @@ export const createOne = (Model: any) =>
 
     res.status(201).json({
       status: 'success',
-      data: { data: doc },
+      data: doc,
     });
   });
 export const updateOne = (Model: any) =>
@@ -64,7 +60,7 @@ export const updateOne = (Model: any) =>
       return next(new AppError('no Document found with that id', 404));
     }
 
-    res.status(200).json({ status: 'success', data: { data: doc } });
+    res.status(200).json({ status: 'success', data: doc });
   });
 
 export const deleteOne = (Model: any) =>

@@ -19,9 +19,7 @@ const getAll = (Model) => (0, catchAsync_1.default)(async (req, res, next) => {
         .limitFields()
         .paginate();
     const doc = await features.query;
-    res
-        .status(200)
-        .json({ status: 'success', results: doc.length, data: doc });
+    res.status(200).json({ status: 'success', results: doc.length, data: doc });
 });
 exports.getAll = getAll;
 const getOne = (Model, populateOptions) => (0, catchAsync_1.default)(async (req, res, next) => {
@@ -38,9 +36,7 @@ const getOne = (Model, populateOptions) => (0, catchAsync_1.default)(async (req,
     }
     res.status(200).json({
         status: 'success',
-        data: {
-            data: doc,
-        },
+        data: doc,
     });
 });
 exports.getOne = getOne;
@@ -48,7 +44,7 @@ const createOne = (Model) => (0, catchAsync_1.default)(async (req, res, next) =>
     const doc = await Model.create(req.body);
     res.status(201).json({
         status: 'success',
-        data: { data: doc },
+        data: doc,
     });
 });
 exports.createOne = createOne;
@@ -60,7 +56,7 @@ const updateOne = (Model) => (0, catchAsync_1.default)(async (req, res, next) =>
     if (!doc) {
         return next(new appError_1.default('no Document found with that id', 404));
     }
-    res.status(200).json({ status: 'success', data: { data: doc } });
+    res.status(200).json({ status: 'success', data: doc });
 });
 exports.updateOne = updateOne;
 const deleteOne = (Model) => (0, catchAsync_1.default)(async (req, res, next) => {
