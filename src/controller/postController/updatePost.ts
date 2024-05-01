@@ -74,6 +74,7 @@ export const updatePost = catchAsync(
       {
         job: req.body.job,
         description: req.body.description,
+        price: req.body.price,
         title: req.body.title,
         selectedWorkers: req.body.selectedWorkers,
       },

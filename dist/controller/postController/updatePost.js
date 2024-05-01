@@ -55,6 +55,7 @@ exports.updatePost = (0, catchAsync_1.default)(async (req, res, next) => {
     const post = await Post_1.Post.findByIdAndUpdate(req.params.id, {
         job: req.body.job,
         description: req.body.description,
+        price: req.body.price,
         title: req.body.title,
         selectedWorkers: req.body.selectedWorkers,
     }, { new: true, runValidators: true });

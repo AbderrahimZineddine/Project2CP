@@ -23,6 +23,7 @@ export const createPost = catchAsync(
     const post = await Post.create({
       images: req.images,
       description: req.body.description,
+      price: req.body.price,
       title: req.body.title,
       job: req.body.job,
       user: req.user.id,
@@ -34,7 +35,9 @@ export const createPost = catchAsync(
           await uploadController.deleteFromCloudinary(image);
         }
       }
-      return next(new AppError('Error creating your Post! Please try again later', 500));
+      return next(
+        new AppError('Error creating your Post! Please try again later', 500)
+      );
     }
 
     res.status(200).json({

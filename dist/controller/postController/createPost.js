@@ -22,6 +22,7 @@ exports.createPost = (0, catchAsync_1.default)(async (req, res, next) => {
     const post = await Post_1.Post.create({
         images: req.images,
         description: req.body.description,
+        price: req.body.price,
         title: req.body.title,
         job: req.body.job,
         user: req.user.id,

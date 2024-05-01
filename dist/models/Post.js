@@ -23,6 +23,10 @@ const PostSchema = new mongoose_1.default.Schema({
         enum: WorkerDoc_1.Job,
         required: [true, 'Please specify the required job for this post.'],
     },
+    price: {
+        type: Number,
+        min: [0, "Can't have a price less than zero"],
+    },
     selectedWorkers: [
         {
             type: mongoose_1.default.Schema.ObjectId,

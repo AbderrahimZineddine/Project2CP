@@ -14,6 +14,7 @@ const userController = {
     editMe: editMeUser_1.editMe,
     ToggleFavoriteWorker: ToggleFavoriteWorker_1.ToggleFavoriteWorker,
     getFavoriteWorkers: ToggleFavoriteWorker_1.getFavoriteWorkers,
+    getFavoriteWorkersFromUserId: ToggleFavoriteWorker_1.getFavoriteWorkersFromUserId,
 };
 exports.default = userController;
 //# sourceMappingURL=userController.js.map

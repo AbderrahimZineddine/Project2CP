@@ -5,6 +5,7 @@ import catchAsync from '../../utils/catchAsync';
 import { MyRequest } from '../userController';
 import { NextFunction, Response, request } from 'express';
 import { Worker } from '../../models/Worker';
+import { User } from '../../models/User';
 
 export const ToggleFavoriteWorker = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -34,11 +35,29 @@ export const ToggleFavoriteWorker = catchAsync(
   }
 );
 
-
 export const getFavoriteWorkers = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     const workers = [];
-    for (const workerId of (req.user).favoriteWorkers) {
+    for (const workerId of req.user.favoriteWorkers) {
+      workers.push(await Worker.findById(workerId));
+    }
+    res.status(200).json({
+      status: 'success',
+      workers,
+    });
+  }
+);
+
+export const getFavoriteWorkersFromUserId = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(
+        new AppError('No user found with that id : ' + req.params.id, 404)
+      );
+    }
+    const workers = [];
+    for (const workerId of user.favoriteWorkers) {
       workers.push(await Worker.findById(workerId));
     }
     res.status(200).json({

@@ -10,7 +10,11 @@ import {
 } from './userController/getAllUsers';
 import { editMe } from './userController/editMeUser';
 import { getMe } from './userController/getMe';
-import { ToggleFavoriteWorker, getFavoriteWorkers } from './userController/ToggleFavoriteWorker';
+import {
+  ToggleFavoriteWorker,
+  getFavoriteWorkers,
+  getFavoriteWorkersFromUserId,
+} from './userController/ToggleFavoriteWorker';
 import { PostDoc } from '../models/Post';
 import { ApplicationDoc } from 'models/Application';
 import { DealDoc } from '../models/Deal';
@@ -43,6 +47,7 @@ const userController = {
   editMe: editMe,
   ToggleFavoriteWorker: ToggleFavoriteWorker,
   getFavoriteWorkers: getFavoriteWorkers,
+  getFavoriteWorkersFromUserId: getFavoriteWorkersFromUserId,
 };
 
 export default userController;

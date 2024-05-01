@@ -34,9 +34,10 @@ router.patch('/editMe', authController_1.default.protect, authController_1.defau
 // CRUD :
 router.route('/').post(userController_1.default.createUser);
 // .get(userController.getAllUsers)
-router.get(':/id/posts', postController_1.default.getPostsFromUserById, postController_1.default.getAllPosts);
-router.get(':/id/deals', dealController_1.default.getDealsFromUserById, dealController_1.default.sortMiddleware, dealController_1.default.getAllDeals);
-router.get(':/id/reviews', reviewController_1.default.getReviewsFromUserById, reviewController_1.default.getAllReviews);
+router.get('/:id/favoriteWorkers', userController_1.default.getFavoriteWorkersFromUserId);
+router.get('/:id/posts', postController_1.default.getPostsFromUserById, postController_1.default.getAllPosts);
+router.get('/:id/deals', dealController_1.default.getDealsFromUserById, dealController_1.default.sortMiddleware, dealController_1.default.getAllDeals);
+router.get('/:id/reviews', reviewController_1.default.getReviewsFromUserById, reviewController_1.default.getAllReviews);
 //restrictLater
 router
     .route('/:id')

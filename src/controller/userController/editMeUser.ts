@@ -39,6 +39,8 @@ export const editMe = (role: any) => {
           wilaya: req.body.wilaya,
           phoneNumber: req.body.phoneNumber,
           facebookAccount : req.body.facebookAccount,
+          bio : req.body.bio,
+
           // 'contacts.instagram': req.body.contacts
           //   ? req.body.contacts.instagram
           //   : req.user.contacts.instagram,

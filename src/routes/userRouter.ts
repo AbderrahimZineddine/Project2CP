@@ -55,21 +55,23 @@ router.patch(
 router.route('/').post(userController.createUser);
 // .get(userController.getAllUsers)
 
+router.get('/:id/favoriteWorkers', userController.getFavoriteWorkersFromUserId);
+
 router.get(
-  ':/id/posts',
+  '/:id/posts',
   postController.getPostsFromUserById,
   postController.getAllPosts
 );
 
 router.get(
-  ':/id/deals',
+  '/:id/deals',
   dealController.getDealsFromUserById,
   dealController.sortMiddleware,
   dealController.getAllDeals
 );
 
 router.get(
-  ':/id/reviews',
+  '/:id/reviews',
   reviewController.getReviewsFromUserById,
   reviewController.getAllReviews
 );
