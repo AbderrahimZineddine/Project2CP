@@ -46,9 +46,9 @@ exports.getWorkerById = (0, catchAsync_1.default)(async (req, res, next) => {
     }
     const { portfolioPosts, reviews } = req.query;
     let portfolioPostsData, reviewsData;
-    if (portfolioPosts) {
-        worker.populate({ path: 'portfolioPosts' });
-    }
+    // if (portfolioPosts) {
+    //   worker.populate({ path: 'portfolioPosts'});
+    // }
     if (reviews) {
         reviewsData = await Review_1.Review.find({ worker: worker.id });
     }

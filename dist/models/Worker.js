@@ -98,9 +98,9 @@ workerSchema.pre(/^find/, function (next) {
     //   next();
     // }
     if (fields) {
-        if (fields.portfolioPosts) {
-            this.populate('portfolioPosts');
-        }
+        // if (fields.portfolioPosts) {
+        //   this.populate('portfolioPosts');
+        // }
         if (fields.certificates) {
             this.populate('certificates');
         }
@@ -109,7 +109,7 @@ workerSchema.pre(/^find/, function (next) {
 });
 workerSchema.pre(/^find/, function (next) {
     // Filter out documents with _deletedAt set (including non-null values)
-    this.where({ _deletedAt: { $exists: false } });
+    this.where({ _deletedAt: null });
     next();
 });
 exports.Worker = User_1.User.discriminator('Worker', workerSchema);

@@ -11,6 +11,7 @@ const PortfolioPost_1 = require("../../models/PortfolioPost");
 const portfolioPostsController = {
     getAllPortfolioPosts: (0, handlerFactory_1.getAll)(PortfolioPost_1.PortfolioPost),
     getPortfolioPostsFromWorkerById: getPortfolioPostById_1.getPortfolioPostsFromWorkerById,
+    getMyPortfolioPosts: getPortfolioPostById_1.getMyPortfolioPosts,
     createPortfolioPost: createPortfolioPost_1.createPortfolioPost,
     updatePortfolioPost: updatePortfolioPost_1.updatePortfolioPost,
     getPortfolioPostById: getPortfolioPostById_1.getPortfolioPostById,

@@ -105,9 +105,9 @@ workerSchema.pre(/^find/, function <WorkerDoc>(next: NextFunction) {
   // }
 
   if (fields) {
-    if (fields.portfolioPosts) {
-      this.populate('portfolioPosts');
-    }
+    // if (fields.portfolioPosts) {
+    //   this.populate('portfolioPosts');
+    // }
     if (fields.certificates) {
       this.populate('certificates');
     }
@@ -117,7 +117,7 @@ workerSchema.pre(/^find/, function <WorkerDoc>(next: NextFunction) {
 
 workerSchema.pre(/^find/, function (next) {
   // Filter out documents with _deletedAt set (including non-null values)
-  ( this as any).where({ _deletedAt: { $exists: false } });
+  (this as any).where({ _deletedAt: null });
   next();
 });
 

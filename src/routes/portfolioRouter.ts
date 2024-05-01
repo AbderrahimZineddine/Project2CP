@@ -5,20 +5,36 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/:id', portfolioPostsController.getPortfolioPostById);
+router.get(
+  '/:id',
+  authController.isLoggedIn,
+  portfolioPostsController.getPortfolioPostById
+);
 
-router.use(authController.protect);
-router.use(authController.restrictTo('Worker'));
+// router.use(authController.protect);
+// router.use(authController.restrictTo('Worker'));
 
 router.post(
   '/',
+  authController.protect,
+  authController.restrictTo('Worker'),
   uploadController.upload.array('images'),
   uploadController.uploadImages,
   portfolioPostsController.createPortfolioPost
 );
-router.patch('/:id/like', portfolioPostsController.toggleLikePortfolioPost);
+
+router.get('/', portfolioPostsController.getAllPortfolioPosts);
+
+router.patch(
+  '/:id/like',
+  authController.protect,
+  authController.restrictTo('User'),
+  portfolioPostsController.toggleLikePortfolioPost
+);
 router.patch(
   '/:id',
+  authController.protect,
+  authController.restrictTo('Worker'),
   portfolioPostsController.checkOwnerPortfolioPost,
   uploadController.upload.array('images'),
   uploadController.uploadImages,
@@ -26,6 +42,8 @@ router.patch(
 );
 router.delete(
   '/:id',
+  authController.protect,
+  authController.restrictTo('Worker'),
   portfolioPostsController.checkOwnerPortfolioPost,
   portfolioPostsController.deletePortfolioPostById
 );

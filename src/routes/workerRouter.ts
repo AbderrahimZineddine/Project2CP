@@ -19,6 +19,13 @@ router.get(
 );
 
 router.get(
+  '/me/portfolioPosts',
+  authController.protect,
+  authController.restrictTo('Worker'),
+  portfolioPostsController.getMyPortfolioPosts
+);
+
+router.get(
   '/me',
   authController.protect,
   authController.restrictTo('Worker'),
@@ -26,7 +33,9 @@ router.get(
   workerController.getWorkerById
 );
 
-router.route('/').get(authController.isLoggedIn, workerController.getAllWorkers);
+router
+  .route('/')
+  .get(authController.isLoggedIn, workerController.getAllWorkers);
 router.get(
   '/:id/reviews',
   reviewController.getWorkerReviews,
@@ -34,6 +43,7 @@ router.get(
 );
 router.get(
   '/:id/portfolioPosts',
+  authController.isLoggedIn,
   portfolioPostsController.getPortfolioPostsFromWorkerById
 );
 router.get(

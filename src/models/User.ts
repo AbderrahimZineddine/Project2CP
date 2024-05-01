@@ -192,6 +192,6 @@ function createOTP(): any {
 
 userSchema.pre(/^find/, function (next) {
   // Filter out documents with _deletedAt set (including non-null values)
-  (this as any).where({ _deletedAt: { $exists: false } });
+  (this as any).where({ _deletedAt: null });
   next();
 });
