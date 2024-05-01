@@ -50,7 +50,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       min: [0, 'cannot be below 0'],
       max: [70, 'must be below 3'],
-      default: 0,
     },
     reported: {
       type: Number,
