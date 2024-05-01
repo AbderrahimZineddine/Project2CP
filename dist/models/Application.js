@@ -28,6 +28,15 @@ const ApplicationSchema = new mongoose_1.default.Schema({
         type: Date,
         default: null, //TODO : check default and add validator
     },
+    _acceptedAt: {
+        type: Date,
+        default: null, //TODO : check default and add validator
+    },
+    // statusUpdatedAt : Date,
+    // status: {
+    //   type: String,
+    //   enum: ApplicationStatus,
+    // },
 }, {
     timestamps: true,
 });

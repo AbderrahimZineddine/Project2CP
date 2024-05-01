@@ -60,11 +60,21 @@ const updateOne = (Model) => (0, catchAsync_1.default)(async (req, res, next) =>
 });
 exports.updateOne = updateOne;
 const deleteOne = (Model) => (0, catchAsync_1.default)(async (req, res, next) => {
+    let updates;
+    // if (Model == Application) {
+    //   updates = {
+    //     statusUpdatedAt: Date.now(),
+    //     _deletedAt: Date.now(),
+    //     status: ApplicationStatus.Declined,
+    //   };
+    // } else {
+    //   updates = { _deletedAt: Date.now() };
+    // }
     const doc = await Model.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
     if (!doc) {
         return next(new appError_1.default('no Document found with that ID', 404));
     }
-    res.status(204).json({ status: 'success' }); //* 204
+    res.status(204).json({ status: 'success', message: 'delete succefully' }); //* 204
 });
 exports.deleteOne = deleteOne;
 //# sourceMappingURL=handlerFactory.js.map

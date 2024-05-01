@@ -1,13 +1,23 @@
 import { NextFunction } from 'express';
 import mongoose from 'mongoose';
 
+// export enum ApplicationStatus {
+//   // OnHold = "OnHold",
+//   Accepted = "Accepted",
+//   Finished = 'Finished',
+//   Declined = 'Declined',
+// }
+
 export interface ApplicationDoc extends mongoose.Document {
   worker: mongoose.Schema.Types.ObjectId;
   post: mongoose.Schema.Types.ObjectId;
   description: string;
   price: number;
   _deletedAt: Date;
+  _acceptedAt: Date;
   _createdAt: Date;
+  // status: ApplicationStatus;
+  // statusUpdatedAt : Date;
 }
 
 const ApplicationSchema = new mongoose.Schema(
@@ -34,6 +44,15 @@ const ApplicationSchema = new mongoose.Schema(
       type: Date,
       default: null, //TODO : check default and add validator
     },
+    _acceptedAt: {
+      type: Date,
+      default: null, //TODO : check default and add validator
+    },
+    // statusUpdatedAt : Date,
+    // status: {
+    //   type: String,
+    //   enum: ApplicationStatus,
+    // },
   },
 
   {

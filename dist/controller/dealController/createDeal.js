@@ -30,6 +30,9 @@ exports.createDeal = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!deal) {
         return next(new appError_1.default('Error creating your Deal! Please try again later.', 500));
     }
+    req.application._acceptedAt = new Date(Date.now());
+    req.application._deletedAt = new Date(Date.now());
+    req.application.save({ validateBeforeSave: false });
     res.status(200).json({
         status: 'success',
         deal,

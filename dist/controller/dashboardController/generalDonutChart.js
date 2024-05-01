@@ -37,10 +37,59 @@ exports.applicationPerJobCategory = (0, catchAsync_1.default)(async (req, res) =
     });
 });
 exports.applicationGeneralDonutChart = (0, catchAsync_1.default)(async (req, res) => {
-    const data = await Application_1.Application.aggregate([]);
+    const data = await Application_1.Application.aggregate([
+        {
+            $group: {
+                _id: null,
+                created: {
+                    $sum: {
+                        $cond: [{ $lte: ['$createdAt', new Date()] }, 1, 0], // Count applications with createdAt >= current date
+                    },
+                },
+                accepted: {
+                    $sum: {
+                        $cond: [
+                            {
+                                $and: [
+                                    { $lte: ['$_acceptedAt', new Date()] },
+                                    { $ifNull: ['$_acceptedAt', false] }, // Check if _acceptedAt exists or is null
+                                ],
+                            },
+                            1,
+                            0,
+                        ],
+                    },
+                },
+                declined: {
+                    $sum: {
+                        $cond: [
+                            {
+                                $and: [
+                                    { $lte: ['$_deletedAt', new Date()] },
+                                    { $ifNull: ['$_acceptedAt', true] }, // Check if _acceptedAt exists or is null
+                                ],
+                            },
+                            1,
+                            0,
+                        ], // Count applications with deletedAt <= current date and acceptedAt = null
+                    },
+                },
+            },
+        },
+        {
+            $project: {
+                _id: 0, // Exclude the _id field from the output
+                data: [
+                    { name: 'Created', value: '$created' }, // Format data for Created status
+                    { name: 'Accepted', value: '$accepted' }, // Format data for Accepted status
+                    { name: 'Declined', value: '$declined' }, // Format data for Declined status
+                ],
+            },
+        },
+    ]);
     res.status(200).json({
         status: 'success',
-        data,
+        data: data.length > 0 ? data[0].data : [], // Return the formatted data or an empty array if no data found
     });
 });
 //# sourceMappingURL=generalDonutChart.js.map

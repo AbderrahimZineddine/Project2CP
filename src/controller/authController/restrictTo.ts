@@ -6,7 +6,7 @@ export const restrictTo = (...roles: string[]) => {
   //*?  answer : return a function cz express expects that, so we "call" (ex : restrictTo(['user'])) this function, which return a function (a) , then express uses (a) to do whatever it needs; other middlewares are used directly so we don't call them
   return (req: MyRequest, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user.currentRole)) {
-      console.log(req)
+      // console.log(req)
       return next(
         new AppError(
           'You do not have the permission to perform this action',

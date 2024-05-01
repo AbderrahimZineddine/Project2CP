@@ -19,7 +19,7 @@ exports.protect = (0, catchAsync_1.default)(async (req, res, next) => {
     }
     else if (req.cookies.jwt) {
         token = req.cookies.jwt;
-        console.log(token);
+        // console.log(token)
     }
     if (!token) {
         return next(new appError_1.default('You are not logged in! Please login to get access', 401));
@@ -43,7 +43,7 @@ exports.protect = (0, catchAsync_1.default)(async (req, res, next) => {
     //3) Check if user still exists or password is still the same
     let currentUser;
     const currentRole = decoded.currentRole;
-    console.log("currentRole is : ", currentRole);
+    // console.log("currentRole is : ", currentRole);
     if (currentRole == authController_1.Role.Worker) {
         //TODO :check
         currentUser = await Worker_1.Worker.findById(decoded.id);

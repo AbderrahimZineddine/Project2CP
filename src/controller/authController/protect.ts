@@ -19,7 +19,7 @@ export const protect = catchAsync(
       token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
-      console.log(token)
+      // console.log(token)
     }
 
     if (!token) {
@@ -55,7 +55,7 @@ export const protect = catchAsync(
     //3) Check if user still exists or password is still the same
     let currentUser: UserDoc | WorkerDoc;
     const currentRole = decoded.currentRole;
-    console.log("currentRole is : ", currentRole);
+    // console.log("currentRole is : ", currentRole);
     if (currentRole == Role.Worker) {
       //TODO :check
       currentUser = await Worker.findById(decoded.id);

@@ -12,7 +12,7 @@ export const checkOwnerPost = catchAsync(
     }
     if (post.user != req.user.id) {
       return next(
-        new AppError('You do not have the permission to update this post!', 404)
+        new AppError('You do not have the permission to access this post!', 404)
       );
     }
     req.post = post;

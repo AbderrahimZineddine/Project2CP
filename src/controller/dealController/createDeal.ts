@@ -8,8 +8,6 @@ import { Application } from '../../models/Application';
 
 export const ValidateDealInputs = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-
-
     const application = await Application.findById(req.params.id);
     if (!application) {
       return next(
@@ -20,7 +18,6 @@ export const ValidateDealInputs = catchAsync(
     if (await Deal.findOne({ user: req.user.id, post: application.post })) {
       return next(new AppError('You already have a deal with this post!', 400));
     }
-
     req.application = application;
     next();
   }
@@ -41,6 +38,10 @@ export const createDeal = catchAsync(
         new AppError('Error creating your Deal! Please try again later.', 500)
       );
     }
+
+    req.application._acceptedAt = new Date(Date.now());
+    req.application._deletedAt = new Date(Date.now());
+    req.application.save({validateBeforeSave: false});
 
     res.status(200).json({
       status: 'success',

@@ -3,6 +3,7 @@ import AppError from '../utils/appError';
 import APIFeatures from '../utils/APIFeatures';
 import { Request, Response, NextFunction } from 'express';
 import { PopulateOptions } from 'mongoose';
+import { Application } from 'models/Application';
 
 export const getAll = (Model: any) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -65,6 +66,17 @@ export const updateOne = (Model: any) =>
 
 export const deleteOne = (Model: any) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    let updates;
+    // if (Model == Application) {
+    //   updates = {
+    //     statusUpdatedAt: Date.now(),
+    //     _deletedAt: Date.now(),
+    //     status: ApplicationStatus.Declined,
+    //   };
+    // } else {
+    //   updates = { _deletedAt: Date.now() };
+    // }
+
     const doc = await Model.findByIdAndUpdate(
       req.params.id,
       { _deletedAt: Date.now() },
@@ -73,5 +85,5 @@ export const deleteOne = (Model: any) =>
     if (!doc) {
       return next(new AppError('no Document found with that ID', 404));
     }
-    res.status(204).json({ status: 'success' }); //* 204
+    res.status(204).json({ status: 'success', message: 'delete succefully' }); //* 204
   });
