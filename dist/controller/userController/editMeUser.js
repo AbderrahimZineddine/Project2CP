@@ -55,9 +55,7 @@ const editMe = (role) => {
             }
             res.status(200).json({
                 status: 'success',
-                data: {
-                    user: updatedUser,
-                },
+                user: updatedUser,
             });
         }
         catch (error) {

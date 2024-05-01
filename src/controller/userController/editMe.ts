@@ -76,9 +76,7 @@ export const editMe = (role: any) => {
 
         res.status(200).json({
           status: 'success',
-          data: {
             user: updatedUser,
-          },
         });
       } catch (error) {
         try {
