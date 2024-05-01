@@ -7,6 +7,7 @@ const router = Router();
 
 router.get('/:id', workerController.getCertificateById);
 router.get('/me', workerController.getMyCertificate);
+router.get('/', workerController.getAllCertificates);
 
 router.use(authController.protect);
 router.use(authController.restrictTo('Worker'));
@@ -29,6 +30,6 @@ router.post(
   uploadController.upload.single('certificate'),
   uploadController.uploadCertificate,
   workerController.addCertificate
-  );
+);
 
 export default router;

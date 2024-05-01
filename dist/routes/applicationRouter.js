@@ -7,8 +7,9 @@ const authController_1 = __importDefault(require("../controller/authController")
 const applicationController_1 = __importDefault(require("../controller/applicationController"));
 const express_1 = require("express");
 const router = (0, express_1.Router)();
-router.get('/me', authController_1.default.protect, authController_1.default.restrictTo('Worker'), applicationController_1.default.getMyApplications);
+router.get('/me', authController_1.default.protect, authController_1.default.restrictTo('Worker'), applicationController_1.default.getMyApplications, applicationController_1.default.getAllApplications);
 router.get('/:id', applicationController_1.default.getApplicationById);
+router.get('/', applicationController_1.default.getAllApplications);
 router.use(authController_1.default.protect);
 router.use(authController_1.default.restrictTo('Worker'));
 router.post('/:id', //here it is post id!!!

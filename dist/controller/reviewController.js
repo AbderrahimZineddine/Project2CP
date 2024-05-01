@@ -14,6 +14,7 @@ const reviewController = {
     getReviewById: (0, handlerFactory_1.getOne)(Review_1.Review),
     getAllReviews: (0, handlerFactory_1.getAll)(Review_1.Review),
     getWorkerReviews: getMyReviews_1.getWorkerReviews,
+    getReviewsFromUserById: getMyReviews_1.getReviewsFromUserById,
     getMyWorkerReviews: getMyReviews_1.getMyWorkerReviews,
     updateReview: updateReview_1.updateReview,
     deleteReviewById: deleteReview_1.deleteReview,

@@ -4,6 +4,7 @@ import catchAsync from '../../../utils/catchAsync';
 import AppError from '../../../utils/appError';
 import { PortfolioPost } from '../../../models/PortfolioPost';
 import { Like } from '../../../models/Like';
+import { WorkerDoc } from '../../../models/WorkerDoc';
 
 export const getPortfolioPostById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -23,6 +24,19 @@ export const getPortfolioPostById = catchAsync(
       status: 'success',
       portfolioPost,
       isLiked,
+    });
+  }
+);
+
+export const getPortfolioPostsFromWorkerById = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    const portfolioPosts = [];
+    for (const certId of (req.user as WorkerDoc).portfolioPosts) {
+      portfolioPosts.push(await PortfolioPost.findById(certId));
+    }
+    res.status(200).json({
+      status: 'success',
+      portfolioPosts,
     });
   }
 );

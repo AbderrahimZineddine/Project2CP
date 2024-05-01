@@ -7,8 +7,8 @@ const authController_1 = __importDefault(require("../controller/authController")
 const reviewController_1 = __importDefault(require("../controller/reviewController"));
 const express_1 = require("express");
 const router = (0, express_1.Router)();
-// router.get('/me/user', authController.protect, reviewController.getMyReviews);
-// router.get('/me/worker', authController.protect, reviewController.getMyWorkerReviews, reviewController.getAllReviews);
+router.get('/me/user', authController_1.default.protect, reviewController_1.default.getMyReviews, reviewController_1.default.getAllReviews);
+router.get('/me/worker', authController_1.default.protect, reviewController_1.default.getMyWorkerReviews, reviewController_1.default.getAllReviews);
 router.get('/:id', reviewController_1.default.getReviewById);
 router.use(authController_1.default.protect);
 router.post('/:id', //here it is application id!!!

@@ -2,17 +2,19 @@ import authController from '../controller/authController';
 import applicationController from '../controller/applicationController';
 import { Router } from 'express';
 
-
 const router = Router();
 
 router.get(
   '/me',
   authController.protect,
   authController.restrictTo('Worker'),
-  applicationController.getMyApplications
+  applicationController.getMyApplications,
+  applicationController.getAllApplications
 );
 
 router.get('/:id', applicationController.getApplicationById);
+router.get('/', applicationController.getAllApplications);
+
 router.use(authController.protect);
 
 router.use(authController.restrictTo('Worker'));
@@ -26,13 +28,13 @@ router.post(
 router.patch(
   '/:id',
   applicationController.checkOwnerApplication,
-  applicationController.updateApplication,
+  applicationController.updateApplication
 );
 
 router.delete(
   '/:id',
   applicationController.checkOwnerApplication,
-  applicationController.deleteApplication,
+  applicationController.deleteApplication
 );
 
 export default router;

@@ -4,8 +4,19 @@ import { Router } from 'express';
 
 const router = Router();
 
-// router.get('/me/user', authController.protect, reviewController.getMyReviews);
-// router.get('/me/worker', authController.protect, reviewController.getMyWorkerReviews, reviewController.getAllReviews);
+router.get(
+  '/me/user',
+  authController.protect,
+  reviewController.getMyReviews,
+  reviewController.getAllReviews
+);
+
+router.get(
+  '/me/worker',
+  authController.protect,
+  reviewController.getMyWorkerReviews,
+  reviewController.getAllReviews
+);
 
 router.get('/:id', reviewController.getReviewById);
 
@@ -18,8 +29,11 @@ router.post(
   reviewController.createReview
 );
 
-router.patch('/:id', reviewController.checkOwnerReview, reviewController.updateReview);
-
+router.patch(
+  '/:id',
+  reviewController.checkOwnerReview,
+  reviewController.updateReview
+);
 
 router.delete(
   '/:id',
@@ -27,6 +41,6 @@ router.delete(
   reviewController.deleteReviewById
 );
 
-router.get('/', reviewController.getAllReviews)
+router.get('/', reviewController.getAllReviews);
 
 export default router;

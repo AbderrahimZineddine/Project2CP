@@ -190,3 +190,4 @@ userSchema.pre(/^find/, function (next) {
   ( this as any).where({ _deletedAt: { $exists: false } });
   next();
 });
+

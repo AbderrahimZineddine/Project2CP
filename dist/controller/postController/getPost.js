@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMyPosts = exports.getAllPosts = exports.getPostById = void 0;
+exports.getPostsFromUserById = exports.getMyPosts = exports.getAllPosts = exports.getPostById = void 0;
 const Post_1 = require("../../models/Post");
 const appError_1 = __importDefault(require("../../utils/appError"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
@@ -20,10 +20,11 @@ exports.getPostById = (0, catchAsync_1.default)(async (req, res, next) => {
 });
 exports.getAllPosts = (0, handlerFactory_1.getAll)(Post_1.Post);
 exports.getMyPosts = (0, catchAsync_1.default)(async (req, res, next) => {
-    const posts = await Post_1.Post.find({ user: req.user.id });
-    res.status(200).json({
-        status: 'success',
-        posts,
-    });
+    req.query.user = req.user.id;
+    next();
+});
+exports.getPostsFromUserById = (0, catchAsync_1.default)(async (req, res, next) => {
+    req.query.user = req.params.id;
+    next();
 });
 //# sourceMappingURL=getPost.js.map

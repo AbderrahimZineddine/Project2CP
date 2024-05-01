@@ -13,6 +13,7 @@ const userController = {
     getMe: getMe_1.getMe,
     editMe: editMeUser_1.editMe,
     ToggleFavoriteWorker: ToggleFavoriteWorker_1.ToggleFavoriteWorker,
+    getFavoriteWorkers: ToggleFavoriteWorker_1.getFavoriteWorkers,
 };
 exports.default = userController;
 //# sourceMappingURL=userController.js.map

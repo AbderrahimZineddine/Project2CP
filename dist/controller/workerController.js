@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const workerCRUD_1 = require("./workerController/workerCRUD");
 const editMeWorker_1 = require("./workerController/editMeWorker");
 const certificatesController_1 = require("./workerController/certificatesController");
+const handlerFactory_1 = require("./handlerFactory");
+const Certificate_1 = require("../models/Certificate");
 const workerController = {
     getWorkerById: workerCRUD_1.getWorkerById,
     getAllWorkers: workerCRUD_1.getAllWorkers,
@@ -14,6 +16,7 @@ const workerController = {
     updateCertificateTitle: certificatesController_1.updateCertificateTitle,
     getCertificateById: certificatesController_1.getCertificateById,
     getMyCertificate: certificatesController_1.getMyCertificates,
+    getAllCertificates: (0, handlerFactory_1.getAll)(Certificate_1.Certificate),
     deleteCertificateById: certificatesController_1.deleteCertificateById,
     addCertificate: certificatesController_1.addCertificate,
     checkTitle: certificatesController_1.checkTitle,

@@ -33,3 +33,17 @@ export const ToggleFavoriteWorker = catchAsync(
     }
   }
 );
+
+
+export const getFavoriteWorkers = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    const workers = [];
+    for (const workerId of (req.user).favoriteWorkers) {
+      workers.push(await Worker.findById(workerId));
+    }
+    res.status(200).json({
+      status: 'success',
+      workers,
+    });
+  }
+);

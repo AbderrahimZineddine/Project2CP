@@ -9,6 +9,7 @@ import { deleteReview } from './reviewController/deleteReview';
 import {
   getMyReviews,
   getMyWorkerReviews,
+  getReviewsFromUserById,
   getWorkerReviews,
 } from './reviewController/getMyReviews';
 import { updateReview } from './reviewController/updateReview';
@@ -20,6 +21,7 @@ const reviewController = {
   getReviewById: getOne(Review),
   getAllReviews: getAll(Review),
   getWorkerReviews: getWorkerReviews,
+  getReviewsFromUserById : getReviewsFromUserById,
   getMyWorkerReviews: getMyWorkerReviews,
   updateReview: updateReview,
   deleteReviewById: deleteReview,

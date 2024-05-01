@@ -21,9 +21,22 @@ export const finishDealRequest = catchAsync(
 
 export const finishDealDecline = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-
     req.deal.status = DealStatus.OnGoing;
 
+    await req.deal.save();
+
+    res.status(200).json({
+      status: 'success',
+      deal: req.deal,
+    });
+  }
+);
+
+export const finishDealAccept = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    req.deal.status = DealStatus.Finished;
+    req.deal._finishedAt = new Date(Date.now());
+    req.deal._deletedAt= new Date(Date.now());
     await req.deal.save();
 
     res.status(200).json({

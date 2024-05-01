@@ -21,7 +21,7 @@ export const getAll = (Model: any) =>
 
     res
       .status(200)
-      .json({ status: 'success', results: doc.length, data: { data: doc } });
+      .json({ status: 'success', results: doc.length, data: doc });
   });
 
 export const getOne = (Model: any, populateOptions?: PopulateOptions) =>

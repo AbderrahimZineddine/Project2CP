@@ -7,8 +7,9 @@ exports.Deal = exports.DealStatus = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 var DealStatus;
 (function (DealStatus) {
-    DealStatus["OnGoing"] = "OnGoing";
     DealStatus["FinishRequestSent"] = "FinishRequestSent";
+    DealStatus["OnGoing"] = "OnGoing";
+    DealStatus["Finished"] = "Finished";
 })(DealStatus || (exports.DealStatus = DealStatus = {}));
 const DealSchema = new mongoose_1.default.Schema({
     user: {
@@ -34,6 +35,14 @@ const DealSchema = new mongoose_1.default.Schema({
         type: String,
         enum: DealStatus,
         default: DealStatus.OnGoing,
+    },
+    _finishedAt: {
+        type: Date,
+        default: null,
+    },
+    _deletedAt: {
+        type: Date,
+        default: null,
     },
 }, {
     timestamps: true,

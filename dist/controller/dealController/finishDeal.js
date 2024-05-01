@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.finishDealDecline = exports.finishDealRequest = void 0;
+exports.finishDealAccept = exports.finishDealDecline = exports.finishDealRequest = void 0;
 const Deal_1 = require("../../models/Deal");
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const UserDoc_1 = require("../../models/UserDoc");
@@ -19,6 +19,16 @@ exports.finishDealRequest = (0, catchAsync_1.default)(async (req, res, next) => 
 });
 exports.finishDealDecline = (0, catchAsync_1.default)(async (req, res, next) => {
     req.deal.status = Deal_1.DealStatus.OnGoing;
+    await req.deal.save();
+    res.status(200).json({
+        status: 'success',
+        deal: req.deal,
+    });
+});
+exports.finishDealAccept = (0, catchAsync_1.default)(async (req, res, next) => {
+    req.deal.status = Deal_1.DealStatus.Finished;
+    req.deal._finishedAt = new Date(Date.now());
+    req.deal._deletedAt = new Date(Date.now());
     await req.deal.save();
     res.status(200).json({
         status: 'success',

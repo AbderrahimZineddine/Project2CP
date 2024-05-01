@@ -14,10 +14,14 @@ const dealController = {
     getDealById: getMyDeals_1.getDealById,
     updateDeal: updateDeal_1.updateDeal,
     finishDealDecline: finishDeal_1.finishDealDecline,
+    finishDealAccept: finishDeal_1.finishDealAccept,
     finishDealRequest: finishDeal_1.finishDealRequest,
     deleteDealById: (0, handlerFactory_1.deleteOne)(Deal_1.Deal),
+    getDealsFromUserById: getMyDeals_1.getDealsFromUserById,
+    getDealsFromWorkerById: getMyDeals_1.getDealsFromWorkerById,
     getAllDeals: (0, handlerFactory_1.getAll)(Deal_1.Deal),
     checkOwnerDeal: checkOwnerDeal_1.checkOwnerDeal,
+    sortMiddleware: checkOwnerDeal_1.sortMiddleware,
 };
 exports.default = dealController;
 //# sourceMappingURL=dealController.js.map

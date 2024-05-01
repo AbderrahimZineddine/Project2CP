@@ -10,7 +10,7 @@ import {
 } from './userController/getAllUsers';
 import { editMe } from './userController/editMeUser';
 import { getMe } from './userController/getMe';
-import { ToggleFavoriteWorker } from './userController/ToggleFavoriteWorker';
+import { ToggleFavoriteWorker, getFavoriteWorkers } from './userController/ToggleFavoriteWorker';
 import { PostDoc } from '../models/Post';
 import { ApplicationDoc } from 'models/Application';
 import { DealDoc } from '../models/Deal';
@@ -26,11 +26,11 @@ export interface MyRequest extends Request {
   certificate?: string;
   images?: string[];
   profilePicture?: string;
-  post: PostDoc,
-  application: ApplicationDoc,
-  deal : DealDoc,
-  dealRole: Role,
-  review : ReviewDoc,
+  post: PostDoc;
+  application: ApplicationDoc;
+  deal: DealDoc;
+  dealRole: Role;
+  review: ReviewDoc;
 }
 
 const userController = {
@@ -42,6 +42,7 @@ const userController = {
   getMe: getMe,
   editMe: editMe,
   ToggleFavoriteWorker: ToggleFavoriteWorker,
+  getFavoriteWorkers: getFavoriteWorkers,
 };
 
 export default userController;

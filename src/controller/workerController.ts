@@ -18,6 +18,8 @@ import {
   updateCertificateTitle,
 } from './workerController/certificatesController';
 import { checkOwnerPortfolioPost } from './workerController/portfolioPostController.ts/checkOwnerPortfolioPost';
+import { getAll } from './handlerFactory';
+import { Certificate } from '../models/Certificate';
 
 const workerController = {
   getWorkerById: getWorkerById,
@@ -30,6 +32,7 @@ const workerController = {
   updateCertificateTitle: updateCertificateTitle,
   getCertificateById: getCertificateById,
   getMyCertificate: getMyCertificates,
+  getAllCertificates: getAll(Certificate),
   deleteCertificateById: deleteCertificateById,
   addCertificate: addCertificate,
   checkTitle: checkTitle,

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ToggleFavoriteWorker = void 0;
+exports.getFavoriteWorkers = exports.ToggleFavoriteWorker = void 0;
 const appError_1 = __importDefault(require("../../utils/appError"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Worker_1 = require("../../models/Worker");
@@ -28,5 +28,15 @@ exports.ToggleFavoriteWorker = (0, catchAsync_1.default)(async (req, res, next) 
             message: 'worker saved as favorite successfully',
         });
     }
+});
+exports.getFavoriteWorkers = (0, catchAsync_1.default)(async (req, res, next) => {
+    const workers = [];
+    for (const workerId of (req.user).favoriteWorkers) {
+        workers.push(await Worker_1.Worker.findById(workerId));
+    }
+    res.status(200).json({
+        status: 'success',
+        workers,
+    });
 });
 //# sourceMappingURL=ToggleFavoriteWorker.js.map

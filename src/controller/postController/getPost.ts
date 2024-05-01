@@ -23,11 +23,14 @@ export const getAllPosts = getAll(Post);
 
 export const getMyPosts = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    const posts = await Post.find({ user: req.user.id });
+    req.query.user = req.user.id;
+    next();
+  }
+);
 
-    res.status(200).json({
-      status: 'success',
-      posts,
-    });
+export const getPostsFromUserById = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    req.query.user = req.params.id;
+    next();
   }
 );

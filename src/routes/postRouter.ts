@@ -10,7 +10,8 @@ router.get(
   '/me',
   authController.protect,
   authController.restrictTo('User'),
-  postController.getMyPosts
+  postController.getMyPosts,
+  postController.getAllPosts
 );
 
 router.get('/:id', postController.getPostById);
@@ -26,7 +27,12 @@ router.patch(
 
 router.use(authController.restrictTo('User'));
 
-router.get('/:id/applications',postController.checkOwnerPost, applicationController.getMyPostsApplications);
+router.get(
+  '/:id/applications',
+  postController.checkOwnerPost,
+  applicationController.getMyPostsApplications,
+  applicationController.getAllApplications
+);
 
 router.post(
   '/',

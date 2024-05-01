@@ -26,7 +26,7 @@ router.patch('/makeAllUsersVerified', async (req, res) => {
 });
 exports.updateUsersName = (0, catchAsync_1.default)(async (req, res, next) => {
     // Define the new name
-    const newName = 'NewName'; // Replace 'NewName' with the desired new name
+    const newName = 'NewName this very nice'; // Replace 'NewName' with the desired new name
     // Fetch all users from the database
     const users = await User_1.User.find();
     // Check if there are users in the database

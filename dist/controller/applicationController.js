@@ -16,6 +16,7 @@ const applicationController = {
     getApplicationById: (0, handlerFactory_1.getOne)(Application_1.Application),
     getMyApplications: getMyApplications_1.getMyApplications,
     getMyPostsApplications: getMyPostsApplications_1.getMyPostsApplications,
+    getAllApplications: (0, handlerFactory_1.getAll)(Application_1.Application),
 };
 exports.default = applicationController;
 //# sourceMappingURL=applicationController.js.map

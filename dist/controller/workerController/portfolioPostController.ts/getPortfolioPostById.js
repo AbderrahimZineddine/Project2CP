@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPortfolioPostById = void 0;
+exports.getPortfolioPostsFromWorkerById = exports.getPortfolioPostById = void 0;
 const catchAsync_1 = __importDefault(require("../../../utils/catchAsync"));
 const appError_1 = __importDefault(require("../../../utils/appError"));
 const PortfolioPost_1 = require("../../../models/PortfolioPost");
@@ -25,6 +25,16 @@ exports.getPortfolioPostById = (0, catchAsync_1.default)(async (req, res, next) 
         status: 'success',
         portfolioPost,
         isLiked,
+    });
+});
+exports.getPortfolioPostsFromWorkerById = (0, catchAsync_1.default)(async (req, res, next) => {
+    const portfolioPosts = [];
+    for (const certId of req.user.portfolioPosts) {
+        portfolioPosts.push(await PortfolioPost_1.PortfolioPost.findById(certId));
+    }
+    res.status(200).json({
+        status: 'success',
+        portfolioPosts,
     });
 });
 //# sourceMappingURL=getPortfolioPostById.js.map

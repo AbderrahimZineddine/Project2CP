@@ -21,7 +21,7 @@ const getAll = (Model) => (0, catchAsync_1.default)(async (req, res, next) => {
     const doc = await features.query;
     res
         .status(200)
-        .json({ status: 'success', results: doc.length, data: { data: doc } });
+        .json({ status: 'success', results: doc.length, data: doc });
 });
 exports.getAll = getAll;
 const getOne = (Model, populateOptions) => (0, catchAsync_1.default)(async (req, res, next) => {

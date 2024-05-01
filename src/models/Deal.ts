@@ -9,11 +9,14 @@ export interface DealDoc extends mongoose.Document {
   workerTitle: string;
   workerDescription: string;
   status: DealStatus;
+  _finishedAt: Date;
+  _deletedAt : Date;
 }
 
 export enum DealStatus {
-  OnGoing = 'OnGoing',
   FinishRequestSent = 'FinishRequestSent',
+  OnGoing = 'OnGoing',
+  Finished = 'Finished',
 }
 
 const DealSchema = new mongoose.Schema(
@@ -41,6 +44,14 @@ const DealSchema = new mongoose.Schema(
       type: String,
       enum: DealStatus,
       default: DealStatus.OnGoing,
+    },
+    _finishedAt: {
+      type: Date,
+      default: null,
+    },
+    _deletedAt: {
+      type: Date,
+      default: null,
     },
   },
   {

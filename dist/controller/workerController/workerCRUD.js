@@ -9,11 +9,48 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Worker_1 = require("../../models/Worker");
 const handlerFactory_1 = require("../handlerFactory");
 const UserDoc_1 = require("../../models/UserDoc");
-exports.getAllWorkers = (0, handlerFactory_1.getAll)(Worker_1.Worker);
+const Review_1 = require("../../models/Review");
+const APIFeatures_1 = __importDefault(require("../../utils/APIFeatures"));
+exports.getAllWorkers = (0, catchAsync_1.default)(async (req, res, next) => {
+    {
+        // let filter = {};
+        // if (req.params.id) {
+        //   filter = { user: req.params.id };
+        // }
+        // const features = new APIFeatures(Model.find(filter), req.query)
+        const features = new APIFeatures_1.default(Worker_1.Worker.find(), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
+        const workers = await features.query;
+        let data;
+        if (req.user) {
+            data = workers.map((worker) => ({
+                ...worker.toObject(),
+                isFavorite: req.user.favoriteWorkers.includes(worker.id),
+            }));
+        }
+        else {
+            data = workers;
+        }
+        res
+            .status(200)
+            .json({ status: 'success', results: workers.length, workers: data });
+    }
+});
 exports.getWorkerById = (0, catchAsync_1.default)(async (req, res, next) => {
     const worker = await Worker_1.Worker.findById(req.params.id);
     if (!worker) {
         return next(new appError_1.default('No worker found with that id', 404));
+    }
+    const { portfolioPosts, reviews } = req.query;
+    let portfolioPostsData, reviewsData;
+    if (portfolioPosts) {
+        worker.populate({ path: 'portfolioPosts' });
+    }
+    if (reviews) {
+        reviewsData = await Review_1.Review.find({ worker: worker.id });
     }
     if (req.user && req.user.currentRole === UserDoc_1.Role.User) {
         const isFavorite = req.user.favoriteWorkers.includes(worker.id);
@@ -21,12 +58,16 @@ exports.getWorkerById = (0, catchAsync_1.default)(async (req, res, next) => {
             status: 'success',
             worker,
             isFavorite,
+            portfolioPostsData,
+            reviewsData,
         });
     }
     else {
         res.status(200).json({
             status: 'success',
             worker,
+            portfolioPostsData,
+            reviewsData,
         });
     }
 });

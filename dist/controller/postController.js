@@ -11,6 +11,7 @@ const postController = {
     ValidatePostInputs: createPost_1.ValidatePostInputs,
     getPostById: getPost_1.getPostById,
     getMyPosts: getPost_1.getMyPosts,
+    getPostsFromUserById: getPost_1.getPostsFromUserById,
     getAllPosts: getPost_1.getAllPosts,
     checkOwnerPost: checkOwnerPost_1.checkOwnerPost,
     updatePost: updatePost_1.updatePost,

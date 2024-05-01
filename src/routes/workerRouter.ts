@@ -5,6 +5,8 @@ import userController from '../controller/userController';
 import { Worker } from '../models/Worker';
 import uploadController from '../controller/uploadController';
 import reviewController from '../controller/reviewController';
+import dealController from '../controller/dealController';
+import portfolioPostsController from '../controller/workerController/portfolioPostsController';
 
 export const router = express.Router();
 
@@ -24,8 +26,22 @@ router.get(
   workerController.getWorkerById
 );
 
-router.route('/').get(workerController.getAllWorkers);
-router.get('/:id/reviews', reviewController.getWorkerReviews, reviewController.getAllReviews);
+router.route('/').get(authController.isLoggedIn, workerController.getAllWorkers);
+router.get(
+  '/:id/reviews',
+  reviewController.getWorkerReviews,
+  reviewController.getAllReviews
+);
+router.get(
+  '/:id/portfolioPosts',
+  portfolioPostsController.getPortfolioPostsFromWorkerById
+);
+router.get(
+  '/:id/deals',
+  dealController.getDealsFromWorkerById,
+  dealController.sortMiddleware,
+  dealController.getAllDeals
+);
 
 router.patch(
   '/:id/favorite',

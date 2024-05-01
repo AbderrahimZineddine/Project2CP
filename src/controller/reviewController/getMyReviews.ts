@@ -25,13 +25,27 @@ export const getWorkerReviews = catchAsync(
   }
 );
 
-export const getMyWorkerReviews = catchAsync(
+export const getReviewsFromUserById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    const reviews = await Review.find({ worker: req.user.id });
-
-    res.status(200).json({
-      status: 'success',
-      reviews,
-    });
+    req.query.user = req.params.id;
+    next();
   }
 );
+
+export const getMyWorkerReviews = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    req.query.worker = req.user.id;
+    next();
+  }
+);
+
+// export const getMyWorkerReviews = catchAsync(
+//   async (req: MyRequest, res: Response, next: NextFunction) => {
+//     const reviews = await Review.find({ worker: req.user.id });
+
+//     res.status(200).json({
+//       status: 'success',
+//       reviews,
+//     });
+//   }
+// );
