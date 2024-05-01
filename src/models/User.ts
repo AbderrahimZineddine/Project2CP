@@ -46,7 +46,12 @@ const userSchema = new mongoose.Schema(
     //   linkedin: String,
     // },
     facebookAccount: String,
-    bio: String,
+    bio: {
+      type: String,
+      min: [0, 'cannot be below 0'],
+      max: [70, 'must be below 3'],
+      default: 0,
+    },
     reported: {
       type: Number,
       min: [0, 'cannot be below 0'],
@@ -188,7 +193,6 @@ function createOTP(): any {
 
 userSchema.pre(/^find/, function (next) {
   // Filter out documents with _deletedAt set (including non-null values)
-  ( this as any).where({ _deletedAt: { $exists: false } });
+  (this as any).where({ _deletedAt: { $exists: false } });
   next();
 });
-

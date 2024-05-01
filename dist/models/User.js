@@ -47,7 +47,12 @@ const userSchema = new mongoose_1.default.Schema({
     //   linkedin: String,
     // },
     facebookAccount: String,
-    bio: String,
+    bio: {
+        type: String,
+        min: [0, 'cannot be below 0'],
+        max: [70, 'must be below 3'],
+        default: 0,
+    },
     reported: {
         type: Number,
         min: [0, 'cannot be below 0'],
