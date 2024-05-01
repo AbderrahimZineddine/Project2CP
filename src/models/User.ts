@@ -46,6 +46,7 @@ const userSchema = new mongoose.Schema(
     //   linkedin: String,
     // },
     facebookAccount: String,
+    bio: String,
     reported: {
       type: Number,
       min: [0, 'cannot be below 0'],

@@ -12,6 +12,7 @@ export interface UserDoc extends mongoose.Document {
   newEmail: string;
   profilePicture: string;
   wilaya: string;
+  bio : string;
   phoneNumber: string;
   facebookAccount : string;
   reported: number;
