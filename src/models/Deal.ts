@@ -59,4 +59,11 @@ const DealSchema = new mongoose.Schema(
   }
 );
 
+DealSchema.pre(/^find/, function (next) {
+  // Filter out documents with _deletedAt set (including non-null values)
+  (this as any).where({ _deletedAt: null });
+  next();
+});
+
+
 export const Deal = mongoose.model<DealDoc>('Deal', DealSchema);

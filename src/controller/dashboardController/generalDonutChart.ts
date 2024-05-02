@@ -83,9 +83,9 @@ export const applicationGeneralDonutChart = catchAsync(
         $project: {
           _id: 0, // Exclude the _id field from the output
           data: [
-            { name: 'Created', value: '$created' }, // Format data for Created status
-            { name: 'Accepted', value: '$accepted' }, // Format data for Accepted status
-            { name: 'Declined', value: '$declined' }, // Format data for Declined status
+            { _id: 'Created', count: '$created' }, // Format data for Created status
+            { _id: 'Accepted', count: '$accepted' }, // Format data for Accepted status
+            { _id: 'Declined', count: '$declined' }, // Format data for Declined status
           ],
         },
       },

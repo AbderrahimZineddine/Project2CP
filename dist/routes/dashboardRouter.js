@@ -13,10 +13,24 @@ const express_1 = __importDefault(require("express"));
 const Application_1 = require("../models/Application");
 const generalDonutChart_1 = require("../controller/dashboardController/generalDonutChart");
 const totalApplication_1 = require("../controller/dashboardController/totalApplication");
+const Worker_1 = require("../models/Worker");
+const Review_1 = require("../models/Review");
+const Post_1 = require("../models/Post");
+const Deal_1 = require("../models/Deal");
+const dashboard3models_1 = require("../controller/dashboardController/dashboard3models");
 const router = express_1.default.Router();
 router.get('/users/daily', (0, dashboard1model_1.getDailyDocs)(User_1.User));
 router.get('/users/monthly', (0, dashboard1model_1.getMonthlyDocs)(User_1.User));
 router.get('/users/yearly', (0, dashboard1model_1.getYearlyDocs)(User_1.User));
+router.get('/workers/daily', (0, dashboard1model_1.getDailyDocs)(Worker_1.Worker));
+router.get('/workers/monthly', (0, dashboard1model_1.getMonthlyDocs)(Worker_1.Worker));
+router.get('/workers/yearly', (0, dashboard1model_1.getYearlyDocs)(Worker_1.Worker));
+router.get('/reviews/daily', (0, dashboard1model_1.getDailyDocs)(Review_1.Review));
+router.get('/reviews/monthly', (0, dashboard1model_1.getMonthlyDocs)(Review_1.Review));
+router.get('/reviews/yearly', (0, dashboard1model_1.getYearlyDocs)(Review_1.Review));
+router.get('/posts/daily', (0, dashboard1model_1.getDailyDocs)(Post_1.Post));
+router.get('/posts/monthly', (0, dashboard1model_1.getMonthlyDocs)(Post_1.Post));
+router.get('/posts/yearly', (0, dashboard1model_1.getYearlyDocs)(Post_1.Post));
 //* Application Routes : 
 router.get('/applications/daily', (0, dashboard2models_1.getDailyDocs2)(Application_1.Application)); // created , accepted , declined  in last 6 days
 router.get('/applications/monthly', (0, dashboard2models_1.getMonthlyDocs2)(Application_1.Application)); // created , accepted , declined  in last 6 months
@@ -25,5 +39,13 @@ router.get('/applications/applicationPerJobCategory', generalDonutChart_1.applic
 router.get('/applications/GeneralDonutChart', generalDonutChart_1.applicationGeneralDonutChart); // Total applications created , accepted , declined
 router.get('/applications/averageApplicationPerWorker', totalApplication_1.averageApplicationPerWorker); // Average application per worker
 router.get('/applications/applicationPerJobPercentage', totalApplication_1.applicationPerJobPercentage); // Average application per Job
+//* deal Routes : 
+router.get('/deals/daily', (0, dashboard3models_1.getDailyDocs3)(Deal_1.Deal)); // created , accepted , declined  in last 6 days
+router.get('/deals/monthly', (0, dashboard3models_1.getMonthlyDocs3)(Deal_1.Deal)); // created , accepted , declined  in last 6 months
+router.get('/deals/yearly', (0, dashboard3models_1.getYearlyDocs3)(Deal_1.Deal)); // created , accepted , declined  in last 6 years
+// router.get('/applications/applicationPerJobCategory',applicationPerJobCategory);  // { name : "JOB" , value : XX }
+// router.get('/applications/GeneralDonutChart',applicationGeneralDonutChart); // Total applications created , accepted , declined
+// router.get('/applications/averageApplicationPerWorker',averageApplicationPerWorker); // Average application per worker
+// router.get('/applications/applicationPerJobPercentage',applicationPerJobPercentage); // Average application per Job
 exports.default = router;
 //# sourceMappingURL=dashboardRouter.js.map

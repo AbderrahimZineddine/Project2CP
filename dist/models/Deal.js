@@ -47,5 +47,10 @@ const DealSchema = new mongoose_1.default.Schema({
 }, {
     timestamps: true,
 });
+DealSchema.pre(/^find/, function (next) {
+    // Filter out documents with _deletedAt set (including non-null values)
+    this.where({ _deletedAt: null });
+    next();
+});
 exports.Deal = mongoose_1.default.model('Deal', DealSchema);
 //# sourceMappingURL=Deal.js.map
