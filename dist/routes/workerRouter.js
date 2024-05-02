@@ -22,7 +22,7 @@ exports.router
     .get(authController_1.default.isLoggedIn, workerController_1.default.getAllWorkers);
 exports.router.get('/:id/reviews', reviewController_1.default.getWorkerReviews, reviewController_1.default.getAllReviews);
 exports.router.get('/:id/portfolioPosts', authController_1.default.isLoggedIn, portfolioPostsController_1.default.getPortfolioPostsFromWorkerById);
-exports.router.get('/:id/deals', dealController_1.default.getDealsFromWorkerById, dealController_1.default.sortMiddleware, dealController_1.default.getAllDeals);
+exports.router.get('/:id/deals', dealController_1.default.getDealsFromWorkerById, dealController_1.default.showDeletedMiddleware, dealController_1.default.sortMiddleware, dealController_1.default.getAllDeals);
 exports.router.patch('/:id/favorite', authController_1.default.protect, userController_1.default.ToggleFavoriteWorker);
 exports.router.get('/:id', authController_1.default.isLoggedIn, workerController_1.default.getWorkerById);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )

@@ -36,6 +36,10 @@ const DealSchema = new mongoose_1.default.Schema({
         enum: DealStatus,
         default: DealStatus.OnGoing,
     },
+    statusOrd: {
+        type: Number,
+        default: 2,
+    },
     _finishedAt: {
         type: Date,
         default: null,
@@ -48,8 +52,21 @@ const DealSchema = new mongoose_1.default.Schema({
     timestamps: true,
 });
 DealSchema.pre(/^find/, function (next) {
-    // Filter out documents with _deletedAt set (including non-null values)
-    this.where({ _deletedAt: null });
+    const query = this.getQuery();
+    console.log(query);
+    if (query &&
+        query['$or'] &&
+        query['$or'][2] &&
+        query['$or'][2]._includeDeleted === true) {
+        delete query['$or'][2]._includeDeleted; // Remove the flag from the query //TODO shouldn't matter if i keep this commented innit
+    }
+    else if (query._includeDeleted === true) {
+        delete query._includeDeleted; // Remove the flag from the query //TODO shouldn't matter if i keep this commented innit
+    }
+    else {
+        // Filter out documents with _deletedAt set (including non-null values)
+        query._deletedAt = null;
+    }
     next();
 });
 exports.Deal = mongoose_1.default.model('Deal', DealSchema);

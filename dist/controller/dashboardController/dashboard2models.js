@@ -22,6 +22,7 @@ const getDailyDocs2 = (Model) => (0, catchAsync_1.default)(async (req, res) => {
         $or: [
             { createdAt: { $gte: startDate, $lte: endDate } },
             { _deletedAt: { $gte: startDate, $lte: endDate } },
+            { _includeDeleted: true }, // Include deleted documents
         ],
     });
     docs.forEach((doc) => {
@@ -71,6 +72,7 @@ const getMonthlyDocs2 = (Model) => (0, catchAsync_1.default)(async (req, res) =>
         $or: [
             { createdAt: { $gte: startDate, $lte: endDate } },
             { _deletedAt: { $gte: startDate, $lte: endDate } },
+            { _includeDeleted: true }, // Include deleted documents
         ],
     });
     docs.forEach((doc) => {
@@ -120,6 +122,7 @@ const getYearlyDocs2 = (Model) => (0, catchAsync_1.default)(async (req, res) => 
         $or: [
             { createdAt: { $gte: startDate, $lte: endDate } },
             { _deletedAt: { $gte: startDate, $lte: endDate } },
+            { _includeDeleted: true }, // Include deleted documents
         ],
     });
     // const docs2 = await Model2.find({

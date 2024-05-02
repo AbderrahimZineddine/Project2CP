@@ -42,8 +42,20 @@ const validationRequestSchema = new mongoose_1.default.Schema({
     timestamps: true,
 });
 validationRequestSchema.pre(/^find/, function (next) {
-    // Filter out documents with _deletedAt set (including non-null values)
-    this.where({ _deletedAt: null });
+    const query = this.getQuery();
+    if (query &&
+        query['$or'] &&
+        query['$or'][2] &&
+        query['$or'][2]._includeDeleted === true) {
+        delete query['$or'][2]._includeDeleted; // Remove the flag from the query //TODO shouldn't matter if i keep this commented innit
+    }
+    else if (query._includeDeleted === true) {
+        delete query._includeDeleted; // Remove the flag from the query //TODO shouldn't matter if i keep this commented innit
+    }
+    else {
+        // Filter out documents with _deletedAt set (including non-null values)
+        query._deletedAt = null;
+    }
     next();
 });
 validationRequestSchema.pre(/^find/, function (next) {

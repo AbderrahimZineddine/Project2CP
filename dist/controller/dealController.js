@@ -20,6 +20,7 @@ const dealController = {
     getDealsFromUserById: getMyDeals_1.getDealsFromUserById,
     getDealsFromWorkerById: getMyDeals_1.getDealsFromWorkerById,
     getAllDeals: (0, handlerFactory_1.getAll)(Deal_1.Deal),
+    showDeletedMiddleware: checkOwnerDeal_1.showDeletedMiddleware,
     checkOwnerDeal: checkOwnerDeal_1.checkOwnerDeal,
     sortMiddleware: checkOwnerDeal_1.sortMiddleware,
 };

@@ -21,6 +21,7 @@ const getDailyDocs = (Model) => (0, catchAsync_1.default)(async (req, res) => {
         $or: [
             { createdAt: { $gte: startDate, $lte: endDate } },
             { _deletedAt: { $gte: startDate, $lte: endDate } },
+            { _includeDeleted: true }, // Include deleted documents
         ],
     });
     // Iterate over each doc and update the counts
@@ -66,6 +67,7 @@ const getMonthlyDocs = (Model) => (0, catchAsync_1.default)(async (req, res) => 
         $or: [
             { createdAt: { $gte: startDate, $lte: endDate } },
             { _deletedAt: { $gte: startDate, $lte: endDate } },
+            { _includeDeleted: true }, // Include deleted documents
         ],
     });
     // Iterate over each doc and update the counts
@@ -110,6 +112,7 @@ const getYearlyDocs = (Model) => (0, catchAsync_1.default)(async (req, res) => {
         $or: [
             { createdAt: { $gte: startDate, $lte: endDate } },
             { _deletedAt: { $gte: startDate, $lte: endDate } },
+            { _includeDeleted: true }, // Include deleted documents
         ],
     });
     // Iterate over each doc and update the counts

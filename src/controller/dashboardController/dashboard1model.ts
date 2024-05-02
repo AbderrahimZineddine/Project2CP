@@ -28,6 +28,7 @@ export const getDailyDocs = (Model: any) =>
       $or: [
         { createdAt: { $gte: startDate, $lte: endDate } },
         { _deletedAt: { $gte: startDate, $lte: endDate } },
+        { _includeDeleted: true }, // Include deleted documents
       ],
     });
 
@@ -92,6 +93,7 @@ export const getMonthlyDocs = (Model: any) =>
       $or: [
         { createdAt: { $gte: startDate, $lte: endDate } },
         { _deletedAt: { $gte: startDate, $lte: endDate } },
+        { _includeDeleted: true }, // Include deleted documents
       ],
     });
 
@@ -151,6 +153,7 @@ export const getYearlyDocs = (Model: any) =>
       $or: [
         { createdAt: { $gte: startDate, $lte: endDate } },
         { _deletedAt: { $gte: startDate, $lte: endDate } },
+        { _includeDeleted: true }, // Include deleted documents
       ],
     });
 

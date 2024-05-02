@@ -66,6 +66,7 @@ router.get(
 router.get(
   '/:id/deals',
   dealController.getDealsFromUserById,
+  dealController.showDeletedMiddleware,
   dealController.sortMiddleware,
   dealController.getAllDeals
 );

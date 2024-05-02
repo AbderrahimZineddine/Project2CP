@@ -30,15 +30,17 @@ export const checkOwnerDeal = catchAsync(
 
 export const sortMiddleware = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
+    req.query.sort = 'statusOrd -createdAt';
+    next();
+  }
+);
+
+export const showDeletedMiddleware = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
     // Define the priority order for each status
-    const statusPriority = {
-      [DealStatus.FinishRequestSent]: 1, // Finished request deals
-      [DealStatus.OnGoing]: 2, // Ongoing deals
-      [DealStatus.Finished]: 3, // Finished deals
-    };
 
     // Set the sort criteria based on status priority
-    req.query.sort = `status ${Object.values(statusPriority).join(' ')}`;
+    (req.query as any)._includeDeleted = true;
     next();
   }
 );

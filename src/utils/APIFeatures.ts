@@ -1,3 +1,4 @@
+import { DealStatus } from '../models/Deal';
 import { Query } from 'mongoose';
 import QueryString from 'qs';
 
@@ -26,7 +27,7 @@ class APIFeatures {
 
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    this.query = this.query.find({ _deletedAt: null });
+    // this.query = this.query.find({ _deletedAt: null }); //! this *****
     this.query = this.query.find(JSON.parse(queryStr));
     return this; //* so we can chain em
   }
@@ -40,6 +41,29 @@ class APIFeatures {
     }
     return this;
   }
+
+  // sort() {
+  //   console.log(this.query)
+  //   if (this.query._conditions.sortPriority) {
+  //     console.log('hi');
+  //     const sortObject = this.query._conditions.sortPriority;
+  //     const sortBy = Object.entries(sortObject)
+  //       .map(([status, priority]) => `${priority}-${status}`)
+  //       .join(' ');
+  //     this.query = this.query.sort(sortBy);
+  //   } else if (this.queryString.sort) {
+  //     const sortObject = this.query.sortPriority;
+
+  //     const sortBy = Object.entries(sortObject)
+  //       .map(([status, priority]) => `${priority}-${status}`) // Use priority for sorting
+  //       .join(' ');
+  //     this.query = this.query.sort(sortBy);
+  //   } else {
+  //     this.query = this.query.sort('-createdAt'); // Default sort
+  //   }
+
+  //   return this;
+  // }
 
   limitFields() {
     if (this.queryString.fields) {

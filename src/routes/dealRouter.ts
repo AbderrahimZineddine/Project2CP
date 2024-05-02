@@ -4,7 +4,14 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/me', authController.protect, dealController.getMyDeals ,  dealController.sortMiddleware, dealController.getAllDeals);
+router.get(
+  '/me',
+  authController.protect,
+  dealController.getMyDeals,
+  dealController.showDeletedMiddleware,
+  dealController.sortMiddleware,
+  dealController.getAllDeals
+);
 
 router.get('/:id', dealController.getDealById);
 router.use(authController.protect);
@@ -20,6 +27,7 @@ router.patch('/:id', dealController.checkOwnerDeal, dealController.updateDeal);
 
 router.patch(
   '/:id/finishRequest',
+  authController.restrictTo('Worker'),
   dealController.checkOwnerDeal,
   dealController.finishDealRequest
 );
@@ -32,6 +40,7 @@ router.patch(
 
 router.patch(
   '/:id/finishAccept',
+  authController.restrictTo('User'),
   dealController.checkOwnerDeal,
   dealController.finishDealAccept
 );
@@ -42,5 +51,10 @@ router.delete(
   dealController.deleteDealById
 );
 
-router.get('/', dealController.sortMiddleware, dealController.getAllDeals);
+router.get(
+  '/',
+  dealController.showDeletedMiddleware,
+  dealController.sortMiddleware,
+  dealController.getAllDeals
+);
 export default router;

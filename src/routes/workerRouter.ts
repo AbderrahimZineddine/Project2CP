@@ -49,6 +49,7 @@ router.get(
 router.get(
   '/:id/deals',
   dealController.getDealsFromWorkerById,
+  dealController.showDeletedMiddleware,
   dealController.sortMiddleware,
   dealController.getAllDeals
 );

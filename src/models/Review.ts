@@ -36,11 +36,23 @@ const ReviewSchema = new mongoose.Schema({
 });
 
 ReviewSchema.pre(/^find/, function (next) {
-  // Filter out documents with _deletedAt set (including non-null values)
-  (this as any).where({ _deletedAt: null });
+  const query = (this as any).getQuery();
+
+  if (
+    query &&
+    query['$or'] &&
+    query['$or'][2] &&
+    query['$or'][2]._includeDeleted === true
+  ) {
+    delete query['$or'][2]._includeDeleted; // Remove the flag from the query //TODO shouldn't matter if i keep this commented innit
+  } else if (query._includeDeleted === true) {
+    delete query._includeDeleted; // Remove the flag from the query //TODO shouldn't matter if i keep this commented innit
+  } else {
+    // Filter out documents with _deletedAt set (including non-null values)
+    query._deletedAt = null;
+  }
   next();
 });
-
 
 ReviewSchema.pre('save', async function (next: NextFunction) {
   if (this.isNew) {
@@ -52,21 +64,21 @@ ReviewSchema.pre('save', async function (next: NextFunction) {
     }
     worker.ratingsNumber++;
     worker.rating = (this.rating + worker.rating) / worker.ratingsNumber; //or here ++worker.ratingsNumber
-    await worker.save({validateModifiedOnly : true});
+    await worker.save({ validateModifiedOnly: true });
   }
   next();
-//   } else if (!this.isModified('rating')) {
-//     const worker: WorkerDoc = await Worker.findById(this.worker);
-//     if (!this.worker) {
-//       return next(
-//         new AppError('There is no worker with id ' + this.worker, 400)
-//       );
-//     }
-    
-//     worker.rating = (this.rating + worker.rating) / worker.ratingsNumber;
-//     await worker.save();
+  //   } else if (!this.isModified('rating')) {
+  //     const worker: WorkerDoc = await Worker.findById(this.worker);
+  //     if (!this.worker) {
+  //       return next(
+  //         new AppError('There is no worker with id ' + this.worker, 400)
+  //       );
+  //     }
 
-//   }
+  //     worker.rating = (this.rating + worker.rating) / worker.ratingsNumber;
+  //     await worker.save();
+
+  //   }
 });
 
 export const Review = mongoose.model<ReviewDoc>('Review', ReviewSchema);

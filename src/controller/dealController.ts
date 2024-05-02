@@ -9,6 +9,7 @@ import {
 } from './dealController/finishDeal';
 import {
   checkOwnerDeal,
+  showDeletedMiddleware,
   sortMiddleware,
 } from './dealController/checkOwnerDeal';
 import { ValidateDealInputs, createDeal } from './dealController/createDeal';
@@ -26,6 +27,7 @@ const dealController = {
   getDealsFromUserById : getDealsFromUserById,
   getDealsFromWorkerById : getDealsFromWorkerById,
   getAllDeals: getAll(Deal),
+  showDeletedMiddleware : showDeletedMiddleware,
   checkOwnerDeal: checkOwnerDeal,
   sortMiddleware: sortMiddleware,
 };
