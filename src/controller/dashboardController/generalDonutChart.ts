@@ -67,6 +67,7 @@ export const applicationGeneralDonutChart = catchAsync(
               $cond: [
                 {
                   $and: [
+                    { $ifNull: ['$_deletedAt', false] }, // Check if _acceptedAt exists or is null
                     { $lte: ['$_deletedAt', new Date()] },
                     { $eq: ['$_acceptedAt', null] }, // Check if _acceptedAt exists or is null
                   ],

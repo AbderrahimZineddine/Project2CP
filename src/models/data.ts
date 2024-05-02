@@ -165,10 +165,10 @@ const data = [
 ];
 // this is for the job categories that have applied for a work
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// /// i add this part
+/// i add this part
 // -for the total add just one object and the route .../applications/total
 // -average application per worker and the route .../applications/averageApplicationPerWorker     rename it as you want
-// -//         //        //  job category        .../applications/averagePerJobCategory
+        //  job category        .../applications/averagePerJobCategory
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

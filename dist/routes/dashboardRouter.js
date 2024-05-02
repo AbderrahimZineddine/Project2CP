@@ -12,14 +12,18 @@ const dashboard2models_1 = require("../controller/dashboardController/dashboard2
 const express_1 = __importDefault(require("express"));
 const Application_1 = require("../models/Application");
 const generalDonutChart_1 = require("../controller/dashboardController/generalDonutChart");
+const totalApplication_1 = require("../controller/dashboardController/totalApplication");
 const router = express_1.default.Router();
 router.get('/users/daily', (0, dashboard1model_1.getDailyDocs)(User_1.User));
 router.get('/users/monthly', (0, dashboard1model_1.getMonthlyDocs)(User_1.User));
 router.get('/users/yearly', (0, dashboard1model_1.getYearlyDocs)(User_1.User));
-router.get('/applications/daily', (0, dashboard2models_1.getDailyDocs2)(Application_1.Application));
-router.get('/applications/monthly', (0, dashboard2models_1.getMonthlyDocs2)(Application_1.Application));
-router.get('/applications/yearly', (0, dashboard2models_1.getYearlyDocs2)(Application_1.Application));
-router.get('/applications/applicationPerJobCategory', generalDonutChart_1.applicationPerJobCategory);
-router.get('/applications/GeneralDonutChart', generalDonutChart_1.applicationGeneralDonutChart);
+//* Application Routes : 
+router.get('/applications/daily', (0, dashboard2models_1.getDailyDocs2)(Application_1.Application)); // created , accepted , declined  in last 6 days
+router.get('/applications/monthly', (0, dashboard2models_1.getMonthlyDocs2)(Application_1.Application)); // created , accepted , declined  in last 6 months
+router.get('/applications/yearly', (0, dashboard2models_1.getYearlyDocs2)(Application_1.Application)); // created , accepted , declined  in last 6 years
+router.get('/applications/applicationPerJobCategory', generalDonutChart_1.applicationPerJobCategory); // { name : "JOB" , value : XX }
+router.get('/applications/GeneralDonutChart', generalDonutChart_1.applicationGeneralDonutChart); // Total applications created , accepted , declined
+router.get('/applications/averageApplicationPerWorker', totalApplication_1.averageApplicationPerWorker); // Average application per worker
+router.get('/applications/applicationPerJobPercentage', totalApplication_1.applicationPerJobPercentage); // Average application per Job
 exports.default = router;
 //# sourceMappingURL=dashboardRouter.js.map

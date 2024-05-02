@@ -105,7 +105,8 @@ export const editMe = (role: any) => {
       if (error instanceof AppError) {
         return next(error);
       } else {
-        return next(new AppError('Error while editing profile', 500));
+        // console.log(error)
+        return next(new AppError('Error while editing profile! ERROR : ' + error.message, 500));
       }
     }
   };

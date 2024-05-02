@@ -18,14 +18,14 @@ export const editMeWorker = catchAsync(
     //   }
     // }
 
-    
+    // console.log(req.body.job)
     if (req.body.job) {
       (req.user as WorkerDoc).job = req.body.job;
-      req.user.save({ validateModifiedOnly: true });
+      await req.user.save({ validateModifiedOnly: true });
     }
     if (req.body.location) {
       (req.user as WorkerDoc).location = req.body.location;
-      req.user.save({ validateModifiedOnly: true });
+      await req.user.save({ validateModifiedOnly: true });
     }
 
     next();

@@ -76,7 +76,8 @@ const editMe = (role) => {
                 return next(error);
             }
             else {
-                return next(new appError_1.default('Error while editing profile', 500));
+                // console.log(error)
+                return next(new appError_1.default('Error while editing profile! ERROR : ' + error.message, 500));
             }
         }
     };

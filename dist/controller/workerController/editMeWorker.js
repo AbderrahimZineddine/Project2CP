@@ -16,13 +16,14 @@ exports.editMeWorker = (0, catchAsync_1.default)(async (req, res, next) => {
     //     certificates.push(cert.id);
     //   }
     // }
+    // console.log(req.body.job)
     if (req.body.job) {
         req.user.job = req.body.job;
-        req.user.save({ validateModifiedOnly: true });
+        await req.user.save({ validateModifiedOnly: true });
     }
     if (req.body.location) {
         req.user.location = req.body.location;
-        req.user.save({ validateModifiedOnly: true });
+        await req.user.save({ validateModifiedOnly: true });
     }
     next();
 });
