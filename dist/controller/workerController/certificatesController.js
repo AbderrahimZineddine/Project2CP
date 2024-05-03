@@ -49,7 +49,6 @@ exports.updateCertificateImage = (0, catchAsync_1.default)(async (req, res, next
     });
 });
 exports.updateCertificateTitle = (0, catchAsync_1.default)(async (req, res, next) => {
-    const id = req.params.id;
     if (!req.body.title) {
         return next(new appError_1.default('Certificate title not found', 404)); //404 ??
     }
@@ -60,7 +59,7 @@ exports.updateCertificateTitle = (0, catchAsync_1.default)(async (req, res, next
     });
     res.status(200).json({
         status: 'success',
-        message: 'Certificate sent to admin successfully',
+        message: 'Certificate updated successfully',
         certificate: cert,
     });
 });
@@ -90,7 +89,9 @@ exports.deleteCertificateById = (0, catchAsync_1.default)(async (req, res, next)
     req.user.certificates = req.user.certificates.filter((certificate) => certificate != req.params.id);
     await req.user.save({ validateBeforeSave: false });
     await validationRequest_1.ValidationRequest.findOneAndDelete({ certificate: req.params.id });
-    await Certificate_1.Certificate.findByIdAndDelete(certificate.id);
+    certificate._deletedAt = new Date(Date.now());
+    // certificate._acceptedAt = undefined; //TODO check again
+    await certificate.save({ validateModifiedOnly: true });
     res.status(200).json({
         status: 'success',
     });
@@ -139,7 +140,10 @@ exports.checkOwnerCertificate = (0, catchAsync_1.default)(async (req, res, next)
 exports.getMyCertificates = (0, catchAsync_1.default)(async (req, res, next) => {
     const certificates = [];
     for (const certId of req.user.certificates) {
-        certificates.push(await Certificate_1.Certificate.findById(certId));
+        const cert = await Certificate_1.Certificate.findById(certId);
+        if (cert) {
+            certificates.push(cert);
+        }
     }
     res.status(200).json({
         status: 'success',

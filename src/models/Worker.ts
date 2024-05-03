@@ -71,6 +71,7 @@ const workerSchema = new mongoose.Schema(
 );
 
 workerSchema.virtual('isCertified').get(function () {
+  console.log('isCertified : ', this.certificates?.length > 0);
   return this.certificates?.length > 0; //TODO
 });
 

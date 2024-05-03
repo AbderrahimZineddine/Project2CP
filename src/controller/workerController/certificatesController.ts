@@ -59,7 +59,6 @@ export const updateCertificateImage = catchAsync(
 
 export const updateCertificateTitle = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    const id = req.params.id;
     if (!req.body.title) {
       return next(new AppError('Certificate title not found', 404)); //404 ??
     }
@@ -75,7 +74,7 @@ export const updateCertificateTitle = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      message: 'Certificate sent to admin successfully',
+      message: 'Certificate updated successfully',
       certificate: cert,
     });
   }
@@ -120,7 +119,9 @@ export const deleteCertificateById = catchAsync(
     );
     await req.user.save({ validateBeforeSave: false });
     await ValidationRequest.findOneAndDelete({ certificate: req.params.id });
-    await Certificate.findByIdAndDelete(certificate.id);
+    certificate._deletedAt = new Date(Date.now());
+    // certificate._acceptedAt = undefined; //TODO check again
+    await certificate.save({ validateModifiedOnly: true });
 
     res.status(200).json({
       status: 'success',
@@ -186,7 +187,7 @@ export const checkOwnerCertificate = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     if (
       !(req.user as WorkerDoc).certificates.find(
-        (val : any) => val.id === req.params.id
+        (val: any) => val.id === req.params.id
       )
     ) {
       return next(
@@ -197,12 +198,14 @@ export const checkOwnerCertificate = catchAsync(
   }
 );
 
-
 export const getMyCertificates = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     const certificates = [];
     for (const certId of (req.user as WorkerDoc).certificates) {
-      certificates.push(await Certificate.findById(certId));
+      const cert = await Certificate.findById(certId);
+      if (cert) {
+        certificates.push(cert);
+      }
     }
     res.status(200).json({
       status: 'success',

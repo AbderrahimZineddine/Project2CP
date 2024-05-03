@@ -38,6 +38,7 @@ const approveValidationRequest = catchAsync(
       console.log('in');
       const cert = valReq.certificate;
       cert.isValid = true;
+      cert._acceptedAt = new Date(Date.now());
       await cert.save({ validateBeforeSave: false });
       // await ValidationRequest.findByIdAndDelete(req.params.id);
       await ValidationRequest.findByIdAndUpdate(
@@ -74,7 +75,13 @@ const disapproveValidationRequest = catchAsync(
     }
 
     if (valReq.type === ValidationType.Certificate) {
-      await Certificate.findByIdAndDelete(valReq.certificate.id);
+      // await Certificate.findByIdAndDelete(valReq.certificate.id);
+      await Certificate.findByIdAndUpdate(
+        valReq.certificate.id,
+        { _deletedAt: new Date(Date.now()) },
+        { new: true }
+      );
+
       // await ValidationRequest.findByIdAndDelete(req.params.id);
       await ValidationRequest.findByIdAndUpdate(
         req.params.id,

@@ -29,7 +29,7 @@ const ReviewSchema = new mongoose_1.default.Schema({
         type: Date,
         default: null,
     },
-});
+}, { timestamps: true });
 ReviewSchema.pre(/^find/, function (next) {
     const query = this.getQuery();
     if (query &&

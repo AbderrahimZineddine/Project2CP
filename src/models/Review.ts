@@ -11,29 +11,32 @@ export interface ReviewDoc extends mongoose.Document {
   rating: number;
 }
 
-const ReviewSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: [true, 'A review must be associated with an user'],
+const ReviewSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'A review must be associated with an user'],
+    },
+    worker: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Worker',
+      required: [true, 'A review must be associated with a worker'],
+    },
+    review: String,
+    rating: {
+      type: Number,
+      required: [true, 'A review must have a rating'],
+      min: [0, 'Rating cannot be below 0'],
+      max: [5, 'Rating must be below or equal to 5'],
+    },
+    _deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
-  worker: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Worker',
-    required: [true, 'A review must be associated with a worker'],
-  },
-  review: String,
-  rating: {
-    type: Number,
-    required: [true, 'A review must have a rating'],
-    min: [0, 'Rating cannot be below 0'],
-    max: [5, 'Rating must be below or equal to 5'],
-  },
-  _deletedAt: {
-    type: Date,
-    default: null,
-  },
-});
+  { timestamps: true }
+);
 
 ReviewSchema.pre(/^find/, function (next) {
   const query = (this as any).getQuery();

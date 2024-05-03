@@ -1,11 +1,11 @@
-import { MyRequest } from '../../userController';
+import { MyRequest } from '../userController';
 import { NextFunction, Response } from 'express';
-import catchAsync from '../../../utils/catchAsync';
-import AppError from '../../../utils/appError';
-import { PortfolioPost } from '../../../models/PortfolioPost';
-import { Like } from '../../../models/Like';
-import { WorkerDoc } from '../../../models/WorkerDoc';
-import { Worker } from '../../../models/Worker';
+import catchAsync from '../../utils/catchAsync';
+import AppError from '../../utils/appError';
+import { PortfolioPost } from '../../models/PortfolioPost';
+import { Like } from '../../models/Like';
+import { WorkerDoc } from '../../models/WorkerDoc';
+import { Worker } from '../../models/Worker';
 
 export const getPortfolioPostById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -31,7 +31,6 @@ export const getPortfolioPostById = catchAsync(
 
 export const getMyPortfolioPosts = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = parseInt(req.query.limit as string, 10) || 10;
 

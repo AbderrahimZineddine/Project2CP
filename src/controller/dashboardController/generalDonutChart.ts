@@ -99,50 +99,22 @@ export const applicationPerJobCategory = catchAsync(
 //   }
 // );
 
+export const GeneralDonutChart1 =
+  (model: any) => async (req: MyRequest, res: Response) => {
+    const created = await model.countDocuments();
 
-export const GeneralDonutChart1 = (model: any) =>
-  catchAsync(async (req: MyRequest, res: Response) => {
-    const data = await model.aggregate([
-      {
-        $group: {
-          _id: null,
-          created: {
-            $sum: {
-              $cond: [{ $lte: ['$createdAt', new Date()] }, 1, 0], // Count applications with createdAt >= current date
-            },
-          },
-          deleted: {
-            $sum: {
-              $cond: [
-                {
-                  $and: [
-                    { $ifNull: ['$_deletedAt', false] },
-                    { $lte: ['$_deletedAt', new Date()] },
-                  ],
-                },
-                1,
-                0,
-              ], // Count applications with deletedAt <= current date and acceptedAt = null
-            },
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0, // Exclude the _id field from the output
-          data: [
-            { _id: 'Created', count: '$created' }, // Format data for Created status
-            { _id: 'Deleted', count: '$deleted' }, // Format data for Declined status
-          ],
-        },
-      },
-    ]);
+    const deleted = await model.countDocuments({
+      _deletedAt: { $ne: null },
+    });
 
     res.status(200).json({
       status: 'success',
-      data: data.length > 0 ? data[0].data : [], // Return the formatted data or an empty array if no data found
+      data: {
+        created,
+        deleted,
+      },
     });
-  });
+  };
 
 export const applicationGeneralDonutChart = catchAsync(
   async (req: MyRequest, res: Response) => {
@@ -166,24 +138,4 @@ export const applicationGeneralDonutChart = catchAsync(
   }
 );
 
-export const dealGeneralDonutChart = catchAsync(
-  async (req: MyRequest, res: Response) => {
-    const created = await Deal.countDocuments();
-    const finished = await Deal.countDocuments({
-      _finishedAt: { $ne: null },
-    });
-    const declined = await Deal.countDocuments({
-      _finishedAt: { $eq: null },
-      _deletedAt: { $ne: null },
-    });
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        created,
-        finished,
-        declined,
-      },
-    });
-  }
-);

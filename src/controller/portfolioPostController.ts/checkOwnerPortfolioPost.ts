@@ -1,8 +1,8 @@
-import { MyRequest } from '../../userController';
+import { MyRequest } from '../userController';
 import { NextFunction, Response } from 'express';
-import catchAsync from '../../../utils/catchAsync';
-import AppError from '../../../utils/appError';
-import { WorkerDoc } from '../../../models/WorkerDoc';
+import catchAsync from '../../utils/catchAsync';
+import AppError from '../../utils/appError';
+import { WorkerDoc } from '../../models/WorkerDoc';
 
 export const checkOwnerPortfolioPost = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {

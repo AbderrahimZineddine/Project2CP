@@ -1,9 +1,9 @@
-import { MyRequest } from '../../userController';
+import { MyRequest } from '../userController';
 import { NextFunction, Response } from 'express';
-import catchAsync from '../../../utils/catchAsync';
-import AppError from '../../../utils/appError';
-import { PortfolioPost } from '../../../models/PortfolioPost';
-import { Like } from '../../../models/Like';
+import catchAsync from '../../utils/catchAsync';
+import AppError from '../../utils/appError';
+import { PortfolioPost } from '../../models/PortfolioPost';
+import { Like } from '../../models/Like';
 
 export const ToggleLikePortfolioPost = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {

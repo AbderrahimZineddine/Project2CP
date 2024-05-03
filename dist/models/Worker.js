@@ -71,6 +71,7 @@ const workerSchema = new mongoose_1.default.Schema({
     toObject: { virtuals: true },
 });
 workerSchema.virtual('isCertified').get(function () {
+    console.log('isCertified : ', this.certificates?.length > 0);
     return this.certificates?.length > 0; //TODO
 });
 // workerSchema.pre(/^find/, function <any> (next : NextFunction) {
