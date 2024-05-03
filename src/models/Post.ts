@@ -58,7 +58,7 @@ PostSchema.pre(/^find/, function (next) {
 PostSchema.pre(/^find/, function <PostDoc>(next: NextFunction) {
   this.populate({
     path: 'user',
-    select: 'name profilePicture', // Select specific fields from the user model
+    select: 'name profilePicture wilaya', // Select specific fields from the user model
   });
   next();
 });
