@@ -102,10 +102,16 @@ const GeneralDonutChart1 = (model) => async (req, res) => {
     });
     res.status(200).json({
         status: 'success',
-        data: {
-            created,
-            deleted,
-        },
+        data: [
+            {
+                _id: 'created',
+                count: created,
+            },
+            {
+                _id: 'deleted',
+                count: deleted,
+            },
+        ],
     });
 };
 exports.GeneralDonutChart1 = GeneralDonutChart1;
@@ -120,11 +126,20 @@ exports.applicationGeneralDonutChart = (0, catchAsync_1.default)(async (req, res
     });
     res.status(200).json({
         status: 'success',
-        data: {
-            created,
-            accepted,
-            deleted,
-        },
+        data: [
+            {
+                _id: 'created',
+                count: created,
+            },
+            {
+                _id: 'accepted',
+                count: accepted,
+            },
+            {
+                _id: 'declined',
+                count: deleted,
+            },
+        ],
     });
 });
 //# sourceMappingURL=generalDonutChart.js.map

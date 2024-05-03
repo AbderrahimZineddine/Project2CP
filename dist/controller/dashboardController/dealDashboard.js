@@ -19,11 +19,20 @@ exports.dealGeneralDonutChart = (0, catchAsync_1.default)(async (req, res) => {
     });
     res.status(200).json({
         status: 'success',
-        data: {
-            created,
-            finished,
-            declined,
-        },
+        data: [
+            {
+                _id: 'created',
+                count: created,
+            },
+            {
+                _id: 'finished',
+                count: finished,
+            },
+            {
+                _id: 'declined',
+                count: declined,
+            },
+        ],
     });
 });
 exports.dealTotal = (0, catchAsync_1.default)(async (req, res, next) => {

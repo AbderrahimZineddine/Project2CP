@@ -109,10 +109,16 @@ export const GeneralDonutChart1 =
 
     res.status(200).json({
       status: 'success',
-      data: {
-        created,
-        deleted,
-      },
+      data: [
+        {
+          _id: 'created',
+          count: created,
+        },
+        {
+          _id: 'deleted',
+          count: deleted,
+        },
+      ],
     });
   };
 
@@ -129,13 +135,20 @@ export const applicationGeneralDonutChart = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: {
-        created,
-        accepted,
-        deleted,
-      },
+      data: [
+        {
+          _id: 'created',
+          count: created,
+        },
+        {
+          _id: 'accepted',
+          count: accepted,
+        },
+        {
+          _id: 'declined',
+          count: deleted,
+        },
+      ],
     });
   }
 );
-
-

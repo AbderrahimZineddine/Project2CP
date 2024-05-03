@@ -29,7 +29,7 @@ exports.certificateTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     // Count the total number of applications
     const totalWorkers = await Worker_1.Worker.countDocuments();
     const totalCertified = await Worker_1.Worker.countDocuments({
-        certificates: { $exists: true, $not: { $size: 0 } },
+        isCertified: true,
     });
     const percentage = (totalCertified / totalWorkers) * 100;
     res.status(200).json({
@@ -41,11 +41,11 @@ exports.certificateTotal = (0, catchAsync_1.default)(async (req, res, next) => {
             },
             {
                 _id: 'Certified Workers',
-                count: totalWorkers,
+                count: totalCertified,
             },
             {
                 _id: 'Not-Certified Workers',
-                count: totalCertified,
+                count: totalWorkers - totalCertified,
             },
             {
                 _id: 'Certified workers percentage',
