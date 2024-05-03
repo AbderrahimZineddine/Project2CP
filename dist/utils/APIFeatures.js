@@ -10,15 +10,20 @@ class APIFeatures {
     filter() {
         //1) Build The query :
         const queryObj = { ...this.queryString };
-        const excludedFields = ['page', 'sort', 'limit', 'fields', 'name'];
+        const excludedFields = ['page', 'sort', 'limit', 'fields'];
         excludedFields.forEach((el) => delete queryObj[el]);
         // Check if there's a name query parameter
         if (queryObj.name) {
             // Construct a regular expression for partial name search
-            queryObj.name = {
-                $regex: new RegExp(queryObj.name, 'i'),
-            };
+            // queryObj.name = {
+            //   $regex: new RegExp(queryObj.name as string, 'i'),
+            // } as any;
+            // this.query = this.query.find(queryObj.name);
+            // this.query = this.query.find({ name: new RegExp('^' + (queryObj.name as string) + '$', 'i') });
+            this.query = this.query.find({ name: { $regex: new RegExp(queryObj.name, 'i') } });
+            delete queryObj.name; // Delete the name property after using it
         }
+        console.log('name : ', queryObj.name);
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
         // this.query = this.query.find({ _deletedAt: null }); //! this *****
