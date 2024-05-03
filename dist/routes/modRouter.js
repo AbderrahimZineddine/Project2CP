@@ -7,6 +7,7 @@ exports.updateUsersName = void 0;
 const express_1 = require("express");
 const User_1 = require("../models/User");
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
+const Worker_1 = require("../models/Worker");
 const router = (0, express_1.Router)();
 router.patch('/makeAllUsersVerified', async (req, res) => {
     try {
@@ -20,6 +21,25 @@ router.patch('/makeAllUsersVerified', async (req, res) => {
         res.status(500).json({
             status: 'error',
             message: 'An error occurred while updating users.',
+            error: error.message,
+        });
+    }
+});
+router.patch('/checkCertifiedForAllWorkers', async (req, res) => {
+    try {
+        // Update all users to set isVerified to true
+        const workers = await Worker_1.Worker.find();
+        for (const worker of workers) {
+            await worker.checkCertifiedStatus();
+        }
+        res
+            .status(200)
+            .json({ status: 'success', message: 'All certified checked.' });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while updating .',
             error: error.message,
         });
     }

@@ -15,6 +15,7 @@ export enum Job {
 }
 
 export interface WorkerDoc extends UserDoc {
+  checkCertifiedStatus: Function;
   workerAccountVerified: boolean;
   job: Job;
   // certificates: [

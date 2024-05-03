@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Worker = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const User_1 = require("./User");
+const Certificate_1 = require("./Certificate");
 const workerSchema = new mongoose_1.default.Schema({
     workerAccountVerified: {
         type: Boolean,
@@ -32,7 +33,10 @@ const workerSchema = new mongoose_1.default.Schema({
             ref: 'Certificate',
         },
     ],
-    // isCertified: Boolean,// TODO: change to Virtual
+    isCertified: {
+        type: Boolean,
+        default: false,
+    },
     idPicture: {
         type: String,
         required: [true, 'a Worker must enter his id picture'],
@@ -67,13 +71,33 @@ const workerSchema = new mongoose_1.default.Schema({
     ],
 }, {
     // show virtual properties
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    // toJSON: { virtuals: true },
+    // toObject: { virtuals: true },
+    timestamps: true, //TODO check again
 });
-workerSchema.virtual('isCertified').get(function () {
-    console.log('isCertified : ', this.certificates?.length > 0);
-    return this.certificates?.length > 0; //TODO
-});
+workerSchema.methods.checkCertifiedStatus = async function () {
+    console.log(this);
+    const worker = this;
+    worker.isCertified = false;
+    if (worker.certificates && worker.certificates.length > 0) {
+        for (const certId of worker.certificates) {
+            const cert = await Certificate_1.Certificate.findById(certId);
+            if (!cert) {
+                worker.certificates = worker.certificates.filter((certificate) => certificate != certId);
+            }
+            else {
+                if (cert.isValid) {
+                    worker.isCertified = true;
+                }
+            }
+        }
+    }
+    await worker.save({ validateBeforeSave: false });
+};
+// workerSchema.virtual('isCertified').get(function () {
+//   console.log('isCertified : ', this.certificates?.length > 0);
+//   return this.certificates?.length > 0; //TODO
+// });
 // workerSchema.pre(/^find/, function <any> (next : NextFunction) {
 //   if (this.options._recursed) {
 //     return next();

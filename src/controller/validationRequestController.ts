@@ -12,6 +12,7 @@ import { Certificate } from '../models/Certificate';
 import { Worker } from '../models/Worker';
 import uploadController from './uploadController';
 import { Role } from '../models/UserDoc';
+import { WorkerDoc } from '../models/WorkerDoc';
 
 const approveValidationRequest = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -51,6 +52,7 @@ const approveValidationRequest = catchAsync(
       const worker = valReq.worker;
       worker.workerAccountVerified = true;
       await worker.save({ validateBeforeSave: false });
+      await worker.checkCertifiedStatus();
       // await ValidationRequest.findByIdAndDelete(req.params.id);
       await ValidationRequest.findByIdAndUpdate(
         req.params.id,
@@ -82,6 +84,7 @@ const disapproveValidationRequest = catchAsync(
         { new: true }
       );
 
+      await valReq.worker.checkCertifiedStatus();
       // await ValidationRequest.findByIdAndDelete(req.params.id);
       await ValidationRequest.findByIdAndUpdate(
         req.params.id,
@@ -94,7 +97,7 @@ const disapproveValidationRequest = catchAsync(
       const worker = valReq.worker;
       worker.workerAccountVerified = undefined;
       worker.job = undefined;
-      // worker.facebook = undefined;
+      worker.isCertified = undefined;
       worker.experience = undefined;
       worker.rating = undefined;
       worker.location = undefined;

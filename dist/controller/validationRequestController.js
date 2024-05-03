@@ -39,6 +39,7 @@ const approveValidationRequest = (0, catchAsync_1.default)(async (req, res, next
         const worker = valReq.worker;
         worker.workerAccountVerified = true;
         await worker.save({ validateBeforeSave: false });
+        await worker.checkCertifiedStatus();
         // await ValidationRequest.findByIdAndDelete(req.params.id);
         await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
         res.status(200).json({ status: 'success', worker });
@@ -52,6 +53,7 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
     if (valReq.type === validationRequest_1.ValidationType.Certificate) {
         // await Certificate.findByIdAndDelete(valReq.certificate.id);
         await Certificate_1.Certificate.findByIdAndUpdate(valReq.certificate.id, { _deletedAt: new Date(Date.now()) }, { new: true });
+        await valReq.worker.checkCertifiedStatus();
         // await ValidationRequest.findByIdAndDelete(req.params.id);
         await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
         res.status(200).json({ status: 'success' });
@@ -60,7 +62,7 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
         const worker = valReq.worker;
         worker.workerAccountVerified = undefined;
         worker.job = undefined;
-        // worker.facebook = undefined;
+        worker.isCertified = undefined;
         worker.experience = undefined;
         worker.rating = undefined;
         worker.location = undefined;

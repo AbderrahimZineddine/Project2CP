@@ -2,6 +2,8 @@ import { NextFunction, Response, Router } from 'express';
 import { User } from '../models/User';
 import catchAsync from '../utils/catchAsync';
 import { MyRequest } from '../controller/userController';
+import { Worker } from '../models/Worker';
+import { WorkerDoc } from 'models/WorkerDoc';
 
 const router = Router();
 
@@ -17,6 +19,25 @@ router.patch('/makeAllUsersVerified', async (req, res) => {
     res.status(500).json({
       status: 'error',
       message: 'An error occurred while updating users.',
+      error: error.message,
+    });
+  }
+});
+
+router.patch('/checkCertifiedForAllWorkers', async (req, res) => {
+  try {
+    // Update all users to set isVerified to true
+    const workers: WorkerDoc[] = await Worker.find();
+    for (const worker of workers) {
+      await worker.checkCertifiedStatus();
+    }
+    res
+      .status(200)
+      .json({ status: 'success', message: 'All certified checked.' });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while updating .',
       error: error.message,
     });
   }
@@ -38,8 +59,8 @@ export const updateUsersName = catchAsync(
     // Iterate through each user and update their name
     for (const user of users) {
       user.name = newName; // Update the name field to the new name
-  
-      await user.save({validateBeforeSave : false}); // Save the changes to the database
+
+      await user.save({ validateBeforeSave: false }); // Save the changes to the database
     }
 
     res.status(200).json({ message: 'Names updated successfully' });

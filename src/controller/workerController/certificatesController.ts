@@ -24,7 +24,10 @@ export const updateCertificateImage = catchAsync(
     // const oldCert = {...cert}; //! error
     const oldImage = cert.image;
     const oldIsValid = cert.isValid;
-    (cert.image = req.certificate), (cert.isValid = false), await cert.save();
+    cert.image = req.certificate;
+    cert.isValid = false;
+    await cert.save();
+    await (req.user as WorkerDoc).checkCertifiedStatus();
     try {
       await ValidationRequest.create({
         worker: req.user.id,
@@ -37,6 +40,8 @@ export const updateCertificateImage = catchAsync(
       uploadController.deleteFromCloudinary(req.certificate);
       cert.isValid = oldIsValid;
       cert.save({ validateBeforeSave: false });
+      await (req.user as WorkerDoc).checkCertifiedStatus();
+
       console.log(error);
       if (error instanceof AppError) {
         return next(error);
@@ -111,15 +116,17 @@ export const deleteCertificateById = catchAsync(
         new AppError('Error deleting certificate! Please try again later', 500)
       );
     }
-    (req.user as WorkerDoc).certificates = (
-      req.user as WorkerDoc
-    ).certificates.filter(
-      (certificate) =>
-        certificate != (req.params.id as unknown as mongoose.Types.ObjectId)
-    );
-    await req.user.save({ validateBeforeSave: false });
+    // (req.user as WorkerDoc).certificates = (
+    //   req.user as WorkerDoc
+    // ).certificates.filter(
+    //   (certificate) =>
+    //     certificate != (req.params.id as unknown as mongoose.Types.ObjectId)
+    // );
+    // await req.user.save({ validateBeforeSave: false });
+
     await ValidationRequest.findOneAndDelete({ certificate: req.params.id });
     certificate._deletedAt = new Date(Date.now());
+    await (req.user as WorkerDoc).checkCertifiedStatus();
     // certificate._acceptedAt = undefined; //TODO check again
     await certificate.save({ validateModifiedOnly: true });
 
@@ -153,6 +160,9 @@ export const addCertificate = catchAsync(
         title: req.body.title,
       });
       (req.user as WorkerDoc).certificates.push(certificate.id);
+      await (req.user as WorkerDoc).save({ validateBeforeSave: false });
+      await (req.user as WorkerDoc).checkCertifiedStatus();
+
       req.user.save({ validateBeforeSave: false });
       pushed = true;
       await ValidateCertificateCreate(req.user.id, certificate.id);
@@ -166,6 +176,9 @@ export const addCertificate = catchAsync(
 
       if (pushed) {
         (req.user as WorkerDoc).certificates.pop();
+        await req.user.save({ validateBeforeSave: false });
+        await (req.user as WorkerDoc).checkCertifiedStatus();
+
         return next(
           new AppError(
             'Error while sending validation request! please try again later',
