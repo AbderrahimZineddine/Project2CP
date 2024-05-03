@@ -12,9 +12,9 @@ export interface UserDoc extends mongoose.Document {
   newEmail: string;
   profilePicture: string;
   wilaya: string;
-  bio : string;
+  bio: string;
   phoneNumber: string;
-  facebookAccount : string;
+  facebook: string;
   reported: number;
   // role: 'User' | 'Worker'; //TODO : role check
   role: Role;

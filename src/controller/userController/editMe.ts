@@ -48,11 +48,11 @@ export const editMe = (role: any) => {
           req.user.id,
           {
             name: req.body.name,
-            
+
             wilaya: req.body.wilaya,
             phoneNumber: req.body.phoneNumber,
-            facebookAccount : req.body.facebookAccount,
-            bio : req.body.bio,
+            facebook: req.body.facebook,
+            bio: req.body.bio,
             // 'contacts.instagram': req.body.contacts
             //   ? req.body.contacts.instagram
             //   : req.user.contacts.instagram,
@@ -76,11 +76,10 @@ export const editMe = (role: any) => {
 
         res.status(200).json({
           status: 'success',
-            user: updatedUser,
+          user: updatedUser,
         });
       } catch (error) {
         try {
-          
           if (req.profilePicture) {
             await uploadController.deleteFromCloudinary(req.profilePicture);
           }
@@ -96,7 +95,7 @@ export const editMe = (role: any) => {
             return next(new AppError('Error while editing profile', 500));
           }
         }
-        
+
         return next(new AppError('Error while editing profile', 500));
       }
     }

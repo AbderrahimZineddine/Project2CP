@@ -4,7 +4,7 @@ import { Application, ApplicationDoc } from '../../models/Application';
 import catchAsync from '../../utils/catchAsync';
 import { WorkerDoc } from '../../models/WorkerDoc';
 
-export const averageApplicationPerWorker = catchAsync(
+export const applicationTotal = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     // Count the total number of applications
     const totalApplications = await Application.countDocuments();
@@ -17,9 +17,16 @@ export const averageApplicationPerWorker = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: {
-        averageApplicationsPerWorker: averageApplications,
-      },
+      data: [
+        {
+          _id: 'Created',
+          count: totalApplications,
+        },
+        {
+          _id: 'Average applications per worker',
+          count: averageApplications,
+        },
+      ],
     });
   }
 );
@@ -69,11 +76,11 @@ export const applicationPerJobPercentage = catchAsync(
     const jobApplications = await Application.aggregate([
       {
         $lookup: {
-            from: 'users', // Collection to join with (parent collection)
-            localField: 'worker', // Field from the Application collection
-            foreignField: '_id', // Field from the User collection
-            as: 'workerData', // Alias for the joined documents
-          },          
+          from: 'users', // Collection to join with (parent collection)
+          localField: 'worker', // Field from the Application collection
+          foreignField: '_id', // Field from the User collection
+          as: 'workerData', // Alias for the joined documents
+        },
       },
       { $unwind: '$workerData' },
       {
@@ -108,3 +115,5 @@ export const applicationPerJobPercentage = catchAsync(
     });
   }
 );
+
+

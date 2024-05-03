@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applicationPerJobPercentage = exports.averageApplicationPerJob = exports.averageApplicationPerWorker = void 0;
+exports.applicationPerJobPercentage = exports.averageApplicationPerJob = exports.applicationTotal = void 0;
 const Application_1 = require("../../models/Application");
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
-exports.averageApplicationPerWorker = (0, catchAsync_1.default)(async (req, res, next) => {
+exports.applicationTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     // Count the total number of applications
     const totalApplications = await Application_1.Application.countDocuments();
     // Find the total number of distinct workers
@@ -15,9 +15,16 @@ exports.averageApplicationPerWorker = (0, catchAsync_1.default)(async (req, res,
     const averageApplications = totalApplications / distinctWorkers.length;
     res.status(200).json({
         status: 'success',
-        data: {
-            averageApplicationsPerWorker: averageApplications,
-        },
+        data: [
+            {
+                _id: 'Created',
+                count: totalApplications,
+            },
+            {
+                _id: 'Average applications per worker',
+                count: averageApplications,
+            },
+        ],
     });
 });
 exports.averageApplicationPerJob = (0, catchAsync_1.default)(async (req, res, next) => {

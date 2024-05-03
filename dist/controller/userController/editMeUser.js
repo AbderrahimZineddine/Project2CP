@@ -16,8 +16,7 @@ const editMe = (role) => {
                     req.body.authentication.passwordConfirm)) {
                 throw new appError_1.default('This route is not for password updates. Please use /updateMyPassword', 400);
             }
-            if (req.user.role === UserDoc_1.Role.Worker &&
-                (req.body.name)) {
+            if (req.user.role === UserDoc_1.Role.Worker && req.body.name) {
                 throw new appError_1.default('You cannot change your name because it is linked to your id card!', 400);
             }
             const oldPfp = req.user.profilePicture;
@@ -25,7 +24,7 @@ const editMe = (role) => {
                 name: req.body.name,
                 wilaya: req.body.wilaya,
                 phoneNumber: req.body.phoneNumber,
-                facebookAccount: req.body.facebookAccount,
+                facebook: req.body.facebook,
                 bio: req.body.bio,
                 // 'contacts.instagram': req.body.contacts
                 //   ? req.body.contacts.instagram

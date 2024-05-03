@@ -35,7 +35,7 @@ const editMe = (role) => {
                 name: req.body.name,
                 wilaya: req.body.wilaya,
                 phoneNumber: req.body.phoneNumber,
-                facebookAccount: req.body.facebookAccount,
+                facebook: req.body.facebook,
                 bio: req.body.bio,
                 // 'contacts.instagram': req.body.contacts
                 //   ? req.body.contacts.instagram

@@ -21,10 +21,7 @@ export const editMe = (role: any) => {
         );
       }
 
-      if (
-        req.user.role === Role.Worker &&
-        (req.body.name)
-      ) {
+      if (req.user.role === Role.Worker && req.body.name) {
         throw new AppError(
           'You cannot change your name because it is linked to your id card!',
           400
@@ -35,11 +32,11 @@ export const editMe = (role: any) => {
       const updatedUser = await role.findByIdAndUpdate(
         req.user.id,
         {
-          name : req.body.name,
+          name: req.body.name,
           wilaya: req.body.wilaya,
           phoneNumber: req.body.phoneNumber,
-          facebookAccount : req.body.facebookAccount,
-          bio : req.body.bio,
+          facebook: req.body.facebook,
+          bio: req.body.bio,
 
           // 'contacts.instagram': req.body.contacts
           //   ? req.body.contacts.instagram
@@ -83,7 +80,7 @@ export const editMe = (role: any) => {
       res.status(200).json({
         status: 'success',
 
-          user: updatedUser,
+        user: updatedUser,
       });
     } catch (error) {
       // oldDeleted = false => the user was updated successfully so you shoudn't delete req.pfp (which is now user.pfp)
@@ -106,7 +103,12 @@ export const editMe = (role: any) => {
         return next(error);
       } else {
         // console.log(error)
-        return next(new AppError('Error while editing profile! ERROR : ' + error.message, 500));
+        return next(
+          new AppError(
+            'Error while editing profile! ERROR : ' + error.message,
+            500
+          )
+        );
       }
     }
   };

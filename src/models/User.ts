@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema(
     //   facebook: String,
     //   linkedin: String,
     // },
-    facebookAccount: String,
+    facebook: String,
     bio: {
       type: String,
       min: [0, 'cannot be below 0'],
