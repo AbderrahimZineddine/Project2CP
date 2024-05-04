@@ -35,16 +35,18 @@ export const reviewTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: [
-        {
-          _id: 'Created',
-          count: totalWorkers,
-        },
-        {
-          _id: 'Average review per worker',
-          count: averageReviews,
-        },
-      ],
+      total: {
+        // {
+        //   _id: 'Created',
+        //   count: totalWorkers,
+        // },
+        created: totalWorkers,
+        // {
+        //   _id: 'Average review per worker',
+        //   count: averageReviews,
+        // },
+        averageReviewPerWorker: averageReviews,
+      },
     });
   }
 );

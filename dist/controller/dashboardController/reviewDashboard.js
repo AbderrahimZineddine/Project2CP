@@ -30,16 +30,18 @@ exports.reviewTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     const averageReviews = totalReviews / totalWorkers;
     res.status(200).json({
         status: 'success',
-        data: [
-            {
-                _id: 'Created',
-                count: totalWorkers,
-            },
-            {
-                _id: 'Average review per worker',
-                count: averageReviews,
-            },
-        ],
+        total: {
+            // {
+            //   _id: 'Created',
+            //   count: totalWorkers,
+            // },
+            created: totalWorkers,
+            // {
+            //   _id: 'Average review per worker',
+            //   count: averageReviews,
+            // },
+            averageReviewPerWorker: averageReviews,
+        },
     });
 });
 //# sourceMappingURL=reviewDashboard.js.map

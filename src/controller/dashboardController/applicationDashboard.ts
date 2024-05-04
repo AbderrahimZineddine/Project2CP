@@ -17,16 +17,18 @@ export const applicationTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: [
-        {
-          _id: 'Created',
-          count: totalApplications,
-        },
-        {
-          _id: 'Average applications per worker',
-          count: averageApplications,
-        },
-      ],
+      total: {
+        // {
+        //   _id: 'Created',
+        //   count: totalApplications,
+        // },
+        created: totalApplications,
+        // {
+        //   _id: 'Average applications per worker',
+        //   count: averageApplications,
+        // },
+        averageApplicationsPerWorker: averageApplications,
+      },
     });
   }
 );
@@ -115,5 +117,3 @@ export const applicationPerJobPercentage = catchAsync(
     });
   }
 );
-
-

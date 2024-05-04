@@ -18,11 +18,20 @@ exports.certificateGeneralDonutChart = (0, catchAsync_1.default)(async (req, res
     });
     res.status(200).json({
         status: 'success',
-        data: {
-            created,
-            accepted,
-            deleted,
-        },
+        data: [
+            {
+                _id: 'created',
+                count: created,
+            },
+            {
+                _id: 'accepted',
+                count: accepted,
+            },
+            {
+                _id: 'deleted',
+                count: deleted,
+            },
+        ],
     });
 });
 exports.certificateTotal = (0, catchAsync_1.default)(async (req, res, next) => {
@@ -34,24 +43,28 @@ exports.certificateTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     const percentage = (totalCertified / totalWorkers) * 100;
     res.status(200).json({
         status: 'success',
-        data: [
-            {
-                _id: 'Created',
-                count: totalWorkers,
-            },
-            {
-                _id: 'Certified Workers',
-                count: totalCertified,
-            },
-            {
-                _id: 'Not-Certified Workers',
-                count: totalWorkers - totalCertified,
-            },
-            {
-                _id: 'Certified workers percentage',
-                count: percentage,
-            },
-        ],
+        total: {
+            // {
+            //   _id: 'Created',
+            //   count: totalWorkers,
+            // },
+            created: totalWorkers,
+            // {
+            //   _id: 'Certified Workers',
+            //   count: totalCertified,
+            // },
+            certifiedWorkers: totalCertified,
+            // {
+            //   _id: 'Not-Certified Workers',
+            //   count: totalWorkers - totalCertified,
+            // },
+            notCertifiedWorkers: totalWorkers - totalCertified,
+            // {
+            //   _id: 'Certified workers percentage',
+            //   count: percentage,
+            // },
+            certifiedWorkersPercentage: percentage,
+        },
     });
 });
 //# sourceMappingURL=certificateDashboard.js.map

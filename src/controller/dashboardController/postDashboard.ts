@@ -36,20 +36,22 @@ export const postTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: [
-        {
-          _id: 'Created',
-          count: totalPosts,
-        },
-        {
-          _id: 'Average post per user',
-          count: averagePosts,
-        },
+      total: {
+        // {
+        //   _id: 'Created',
+        //   count: totalPosts,
+        // },
+        created: totalPosts,
+        // {
+        //   _id: 'Average post per user',
+        //   count: averagePosts,
+        // },
+        averagePostPerUser: averagePosts,
         // {
         //   _id: 'Average post per worker',
         //   count: averagePosts2,
         // },
-      ],
+      },
     });
   }
 );

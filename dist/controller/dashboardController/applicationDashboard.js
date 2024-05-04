@@ -15,16 +15,18 @@ exports.applicationTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     const averageApplications = totalApplications / distinctWorkers.length;
     res.status(200).json({
         status: 'success',
-        data: [
-            {
-                _id: 'Created',
-                count: totalApplications,
-            },
-            {
-                _id: 'Average applications per worker',
-                count: averageApplications,
-            },
-        ],
+        total: {
+            // {
+            //   _id: 'Created',
+            //   count: totalApplications,
+            // },
+            created: totalApplications,
+            // {
+            //   _id: 'Average applications per worker',
+            //   count: averageApplications,
+            // },
+            averageApplicationsPerWorker: averageApplications,
+        },
     });
 });
 exports.averageApplicationPerJob = (0, catchAsync_1.default)(async (req, res, next) => {

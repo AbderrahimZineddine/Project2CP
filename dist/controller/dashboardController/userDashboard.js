@@ -33,20 +33,23 @@ exports.userTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     const averageDeals = totalDeals / totalUsers;
     res.status(200).json({
         status: 'success',
-        data: [
-            {
-                _id: 'Created',
-                count: totalUsers,
-            },
-            {
-                _id: 'Average post per user',
-                count: averagePosts,
-            },
-            {
-                _id: 'Average deals per user',
-                count: averageDeals,
-            },
-        ],
+        total: {
+            // {
+            //   _id: 'Created',
+            //   count: totalUsers,
+            // },
+            created: totalUsers,
+            // {
+            //   _id: 'Average post per user',
+            //   count: averagePosts,
+            // },
+            averagePostPerUser: averagePosts,
+            // {
+            //   _id: 'Average deals per user',
+            //   count: averageDeals,
+            // },
+            averageDealPerUser: averageDeals,
+        },
     });
 });
 //# sourceMappingURL=userDashboard.js.map

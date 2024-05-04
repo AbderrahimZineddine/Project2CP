@@ -47,20 +47,23 @@ exports.workerTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     const averageDeals = totalDeals / totalWorkers;
     res.status(200).json({
         status: 'success',
-        data: [
-            {
-                _id: 'Created',
-                count: totalWorkers,
-            },
-            {
-                _id: 'Average review per worker',
-                count: averageReviews,
-            },
-            {
-                _id: 'Average deals per worker',
-                count: averageDeals,
-            },
-        ],
+        total: {
+            // {
+            //   _id: 'Created',
+            //   count: totalWorkers,
+            // },
+            created: totalWorkers,
+            // {
+            //   _id: 'Average review per worker',
+            //   count: averageReviews,
+            // },
+            averageReviewPerWorker: averageReviews,
+            // {
+            //   _id: 'Average deals per worker',
+            //   count: averageDeals,
+            // },
+            averageDealsPerWorker: averageDeals,
+        },
     });
 });
 //# sourceMappingURL=workerDashboard.js.map

@@ -56,20 +56,23 @@ export const workerTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: [
-        {
-          _id: 'Created',
-          count: totalWorkers,
-        },
-        {
-          _id: 'Average review per worker',
-          count: averageReviews,
-        },
-        {
-          _id: 'Average deals per worker',
-          count: averageDeals,
-        },
-      ],
+      total: {
+        // {
+        //   _id: 'Created',
+        //   count: totalWorkers,
+        // },
+        created: totalWorkers,
+        // {
+        //   _id: 'Average review per worker',
+        //   count: averageReviews,
+        // },
+        averageReviewPerWorker: averageReviews,
+        // {
+        //   _id: 'Average deals per worker',
+        //   count: averageDeals,
+        // },
+        averageDealsPerWorker: averageDeals,
+      },
     });
   }
 );

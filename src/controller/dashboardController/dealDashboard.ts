@@ -51,20 +51,23 @@ export const dealTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data: [
-        {
-          _id: 'Created',
-          count: totalDeals,
-        },
-        {
-          _id: 'Average deal per user',
-          count: averageDeals,
-        },
-        {
-          _id: 'Average deal per worker',
-          count: averageDeals2,
-        },
-      ],
+      total: {
+        // {
+        //   _id: 'Created',
+        //   count: totalDeals,
+        // },
+        created: totalDeals,
+        // {
+        //   _id: 'Average deal per user',
+        //   count: averageDeals,
+        // },
+        averageDealPerUser: averageDeals,
+        // {
+        //   _id: 'Average deal per worker',
+        //   count: averageDeals2,
+        // },
+        averageDealPerWorker: averageDeals2,
+      },
     });
   }
 );
