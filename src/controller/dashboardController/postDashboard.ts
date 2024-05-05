@@ -36,7 +36,7 @@ export const postTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      total: {
+      data: {
         // {
         //   _id: 'Created',
         //   count: totalPosts,

@@ -43,7 +43,7 @@ exports.certificateTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     const percentage = (totalCertified / totalWorkers) * 100;
     res.status(200).json({
         status: 'success',
-        total: {
+        data: {
             // {
             //   _id: 'Created',
             //   count: totalWorkers,

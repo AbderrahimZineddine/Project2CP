@@ -32,7 +32,7 @@ exports.postTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     // const averagePosts2 = totalPosts / totalWorkers;
     res.status(200).json({
         status: 'success',
-        total: {
+        data: {
             // {
             //   _id: 'Created',
             //   count: totalPosts,

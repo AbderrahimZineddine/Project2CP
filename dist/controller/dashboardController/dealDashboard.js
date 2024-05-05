@@ -46,7 +46,7 @@ exports.dealTotal = (0, catchAsync_1.default)(async (req, res, next) => {
     const averageDeals2 = totalDeals / totalWorkers;
     res.status(200).json({
         status: 'success',
-        total: {
+        data: {
             // {
             //   _id: 'Created',
             //   count: totalDeals,

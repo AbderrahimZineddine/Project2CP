@@ -17,7 +17,7 @@ export const applicationTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      total: {
+      data: {
         // {
         //   _id: 'Created',
         //   count: totalApplications,
