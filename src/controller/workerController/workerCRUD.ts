@@ -18,32 +18,40 @@ import { WorkerDoc } from '../../models/WorkerDoc';
 
 export const getAllWorkers = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    {
-      // let filter = {};
-      // if (req.params.id) {
-      //   filter = { user: req.params.id };
-      // }
-      // const features = new APIFeatures(Model.find(filter), req.query)
-      const features = new APIFeatures(Worker.find(), req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate();
+    // Create APIFeatures instance to filter, sort, limit fields, and paginate
+    const features = new APIFeatures(Worker.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
-      const workers = await features.query;
-      let data;
-      if (req.user) {
-        data = workers.map((worker: WorkerDoc) => ({
-          ...worker.toObject(),
-          isFavorite: req.user.favoriteWorkers.includes(worker.id),
-        }));
-      } else {
-        data = workers;
-      }
-      res
-        .status(200)
-        .json({ status: 'success', results: workers.length, workers: data });
+    // Execute the query and retrieve workers
+    const workers = await features.query;
+
+    let data;
+    if (req.user) {
+      // Map workers and add isFavorite property
+      data = workers.map((worker: WorkerDoc) => ({
+        ...worker.toObject(),
+        isFavorite: req.user.favoriteWorkers.includes(worker.id),
+      }));
+
+      // Sort data to show favorites on top
+      data.sort((a : any, b : any) => {
+        if (a.isFavorite && !b.isFavorite) {
+          return -1; // a comes before b
+        } else if (!a.isFavorite && b.isFavorite) {
+          return 1; // b comes before a
+        } else {
+          return 0; // maintain order
+        }
+      });
+    } else {
+      data = workers;
     }
+
+    // Send response with sorted data
+    res.status(200).json({ status: 'success', results: workers.length, workers: data });
   }
 );
 

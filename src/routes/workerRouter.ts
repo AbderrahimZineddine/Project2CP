@@ -48,7 +48,11 @@ router.get(
 
 router
   .route('/')
-  .get(authController.isLoggedIn, workerController.getAllWorkers);
+  .get(
+    authController.protect,
+    authController.restrictTo('User'),
+    workerController.getAllWorkers
+  );
 router.get(
   '/:id/reviews',
   reviewController.getWorkerReviews,
@@ -81,7 +85,12 @@ router.patch(
   userController.ToggleFavoriteWorker
 );
 
-router.get('/:id', authController.isLoggedIn, workerController.getWorkerById);
+router.get(
+  '/:id',
+  authController.protect,
+  authController.restrictTo('User'),
+  workerController.getWorkerById
+);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
 
 router.use(authController.protect);

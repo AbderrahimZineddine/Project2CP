@@ -12,32 +12,39 @@ const UserDoc_1 = require("../../models/UserDoc");
 const Review_1 = require("../../models/Review");
 const APIFeatures_1 = __importDefault(require("../../utils/APIFeatures"));
 exports.getAllWorkers = (0, catchAsync_1.default)(async (req, res, next) => {
-    {
-        // let filter = {};
-        // if (req.params.id) {
-        //   filter = { user: req.params.id };
-        // }
-        // const features = new APIFeatures(Model.find(filter), req.query)
-        const features = new APIFeatures_1.default(Worker_1.Worker.find(), req.query)
-            .filter()
-            .sort()
-            .limitFields()
-            .paginate();
-        const workers = await features.query;
-        let data;
-        if (req.user) {
-            data = workers.map((worker) => ({
-                ...worker.toObject(),
-                isFavorite: req.user.favoriteWorkers.includes(worker.id),
-            }));
-        }
-        else {
-            data = workers;
-        }
-        res
-            .status(200)
-            .json({ status: 'success', results: workers.length, workers: data });
+    // Create APIFeatures instance to filter, sort, limit fields, and paginate
+    const features = new APIFeatures_1.default(Worker_1.Worker.find(), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+    // Execute the query and retrieve workers
+    const workers = await features.query;
+    let data;
+    if (req.user) {
+        // Map workers and add isFavorite property
+        data = workers.map((worker) => ({
+            ...worker.toObject(),
+            isFavorite: req.user.favoriteWorkers.includes(worker.id),
+        }));
+        // Sort data to show favorites on top
+        data.sort((a, b) => {
+            if (a.isFavorite && !b.isFavorite) {
+                return -1; // a comes before b
+            }
+            else if (!a.isFavorite && b.isFavorite) {
+                return 1; // b comes before a
+            }
+            else {
+                return 0; // maintain order
+            }
+        });
     }
+    else {
+        data = workers;
+    }
+    // Send response with sorted data
+    res.status(200).json({ status: 'success', results: workers.length, workers: data });
 });
 exports.getWorkerById = (0, catchAsync_1.default)(async (req, res, next) => {
     const worker = await Worker_1.Worker.findById(req.params.id);
