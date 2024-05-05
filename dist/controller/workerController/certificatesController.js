@@ -3,12 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMyCertificates = exports.checkOwnerCertificate = exports.addCertificate = exports.checkTitle = exports.deleteCertificateById = exports.getCertificateById = exports.updateCertificateTitle = exports.updateCertificateImage = void 0;
+exports.getWorkerCertificatesById = exports.getMyCertificates = exports.checkOwnerCertificate = exports.addCertificate = exports.checkTitle = exports.deleteCertificateById = exports.getCertificateById = exports.updateCertificateTitle = exports.updateCertificateImage = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Certificate_1 = require("../../models/Certificate");
 const validationRequest_1 = require("../../models/validationRequest");
 const appError_1 = __importDefault(require("../../utils/appError"));
 const uploadController_1 = __importDefault(require("../../controller/uploadController"));
+const Worker_1 = require("../../models/Worker");
 exports.updateCertificateImage = (0, catchAsync_1.default)(async (req, res, next) => {
     const id = req.params.id;
     if (!req.certificate) {
@@ -162,6 +163,25 @@ exports.getMyCertificates = (0, catchAsync_1.default)(async (req, res, next) => 
     res.status(200).json({
         status: 'success',
         certificates,
+    });
+});
+exports.getWorkerCertificatesById = (0, catchAsync_1.default)(async (req, res, next) => {
+    const worker = await Worker_1.Worker.findById(req.params.id).populate({
+        path: 'certificates',
+    });
+    if (!worker) {
+        return next(new appError_1.default('there no worker with id ' + req.params.id, 404));
+    }
+    // const certificates = [];
+    // for (const certId of worker.certificates) {
+    //   const cert = await Certificate.findById(certId);
+    //   if (cert) {
+    //     certificates.push(cert);
+    //   }
+    // }
+    res.status(200).json({
+        status: 'success',
+        certificates: worker.certificates,
     });
 });
 //# sourceMappingURL=certificatesController.js.map

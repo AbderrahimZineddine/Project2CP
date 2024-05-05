@@ -4,6 +4,7 @@ import APIFeatures from '../utils/APIFeatures';
 import { Request, Response, NextFunction } from 'express';
 import { PopulateOptions } from 'mongoose';
 import { Application } from 'models/Application';
+import { Role } from 'models/UserDoc';
 
 export const getAll = (Model: any) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -20,6 +21,7 @@ export const getAll = (Model: any) =>
 
     const doc = await features.query;
 
+    
     res.status(200).json({ status: 'success', results: doc.length, data: doc });
   });
 

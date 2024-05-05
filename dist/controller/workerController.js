@@ -5,6 +5,8 @@ const editMeWorker_1 = require("./workerController/editMeWorker");
 const certificatesController_1 = require("./workerController/certificatesController");
 const handlerFactory_1 = require("./handlerFactory");
 const Certificate_1 = require("../models/Certificate");
+const getSavedPosts_1 = require("./workerController/getSavedPosts");
+const getMyRequests_1 = require("./workerController/getMyRequests");
 const workerController = {
     getWorkerById: workerCRUD_1.getWorkerById,
     getAllWorkers: workerCRUD_1.getAllWorkers,
@@ -21,6 +23,10 @@ const workerController = {
     addCertificate: certificatesController_1.addCertificate,
     checkTitle: certificatesController_1.checkTitle,
     checkOwnerCertificate: certificatesController_1.checkOwnerCertificate,
+    getWorkerSavedPostsById: getSavedPosts_1.getWorkerSavedPostsById,
+    getWorkerCertificatesById: certificatesController_1.getWorkerCertificatesById,
+    getMyRequests: getMyRequests_1.getMyRequests,
+    deleteRequestById: getMyRequests_1.deleteRequestById,
 };
 exports.default = workerController;
 //# sourceMappingURL=workerController.js.map

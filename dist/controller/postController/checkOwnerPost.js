@@ -12,7 +12,7 @@ exports.checkOwnerPost = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!post) {
         return next(new appError_1.default('No post found with that id!', 404));
     }
-    if (post.user != req.user.id) {
+    if (post.user.id != req.user.id) {
         return next(new appError_1.default('You do not have the permission to access this post!', 404));
     }
     req.post = post;

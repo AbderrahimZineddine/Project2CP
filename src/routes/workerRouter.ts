@@ -26,6 +26,19 @@ router.get(
 );
 
 router.get(
+  '/me/requests',
+  authController.protect,
+  authController.restrictTo('Worker'),
+  workerController.getMyRequests
+);
+router.delete(
+  '/me/requests/:id',
+  authController.protect,
+  authController.restrictTo('Worker'),
+  workerController.deleteRequestById
+);
+
+router.get(
   '/me',
   authController.protect,
   authController.restrictTo('Worker'),
@@ -47,7 +60,15 @@ router.get(
   portfolioPostsController.getPortfolioPostsFromWorkerById
 );
 router.get(
+  '/:id/savedPosts',
+  // authController.protect,
+  // authController.restrictTo('Worker'),
+  workerController.getWorkerSavedPostsById
+);
+router.get('/:id/certificates', workerController.getWorkerCertificatesById);
+router.get(
   '/:id/deals',
+  // authController.protect,
   dealController.getDealsFromWorkerById,
   dealController.showDeletedMiddleware,
   dealController.sortMiddleware,

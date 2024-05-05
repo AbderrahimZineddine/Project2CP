@@ -14,8 +14,8 @@ router.get(
   postController.getAllPosts
 );
 
-router.get('/:id', postController.getPostById);
-router.get('/', postController.getAllPosts);
+router.get('/:id', authController.isLoggedIn, postController.getPostById);
+router.get('/', authController.isLoggedIn, postController.getAllPosts);
 
 router.use(authController.protect);
 

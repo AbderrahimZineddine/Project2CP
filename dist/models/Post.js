@@ -48,6 +48,7 @@ PostSchema.pre(/^find/, function (next) {
         path: 'user',
         select: 'name profilePicture wilaya', // Select specific fields from the user model
     });
+    // this.populate({ path: 'selectedWorkers' });
     next();
 });
 exports.Post = mongoose_1.default.model('Post', PostSchema);

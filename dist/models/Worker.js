@@ -105,33 +105,35 @@ workerSchema.methods.checkCertifiedStatus = async function () {
 //   this.populate({ path: "followers following", options: { _recursed: true } });
 //   next();
 // });
-workerSchema.pre(/^find/, function (next) {
-    console.log('worker pre****************************************************************');
-    // console.log(this);
-    // console.log('****************************************************************')
-    //TODO dont' select unvertified workers !
-    const fields = this._userProvidedFields; // Get requested fields
-    // console.log(this._userProvidedFields);
-    // if (
-    //   fields &&
-    //   !fields.includes('portfolioPosts') &&
-    //   !fields.includes('certificates')
-    // ) {
-    //   next();
-    // } else {
-    //   this.populate('portfolioPosts').populate('certificates');
-    //   next();
-    // }
-    if (fields) {
-        // if (fields.portfolioPosts) {
-        //   this.populate('portfolioPosts');
-        // }
-        if (fields.certificates) {
-            this.populate('certificates');
-        }
-    }
-    next();
-});
+// workerSchema.pre(/^find/, function <WorkerDoc>(next: NextFunction) {
+//   console.log(
+//     'worker pre****************************************************************'
+//   );
+//   // console.log(this);
+//   // console.log('****************************************************************')
+//   //TODO dont' select unvertified workers !
+//   const fields = this._userProvidedFields; // Get requested fields
+//   // console.log(this._userProvidedFields);
+//   // if (
+//   //   fields &&
+//   //   !fields.includes('portfolioPosts') &&
+//   //   !fields.includes('certificates')
+//   // ) {
+//   //   next();
+//   // } else {
+//   //   this.populate('portfolioPosts').populate('certificates');
+//   //   next();
+//   // }
+//   if (fields) {
+//     // if (fields.portfolioPosts) {
+//     //   this.populate('portfolioPosts');
+//     // }
+//     if (fields.certificates) {
+//       this.populate('certificates');
+//     }
+//   }
+//   next();
+// });
 workerSchema.pre(/^find/, function (next) {
     const query = this.getQuery();
     if (query &&

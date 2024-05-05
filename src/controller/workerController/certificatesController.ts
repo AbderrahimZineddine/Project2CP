@@ -10,6 +10,7 @@ import AppError from '../../utils/appError';
 import { WorkerDoc } from 'models/WorkerDoc';
 import mongoose from 'mongoose';
 import uploadController from '../../controller/uploadController';
+import { Worker } from '../../models/Worker';
 
 export const updateCertificateImage = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -223,6 +224,32 @@ export const getMyCertificates = catchAsync(
     res.status(200).json({
       status: 'success',
       certificates,
+    });
+  }
+);
+
+export const getWorkerCertificatesById = catchAsync(
+  async (req: MyRequest, res: Response, next: NextFunction) => {
+    const worker: WorkerDoc = await Worker.findById(req.params.id).populate({
+      path: 'certificates',
+    });
+
+    if (!worker) {
+      return next(
+        new AppError('there no worker with id ' + req.params.id, 404)
+      );
+    }
+
+    // const certificates = [];
+    // for (const certId of worker.certificates) {
+    //   const cert = await Certificate.findById(certId);
+    //   if (cert) {
+    //     certificates.push(cert);
+    //   }
+    // }
+    res.status(200).json({
+      status: 'success',
+      certificates: worker.certificates,
     });
   }
 );

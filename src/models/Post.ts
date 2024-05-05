@@ -52,7 +52,6 @@ PostSchema.pre(/^find/, function (next) {
   // Filter out documents with _deletedAt set (including non-null values)
   (this as any).where({ _deletedAt: null });
   next();
-  
 });
 
 PostSchema.pre(/^find/, function <PostDoc>(next: NextFunction) {
@@ -60,6 +59,8 @@ PostSchema.pre(/^find/, function <PostDoc>(next: NextFunction) {
     path: 'user',
     select: 'name profilePicture wilaya', // Select specific fields from the user model
   });
+  // this.populate({ path: 'selectedWorkers' });
+
   next();
 });
 

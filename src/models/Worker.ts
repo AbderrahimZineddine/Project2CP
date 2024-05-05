@@ -110,38 +110,38 @@ workerSchema.methods.checkCertifiedStatus = async function () {
 //   next();
 // });
 
-workerSchema.pre(/^find/, function <WorkerDoc>(next: NextFunction) {
-  console.log(
-    'worker pre****************************************************************'
-  );
-  // console.log(this);
-  // console.log('****************************************************************')
+// workerSchema.pre(/^find/, function <WorkerDoc>(next: NextFunction) {
+//   console.log(
+//     'worker pre****************************************************************'
+//   );
+//   // console.log(this);
+//   // console.log('****************************************************************')
 
-  //TODO dont' select unvertified workers !
+//   //TODO dont' select unvertified workers !
 
-  const fields = this._userProvidedFields; // Get requested fields
-  // console.log(this._userProvidedFields);
-  // if (
-  //   fields &&
-  //   !fields.includes('portfolioPosts') &&
-  //   !fields.includes('certificates')
-  // ) {
-  //   next();
-  // } else {
-  //   this.populate('portfolioPosts').populate('certificates');
-  //   next();
-  // }
+//   const fields = this._userProvidedFields; // Get requested fields
+//   // console.log(this._userProvidedFields);
+//   // if (
+//   //   fields &&
+//   //   !fields.includes('portfolioPosts') &&
+//   //   !fields.includes('certificates')
+//   // ) {
+//   //   next();
+//   // } else {
+//   //   this.populate('portfolioPosts').populate('certificates');
+//   //   next();
+//   // }
 
-  if (fields) {
-    // if (fields.portfolioPosts) {
-    //   this.populate('portfolioPosts');
-    // }
-    if (fields.certificates) {
-      this.populate('certificates');
-    }
-  }
-  next();
-});
+//   if (fields) {
+//     // if (fields.portfolioPosts) {
+//     //   this.populate('portfolioPosts');
+//     // }
+//     if (fields.certificates) {
+//       this.populate('certificates');
+//     }
+//   }
+//   next();
+// });
 
 workerSchema.pre(/^find/, function (next) {
   const query = (this as any).getQuery();

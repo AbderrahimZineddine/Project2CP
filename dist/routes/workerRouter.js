@@ -16,13 +16,22 @@ const portfolioPostsController_1 = __importDefault(require("../controller/worker
 exports.router = express_1.default.Router();
 exports.router.get('/me/reviews', authController_1.default.protect, authController_1.default.restrictTo('Worker'), reviewController_1.default.getMyWorkerReviews, reviewController_1.default.getAllReviews);
 exports.router.get('/me/portfolioPosts', authController_1.default.protect, authController_1.default.restrictTo('Worker'), portfolioPostsController_1.default.getMyPortfolioPosts);
+exports.router.get('/me/requests', authController_1.default.protect, authController_1.default.restrictTo('Worker'), workerController_1.default.getMyRequests);
+exports.router.delete('/me/requests/:id', authController_1.default.protect, authController_1.default.restrictTo('Worker'), workerController_1.default.deleteRequestById);
 exports.router.get('/me', authController_1.default.protect, authController_1.default.restrictTo('Worker'), userController_1.default.getMe, workerController_1.default.getWorkerById);
 exports.router
     .route('/')
     .get(authController_1.default.isLoggedIn, workerController_1.default.getAllWorkers);
 exports.router.get('/:id/reviews', reviewController_1.default.getWorkerReviews, reviewController_1.default.getAllReviews);
 exports.router.get('/:id/portfolioPosts', authController_1.default.isLoggedIn, portfolioPostsController_1.default.getPortfolioPostsFromWorkerById);
-exports.router.get('/:id/deals', dealController_1.default.getDealsFromWorkerById, dealController_1.default.showDeletedMiddleware, dealController_1.default.sortMiddleware, dealController_1.default.getAllDeals);
+exports.router.get('/:id/savedPosts', 
+// authController.protect,
+// authController.restrictTo('Worker'),
+workerController_1.default.getWorkerSavedPostsById);
+exports.router.get('/:id/certificates', workerController_1.default.getWorkerCertificatesById);
+exports.router.get('/:id/deals', 
+// authController.protect,
+dealController_1.default.getDealsFromWorkerById, dealController_1.default.showDeletedMiddleware, dealController_1.default.sortMiddleware, dealController_1.default.getAllDeals);
 exports.router.patch('/:id/favorite', authController_1.default.protect, userController_1.default.ToggleFavoriteWorker);
 exports.router.get('/:id', authController_1.default.isLoggedIn, workerController_1.default.getWorkerById);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
