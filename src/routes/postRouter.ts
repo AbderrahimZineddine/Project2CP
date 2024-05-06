@@ -16,8 +16,8 @@ router.get(
 
 // router.get('/:id', authController.isLoggedIn, postController.getPostById);
 router.get('/:id', authController.protect, authController.restrictTo('Worker'), postController.getPostById);
-// router.get('/', authController.isLoggedIn, postController.getAllPosts);
-router.get('/', authController.protect, authController.restrictTo('Worker'), postController.getAllPosts);
+router.get('/', authController.isLoggedIn, postController.getAllPosts);
+// router.get('/', authController.protect, authController.restrictTo('Worker'), postController.getAllPosts);
 
 router.use(authController.protect);
 

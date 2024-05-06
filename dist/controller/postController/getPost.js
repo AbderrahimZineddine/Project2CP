@@ -36,13 +36,29 @@ exports.getPostById = (0, catchAsync_1.default)(async (req, res, next) => {
     }
 });
 exports.getAllPosts = (0, catchAsync_1.default)(async (req, res, next) => {
-    const features = new APIFeatures_1.default(Post_1.Post.find(), req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate();
+    let features;
+    if (req.query.user) {
+        const qUser = req.query.user;
+        delete req.query.user;
+        features = new APIFeatures_1.default(Post_1.Post.find({ user: qUser }).populate({
+            path: 'user',
+            select: 'name profilePicture wilaya', // Select specific fields from the user model
+        }), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
+    }
+    else {
+        features = new APIFeatures_1.default(Post_1.Post.find(), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
+    }
     const doc = await features.query;
     if (req.user && req.user.currentRole === UserDoc_1.Role.Worker) {
+        console.log('hi');
         const data = await Promise.all(doc.map(async (post) => {
             const applied = await Application_1.Application.findOne({
                 worker: req.user.id,

@@ -39,15 +39,31 @@ export const getPostById = catchAsync(
 
 export const getAllPosts = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    const features = new APIFeatures(Post.find(), req.query)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
+    let features;
+    if (req.query.user) {
+      const qUser = req.query.user;
+      delete req.query.user;
 
+      features = new APIFeatures(Post.find({ user: qUser}).populate({
+        path: 'user',
+        select: 'name profilePicture wilaya', // Select specific fields from the user model
+      }), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+
+    } else {
+      features = new APIFeatures(Post.find(), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+    }
     const doc = await features.query;
 
     if (req.user && req.user.currentRole === Role.Worker) {
+      console.log('hi');
       const data = await Promise.all(
         doc.map(async (post: PostDoc) => {
           const applied = await Application.findOne({
