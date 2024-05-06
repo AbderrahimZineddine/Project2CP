@@ -20,7 +20,13 @@ exports.getWorkerSavedPostsById = (0, catchAsync_1.default)(async (req, res, nex
             worker: worker.id,
             post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
         });
-        return { post, applied: applied != null };
+        return {
+            post,
+            application: {
+                id: applied.id,
+                applied: applied != null,
+            },
+        };
     }));
     res.status(200).json({
         status: 'success',

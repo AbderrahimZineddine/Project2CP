@@ -1,5 +1,5 @@
 import { MyRequest } from '../../controller/userController';
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, application } from 'express';
 import { Worker } from '../../models/Worker';
 import { WorkerDoc } from '../../models/WorkerDoc';
 import catchAsync from '../../utils/catchAsync';
@@ -21,7 +21,14 @@ export const getMyRequests = catchAsync(
         });
         const isSaved = (req.user as WorkerDoc).savedPosts.includes(post._id);
 
-        return { post, applied: applied != null, isSaved };
+        return {
+          post,
+          application: {
+            id: applied.id,
+            applied: applied != null,
+          },
+          isSaved,
+        };
       })
     );
 

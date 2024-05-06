@@ -25,7 +25,10 @@ const reviewDashboard_1 = require("../controller/dashboardController/reviewDashb
 const postDashboard_1 = require("../controller/dashboardController/postDashboard");
 const dealDashboard_1 = require("../controller/dashboardController/dealDashboard");
 const certificateDashboard_1 = require("../controller/dashboardController/certificateDashboard");
+const authController_1 = __importDefault(require("../controller/authController"));
 const router = express_1.default.Router();
+router.use(authController_1.default.protect);
+router.use(authController_1.default.restrictTo('User'));
 router.get('/users/daily', (0, dashboard1model_1.getDailyDocs)(User_1.User));
 router.get('/users/monthly', (0, dashboard1model_1.getMonthlyDocs)(User_1.User));
 router.get('/users/yearly', (0, dashboard1model_1.getYearlyDocs)(User_1.User));

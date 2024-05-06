@@ -24,7 +24,10 @@ exports.getPostById = (0, catchAsync_1.default)(async (req, res, next) => {
         res.status(200).json({
             status: 'success',
             post,
-            applied: applied != null,
+            application: {
+                id: applied.id,
+                applied: applied != null,
+            },
             isSaved,
         });
     }
@@ -65,7 +68,14 @@ exports.getAllPosts = (0, catchAsync_1.default)(async (req, res, next) => {
                 post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
             });
             const isSaved = req.user.savedPosts.includes(post._id);
-            return { post, applied: applied != null, isSaved };
+            return {
+                post,
+                application: {
+                    id: applied ? applied.id : null,
+                    applied: applied != null,
+                },
+                isSaved,
+            };
         }));
         res.status(200).json({ status: 'success', results: data.length, data });
     }

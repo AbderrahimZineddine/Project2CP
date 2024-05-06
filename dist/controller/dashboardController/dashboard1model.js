@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.formatDate = exports.formatDate2 = exports.getYearlyDocs = exports.getMonthlyDocs = exports.getDailyDocs = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const getDailyDocs = (Model) => (0, catchAsync_1.default)(async (req, res) => {
-    const DAYS_AGO = 10;
+    const DAYS_AGO = 6;
     const startDate = new Date(new Date().setDate(new Date().getDate() - DAYS_AGO));
     const endDate = new Date(Date.now());
     // Initialize objects to store counts for created and deleted docs for each day
@@ -97,7 +97,7 @@ const getMonthlyDocs = (Model) => (0, catchAsync_1.default)(async (req, res) => 
 exports.getMonthlyDocs = getMonthlyDocs;
 // Helper function to format date as "MMM DD" (e.g., "Jan 23")
 const getYearlyDocs = (Model) => (0, catchAsync_1.default)(async (req, res) => {
-    const YEARS_AGO = 5; // Number of months ago
+    const YEARS_AGO = 6; // Number of months ago
     const today = new Date(); // Today's date
     const startDate = new Date(today.getFullYear() - YEARS_AGO + 1, 1);
     const endDate = today;

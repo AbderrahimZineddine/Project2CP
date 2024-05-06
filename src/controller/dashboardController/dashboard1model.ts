@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 export const getDailyDocs = (Model: any) =>
   catchAsync(async (req: MyRequest, res: Response) => {
-    const DAYS_AGO = 10;
+    const DAYS_AGO = 6;
     const startDate = new Date(
       new Date().setDate(new Date().getDate() - DAYS_AGO)
     );
@@ -131,7 +131,7 @@ export const getMonthlyDocs = (Model: any) =>
 // Helper function to format date as "MMM DD" (e.g., "Jan 23")
 export const getYearlyDocs = (Model: any) =>
   catchAsync(async (req: MyRequest, res: Response) => {
-    const YEARS_AGO = 5; // Number of months ago
+    const YEARS_AGO = 6; // Number of months ago
     const today = new Date(); // Today's date
     const startDate = new Date(today.getFullYear() - YEARS_AGO + 1, 1);
     const endDate = today;

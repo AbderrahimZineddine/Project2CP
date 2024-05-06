@@ -18,6 +18,8 @@ export const login = catchAsync(
       '+authentication.password'
     );
 
+    console.log(user);
+
     if (
       !user ||
       !(await user.correctPassword(password, user.authentication.password))

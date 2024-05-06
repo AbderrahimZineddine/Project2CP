@@ -16,9 +16,21 @@ export const usersPerWilaya = catchAsync(
       },
     ]);
 
+    // Sort the data in descending order of count
+    data.sort((a, b) => b.count - a.count);
+
+    // Get the top 5 wilayas and sum up the counts of others
+    const topFive = data.slice(0, 5);
+    const othersCount = data
+      .slice(5)
+      .reduce((sum, wilaya) => sum + wilaya.count, 0);
+
+    // Create the final result array
+    const result = [...topFive, { _id: 'others', count: othersCount }];
+
     res.status(200).json({
       status: 'success',
-      data,
+      data : result,
     });
   }
 );
@@ -38,7 +50,7 @@ export const userTotal = catchAsync(
 
     res.status(200).json({
       status: 'success',
-      data : {
+      data: {
         // {
         //   _id: 'Created',
         //   count: totalUsers,

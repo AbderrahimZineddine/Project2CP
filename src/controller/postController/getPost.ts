@@ -25,7 +25,10 @@ export const getPostById = catchAsync(
       res.status(200).json({
         status: 'success',
         post,
-        applied: applied != null,
+        application: {
+          id: applied.id,
+          applied: applied != null,
+        },
         isSaved,
       });
     } else {
@@ -44,15 +47,17 @@ export const getAllPosts = catchAsync(
       const qUser = req.query.user;
       delete req.query.user;
 
-      features = new APIFeatures(Post.find({ user: qUser}).populate({
-        path: 'user',
-        select: 'name profilePicture wilaya', // Select specific fields from the user model
-      }), req.query)
+      features = new APIFeatures(
+        Post.find({ user: qUser }).populate({
+          path: 'user',
+          select: 'name profilePicture wilaya', // Select specific fields from the user model
+        }),
+        req.query
+      )
         .filter()
         .sort()
         .limitFields()
         .paginate();
-
     } else {
       features = new APIFeatures(Post.find(), req.query)
         .filter()
@@ -72,7 +77,14 @@ export const getAllPosts = catchAsync(
           });
           const isSaved = (req.user as WorkerDoc).savedPosts.includes(post._id);
 
-          return { post, applied: applied != null, isSaved };
+          return {
+            post,
+            application: {
+              id: applied ? applied.id : null,
+              applied: applied != null,
+            },
+            isSaved,
+          };
         })
       );
       res.status(200).json({ status: 'success', results: data.length, data });
