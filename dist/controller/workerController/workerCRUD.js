@@ -21,7 +21,7 @@ exports.getAllWorkers = (0, catchAsync_1.default)(async (req, res, next) => {
     // Execute the query and retrieve workers
     const workers = await features.query;
     let data;
-    if (req.user) {
+    if (req.user && req.user.role === UserDoc_1.Role.User) {
         // Map workers and add isFavorite property
         data = workers.map((worker) => ({
             ...worker.toObject(),

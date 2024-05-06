@@ -7,28 +7,45 @@ class APIFeatures {
         this.query = query;
         this.queryString = queryString;
     }
+    // filter() {
+    //   //1) Build The query :
+    //   const queryObj = { ...this.queryString };
+    //   const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    //   excludedFields.forEach((el) => delete queryObj[el]);
+    //   // Check if there's a name query parameter
+    //   if (queryObj.name) {
+    //     // Construct a regular expression for partial name search
+    //     // queryObj.name = {
+    //     //   $regex: new RegExp(queryObj.name as string, 'i'),
+    //     // } as any;
+    //     // this.query = this.query.find(queryObj.name);
+    //     // this.query = this.query.find({ name: new RegExp('^' + (queryObj.name as string) + '$', 'i') });
+    //     this.query = this.query.find({ name: { $regex: new RegExp(queryObj.name as string, 'i') } })
+    //     delete queryObj.name; // Delete the name property after using it
+    //   }
+    //   console.log('name : ', queryObj.name);
+    //   let queryStr = JSON.stringify(queryObj);
+    //   queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    //   // this.query = this.query.find({ _deletedAt: null }); //! this *****
+    //   this.query = this.query.find(JSON.parse(queryStr));
+    //   return this; //* so we can chain em
+    // }
     filter() {
-        //1) Build The query :
+        // Build the query object
         const queryObj = { ...this.queryString };
         const excludedFields = ['page', 'sort', 'limit', 'fields'];
-        excludedFields.forEach((el) => delete queryObj[el]);
+        excludedFields.forEach(el => delete queryObj[el]);
         // Check if there's a name query parameter
         if (queryObj.name) {
-            // Construct a regular expression for partial name search
-            // queryObj.name = {
-            //   $regex: new RegExp(queryObj.name as string, 'i'),
-            // } as any;
-            // this.query = this.query.find(queryObj.name);
-            // this.query = this.query.find({ name: new RegExp('^' + (queryObj.name as string) + '$', 'i') });
-            this.query = this.query.find({ name: { $regex: new RegExp(queryObj.name, 'i') } });
+            const name = queryObj.name;
+            const words = name.split(/\s+/); // Split the input name into individual words
+            const regexWords = words.map(word => `(?=.*${word})`).join(''); // Construct a regex for each word
+            const regex = new RegExp(`^${regexWords}`, 'i'); // Combine regex for all words
+            this.query = this.query.find({ name: { $regex: regex } });
             delete queryObj.name; // Delete the name property after using it
         }
-        console.log('name : ', queryObj.name);
-        let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-        // this.query = this.query.find({ _deletedAt: null }); //! this *****
-        this.query = this.query.find(JSON.parse(queryStr));
-        return this; //* so we can chain em
+        // Continue filtering for other query parameters if any
+        return this; // Return the APIFeatures instance for chaining
     }
     sort() {
         if (this.queryString.sort) {

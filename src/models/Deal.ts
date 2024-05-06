@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import mongoose from 'mongoose';
 
 export interface DealDoc extends mongoose.Document {
@@ -82,5 +83,22 @@ DealSchema.pre(/^find/, function (next) {
   }
   next();
 });
+
+//
+
+DealSchema.pre("find", function <PostDoc>(next: NextFunction) {
+
+  this.populate({
+    path: 'user',
+    select: 'name profilePicture wilaya', // Select specific fields from the user model
+  });
+  this.populate({
+    path: 'worker',
+    select: 'name profilePicture job', // Select specific fields from the user model
+  });
+
+  next();
+});
+
 
 export const Deal = mongoose.model<DealDoc>('Deal', DealSchema);

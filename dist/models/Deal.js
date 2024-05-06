@@ -69,5 +69,17 @@ DealSchema.pre(/^find/, function (next) {
     }
     next();
 });
+//
+DealSchema.pre("find", function (next) {
+    this.populate({
+        path: 'user',
+        select: 'name profilePicture wilaya', // Select specific fields from the user model
+    });
+    this.populate({
+        path: 'worker',
+        select: 'name profilePicture job', // Select specific fields from the user model
+    });
+    next();
+});
 exports.Deal = mongoose_1.default.model('Deal', DealSchema);
 //# sourceMappingURL=Deal.js.map

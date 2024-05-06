@@ -38,9 +38,7 @@ exports.getDealsFromWorkerById = (0, catchAsync_1.default)(async (req, res, next
     next();
 });
 exports.getDealById = (0, catchAsync_1.default)(async (req, res, next) => {
-    res.status(200).json({
-        status: 'success',
-        deal: req.deal,
-    });
+    req.query._id = req.params.id;
+    next();
 });
 //# sourceMappingURL=getMyDeals.js.map

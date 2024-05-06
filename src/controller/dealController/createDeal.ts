@@ -43,7 +43,7 @@ export const createDeal = catchAsync(
     req.application._deletedAt = new Date(Date.now());
     req.application.save({validateBeforeSave: false});
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       deal,
     });

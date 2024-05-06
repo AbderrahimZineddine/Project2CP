@@ -13,7 +13,7 @@ router.get(
   dealController.getAllDeals
 );
 
-router.get('/:id', dealController.getDealById);
+router.get('/:id', dealController.getDealById, dealController.getAllDeals);
 router.use(authController.protect);
 
 router.post(

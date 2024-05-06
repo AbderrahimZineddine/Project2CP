@@ -8,7 +8,7 @@ const dealController_1 = __importDefault(require("../controller/dealController")
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 router.get('/me', authController_1.default.protect, dealController_1.default.getMyDeals, dealController_1.default.showDeletedMiddleware, dealController_1.default.sortMiddleware, dealController_1.default.getAllDeals);
-router.get('/:id', dealController_1.default.getDealById);
+router.get('/:id', dealController_1.default.getDealById, dealController_1.default.getAllDeals);
 router.use(authController_1.default.protect);
 router.post('/:id', //here it is application id!!!
 authController_1.default.restrictTo('User'), dealController_1.default.ValidateDealInputs, dealController_1.default.createDeal);

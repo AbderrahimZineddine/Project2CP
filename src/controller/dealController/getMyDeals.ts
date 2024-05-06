@@ -47,9 +47,7 @@ export const getDealsFromWorkerById = catchAsync(
 
 export const getDealById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    res.status(200).json({
-      status: 'success',
-      deal: req.deal,
-    });
+    req.query._id = req.params.id;
+    next()
   }
 );
