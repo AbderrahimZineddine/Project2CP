@@ -8,12 +8,33 @@ import { Role } from 'models/UserDoc';
 
 export const getAll = (Model: any) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    // let filter = {};
+    let filter = {};
+    if (req.query.user) {
+      filter = {
+        user: req.query.user,
+      };
+      delete req.query.user;
+    }
+    
+    if (req.query.worker) {
+      filter = {
+        worker: req.query.worker,
+      };
+      delete req.query.worker;
+    }
+
+    if (req.query.post) {
+      filter = {
+        post : req.query.post,
+      };
+      delete req.query.post;
+    }
+
     // if (req.params.id) {
     //   filter = { user: req.params.id };
     // }
     // const features = new APIFeatures(Model.find(filter), req.query)
-    const features = new APIFeatures(Model.find(), req.query)
+    const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
@@ -21,7 +42,6 @@ export const getAll = (Model: any) =>
 
     const doc = await features.query;
 
-    
     res.status(200).json({ status: 'success', results: doc.length, data: doc });
   });
 

@@ -94,7 +94,7 @@ DealSchema.pre("find", function <PostDoc>(next: NextFunction) {
   });
   this.populate({
     path: 'worker',
-    select: 'name profilePicture job', // Select specific fields from the user model
+    select: 'name profilePicture job isCertified', // Select specific fields from the user model
   });
 
   next();
