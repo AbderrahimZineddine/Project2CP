@@ -4,11 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUsersName = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const express_1 = require("express");
 const User_1 = require("../models/User");
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const Worker_1 = require("../models/Worker");
 const PortfolioPost_1 = require("../models/PortfolioPost");
+const UserDoc_1 = require("../models/UserDoc");
 const router = (0, express_1.Router)();
 router.patch('/makeAllUsersVerified', async (req, res) => {
     try {
@@ -77,6 +79,65 @@ router.patch('/checkPortfolioPosts', async (req, res) => {
         });
     }
 });
+router.patch('/workersLocations', async (req, res) => {
+    try {
+        const centerLat = 35.65; // Sidibelabbas latitude
+        const centerLng = 4.9667; // Sidibelabbas longitude
+        const radius = 5000 * 111300; // Radius of the circle in meters
+        // Fetch existing workers from the database
+        const workers = await Worker_1.Worker.find({});
+        // Iterate over each worker and update their location
+        for (const worker of workers) {
+            const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
+            const randomOffsetLng = (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat))); // Random offset within +/- radius in longitude
+            const newLat = centerLat + randomOffsetLat;
+            const newLng = centerLng + randomOffsetLng;
+            // Update the worker's location
+            worker.location.lat = newLat;
+            worker.location.lng = newLng;
+            // worker.location.title = `${worker.name}'s location`;
+            // Save the updated worker to the database
+            await worker.save();
+        }
+        console.log('Worker locations updated successfully!');
+        res.status(200).json({
+            status: 'success',
+            message: 'All workers locations updated checked .',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while location mod .',
+            error: error.message,
+        });
+    }
+});
+router.patch('/passwordUpdater', async (req, res, next) => {
+    try {
+        const workers = await User_1.User.find();
+        for (const worker of workers) {
+            worker.authentication.password = '1234';
+            worker.authentication.otp = undefined;
+            worker.authentication.otpExpires = undefined;
+            worker.authentication.password = await bcryptjs_1.default.hash(worker.authentication.password, 12);
+            worker.authentication.passwordConfirm = worker.authentication.password; // to delete ...
+            await worker.save({ validateBeforeSave: false });
+            // worker.passwordBcryptMiddleware(next);
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'All users passwords updated checked .',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while passwords mod .',
+            error: error.message,
+        });
+    }
+});
 exports.updateUsersName = (0, catchAsync_1.default)(async (req, res, next) => {
     // Define the new name
     const newName = 'NewName this very nice'; // Replace 'NewName' with the desired new name
@@ -87,8 +148,12 @@ exports.updateUsersName = (0, catchAsync_1.default)(async (req, res, next) => {
         res.status(404).json({ message: 'No users found' });
     }
     // Iterate through each user and update their name
+    let i = 1;
     for (const user of users) {
-        user.name = newName; // Update the name field to the new name
+        if (user.role === UserDoc_1.Role.User) {
+            user.name = `worker${i}`; // Update the name field to the new name
+            i++;
+        }
         await user.save({ validateBeforeSave: false }); // Save the changes to the database
     }
     res.status(200).json({ message: 'Names updated successfully' });

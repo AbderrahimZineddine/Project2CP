@@ -14,6 +14,7 @@ const dealController_1 = __importDefault(require("../controller/dealController")
 const workerController_1 = __importDefault(require("../controller/workerController"));
 const router = express_1.default.Router();
 router.route('/').get(userController_1.default.getAllUsers);
+router.route('/map').get(userController_1.default.getMap);
 // router.use(authController.protect);
 // router.get(
 //   '/me/reviews',

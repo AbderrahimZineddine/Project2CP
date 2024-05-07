@@ -91,9 +91,10 @@ export const getPortfolioPostsFromWorkerById = catchAsync(
           isLiked = true;
         }
       }
+      const portfolioPost = await PortfolioPost.findById(ppostId);
 
       data.push({
-        portfolioPost: await PortfolioPost.findById(ppostId),
+        ...portfolioPost.toObject(),
         isLiked,
       });
     }

@@ -4,6 +4,8 @@ import { NextFunction } from 'express';
 import { WorkerDoc } from './WorkerDoc';
 import { Certificate, CertificateDoc } from './Certificate';
 
+
+
 const workerSchema = new mongoose.Schema(
   {
     workerAccountVerified: {
@@ -39,7 +41,11 @@ const workerSchema = new mongoose.Schema(
       type: String,
       required: [true, 'a Worker must enter his id picture'],
     },
-    location: String,
+    location: {
+      title : String,
+      lat : Number,
+      lng : Number,
+    },
     rating: {
       type: Number,
       min: [0, 'cannot be below 0'],

@@ -21,8 +21,10 @@ exports.editMeWorker = (0, catchAsync_1.default)(async (req, res, next) => {
         req.user.job = req.body.job;
         await req.user.save({ validateModifiedOnly: true });
     }
-    if (req.body.location) {
-        req.user.location = req.body.location;
+    if (req.body.lat && req.body.lng && req.body.title) {
+        req.user.location.lat = req.body.lat;
+        req.user.location.lng = req.body.lng;
+        req.user.location.title = req.body.title;
         await req.user.save({ validateModifiedOnly: true });
     }
     next();

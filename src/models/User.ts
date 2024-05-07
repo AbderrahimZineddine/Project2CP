@@ -89,6 +89,7 @@ const userSchema = new mongoose.Schema(
           },
           message: 'Passwords do not match',
         },
+        select: false, //* automatically doesn't show up in output
       },
       passwordChangedAt: Date,
       otp: String,
@@ -135,13 +136,13 @@ async function passwordBcryptMiddleware(next: NextFunction) {
   // only if password is modified
   if (!this.isModified('authentication.password')) return next();
 
-  //* hashing / encryption :
-  // we need to salt the password before hashing it
+  // //* hashing / encryption :
+  // // we need to salt the password before hashing it
   this.authentication.password = await bcrypt.hash(
     this.authentication.password,
     12
   );
-  this.authentication.passwordConfirm = undefined; // to delete ...
+  this.authentication.passwordConfirm = this.authentication.password; // to delete ...
 
   next();
 }

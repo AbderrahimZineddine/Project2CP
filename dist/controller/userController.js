@@ -4,8 +4,10 @@ const getAllUsers_1 = require("./userController/getAllUsers");
 const editMeUser_1 = require("./userController/editMeUser");
 const getMe_1 = require("./userController/getMe");
 const ToggleFavoriteWorker_1 = require("./userController/ToggleFavoriteWorker");
+const getMap_1 = require("./userController/getMap");
 const userController = {
     getUser: getAllUsers_1.getUser,
+    getMap: getMap_1.getMap,
     getAllUsers: getAllUsers_1.getAllUsers,
     deleteUser: getAllUsers_1.deleteUser,
     updateUser: getAllUsers_1.updateUser,

@@ -11,6 +11,8 @@ import workerController from '../controller/workerController';
 const router = express.Router();
 router.route('/').get(userController.getAllUsers);
 
+router.route('/map').get(userController.getMap);
+
 // router.use(authController.protect);
 
 // router.get(

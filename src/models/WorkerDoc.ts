@@ -2,6 +2,12 @@ import mongoose from 'mongoose';
 import { UserDoc } from './UserDoc';
 import { PortfolioPostDoc } from './PortfolioPost';
 
+export interface Location {
+  title: string;
+  lng: number;
+  lat: number;
+}
+
 export enum Job {
   Architect = 'Architect',
   Designer = 'Designer',
@@ -30,7 +36,7 @@ export interface WorkerDoc extends UserDoc {
   isVerified: boolean;
   isCertified: boolean;
   idPicture: string;
-  location: string;
+  location: Location;
   rating: number;
   ratingsNumber: number;
   experience: number;

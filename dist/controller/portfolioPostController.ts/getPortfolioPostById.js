@@ -71,8 +71,9 @@ exports.getPortfolioPostsFromWorkerById = (0, catchAsync_1.default)(async (req, 
                 isLiked = true;
             }
         }
+        const portfolioPost = await PortfolioPost_1.PortfolioPost.findById(ppostId);
         data.push({
-            portfolioPost: await PortfolioPost_1.PortfolioPost.findById(ppostId),
+            ...portfolioPost.toObject(),
             isLiked,
         });
     }

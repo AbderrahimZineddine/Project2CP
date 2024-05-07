@@ -19,6 +19,7 @@ import { PostDoc } from '../models/Post';
 import { ApplicationDoc } from 'models/Application';
 import { DealDoc } from '../models/Deal';
 import { ReviewDoc } from '../models/Review';
+import { getMap } from './userController/getMap';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
@@ -39,6 +40,7 @@ export interface MyRequest extends Request {
 
 const userController = {
   getUser: getUser,
+  getMap : getMap,
   getAllUsers: getAllUsers,
   deleteUser: deleteUser,
   updateUser: updateUser,

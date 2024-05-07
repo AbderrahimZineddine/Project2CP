@@ -12,7 +12,7 @@ const Certificate_1 = require("../../models/Certificate");
 const appError_1 = __importDefault(require("../../utils/appError"));
 const uploadController_1 = __importDefault(require("../../controller/uploadController"));
 exports.signupAsWorker = (0, catchAsync_1.default)(async (req, res, next) => {
-    const { job, location } = req.body;
+    const { job, lat, lng, title } = req.body;
     // if (!job || !location || !req.idPicture) {  //TODO require location !
     console.log(req.idPicture);
     if (!job || !req.idPicture) {
@@ -37,7 +37,9 @@ exports.signupAsWorker = (0, catchAsync_1.default)(async (req, res, next) => {
         const user = await User_1.User.findByIdAndUpdate(req.user.id, {
             role: authController_1.Role.Worker,
             job,
-            location,
+            'location.lat': lat ?? null,
+            'location.lng': lng ?? null,
+            'location.title': title ?? null,
             certificates,
             idPicture: req.idPicture,
         }, { new: true, overwriteDiscriminatorKey: true });

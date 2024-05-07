@@ -16,7 +16,7 @@ import uploadController from '../../controller/uploadController';
 
 export const signupAsWorker = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-    const { job, location } = req.body;
+    const { job, lat, lng, title } = req.body;
 
     // if (!job || !location || !req.idPicture) {  //TODO require location !
     console.log(req.idPicture)
@@ -52,7 +52,10 @@ export const signupAsWorker = catchAsync(
         {
           role: Role.Worker,
           job,
-          location,
+          'location.lat' : lat ?? null ,
+          'location.lng' : lng ?? null,
+          'location.title' : title ?? null,
+          
           certificates,
           idPicture: req.idPicture,
         },

@@ -41,7 +41,11 @@ const workerSchema = new mongoose_1.default.Schema({
         type: String,
         required: [true, 'a Worker must enter his id picture'],
     },
-    location: String,
+    location: {
+        title: String,
+        lat: Number,
+        lng: Number,
+    },
     rating: {
         type: Number,
         min: [0, 'cannot be below 0'],
