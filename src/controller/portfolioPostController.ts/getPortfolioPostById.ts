@@ -81,13 +81,20 @@ export const getPortfolioPostsFromWorkerById = catchAsync(
 
     const data = [];
     for (const ppostId of slicedPortfolioPosts) {
-      const like = await Like.findOne({
-        userId: req.user.id,
-        postId: ppostId,
-      });
+      let isLiked = false;
+      if (req.user && req.user.id) {
+        const like = await Like.findOne({
+          userId: req.user.id,
+          postId: ppostId,
+        });
+        if (like) {
+          isLiked = true;
+        }
+      }
+
       data.push({
         portfolioPost: await PortfolioPost.findById(ppostId),
-        isLiked: like != null,
+        isLiked,
       });
     }
     res.status(200).json({

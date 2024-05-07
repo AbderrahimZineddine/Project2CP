@@ -14,6 +14,8 @@ exports.deletePortfolioPostById = (0, catchAsync_1.default)(async (req, res, nex
     if (!portfolioPost) {
         return next(new appError_1.default('No portfolio post found with that id', 404));
     }
+    req.user.portfolioPosts = req.user.portfolioPosts.filter((ppostId) => ppostId.toString() !== portfolioPost.id);
+    await req.user.save({ validateBeforeSave: false });
     for (const url of portfolioPost.images) {
         await uploadController_1.default.deleteFromCloudinary(url);
     }

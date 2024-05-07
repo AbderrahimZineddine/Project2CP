@@ -3,7 +3,8 @@ import { User } from '../models/User';
 import catchAsync from '../utils/catchAsync';
 import { MyRequest } from '../controller/userController';
 import { Worker } from '../models/Worker';
-import { WorkerDoc } from 'models/WorkerDoc';
+import { WorkerDoc } from '../models/WorkerDoc';
+import { PortfolioPost } from '../models/PortfolioPost';
 
 const router = Router();
 
@@ -43,6 +44,42 @@ router.patch('/checkCertifiedForAllWorkers', async (req, res) => {
   }
 });
 
+router.patch('/checkPortfolioPosts', async (req, res) => {
+  try {
+    // Find all workers
+    const workers: WorkerDoc[] = await Worker.find();
+
+    // Iterate through each worker
+    for (const worker of workers) {
+      // Iterate through the portfolioPosts array of the worker
+      for (let i = 0; i < worker.portfolioPosts.length; i++) {
+        const postId = worker.portfolioPosts[i];
+
+        // Check if the post exists in the PortfolioPost collection
+        const postExists = await PortfolioPost.exists({ _id: postId });
+
+        // If the post doesn't exist, remove it from the portfolioPosts array
+        if (!postExists) {
+          worker.portfolioPosts.splice(i, 1);
+          i--; // Decrement i to account for the removed element
+        }
+      }
+
+      // Save the updated worker document
+      await worker.save({ validateBeforeSave: false });
+    }
+
+    res
+      .status(200)
+      .json({ status: 'success', message: 'All porfolios checked .' });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while pofrofjieourg.',
+      error: error.message,
+    });
+  }
+});
 export const updateUsersName = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     // Define the new name

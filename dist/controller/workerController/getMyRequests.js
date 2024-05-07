@@ -21,7 +21,7 @@ exports.getMyRequests = (0, catchAsync_1.default)(async (req, res, next) => {
         return {
             post,
             application: {
-                id: applied.id,
+                id: applied ? applied.id : null,
                 applied: applied != null,
             },
             isSaved,

@@ -19,9 +19,6 @@ exports.router.get('/me/portfolioPosts', authController_1.default.protect, authC
 exports.router.get('/me/requests', authController_1.default.protect, authController_1.default.restrictTo('Worker'), workerController_1.default.getMyRequests);
 exports.router.delete('/me/requests/:id', authController_1.default.protect, authController_1.default.restrictTo('Worker'), workerController_1.default.deleteRequestById);
 exports.router.get('/me', authController_1.default.protect, authController_1.default.restrictTo('Worker'), userController_1.default.getMe, workerController_1.default.getWorkerById);
-exports.router
-    .route('/')
-    .get(authController_1.default.protect, authController_1.default.restrictTo('User'), workerController_1.default.getAllWorkers);
 exports.router.get('/:id/reviews', reviewController_1.default.getWorkerReviews, reviewController_1.default.getAllReviews);
 exports.router.get('/:id/portfolioPosts', authController_1.default.isLoggedIn, portfolioPostsController_1.default.getPortfolioPostsFromWorkerById);
 exports.router.get('/:id/savedPosts', 
@@ -35,6 +32,9 @@ dealController_1.default.getDealsFromWorkerById, dealController_1.default.showDe
 exports.router.patch('/:id/favorite', authController_1.default.protect, userController_1.default.ToggleFavoriteWorker);
 exports.router.get('/:id', authController_1.default.protect, authController_1.default.restrictTo('User'), workerController_1.default.getWorkerById);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
+exports.router
+    .route('/')
+    .get(authController_1.default.protect, authController_1.default.restrictTo('User'), workerController_1.default.getAllWorkers);
 exports.router.use(authController_1.default.protect);
 exports.router.use(authController_1.default.restrictTo('Worker'));
 exports.router.patch('/editMe', 

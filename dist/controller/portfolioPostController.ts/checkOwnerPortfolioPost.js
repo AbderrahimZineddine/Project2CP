@@ -7,7 +7,7 @@ exports.checkOwnerPortfolioPost = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const appError_1 = __importDefault(require("../../utils/appError"));
 exports.checkOwnerPortfolioPost = (0, catchAsync_1.default)(async (req, res, next) => {
-    if (!req.user.portfolioPosts.find((val) => val.id === req.params.id)) {
+    if (!req.user.portfolioPosts.find((val) => val.toString() === req.params.id)) {
         return next(new appError_1.default('This portfolio post not belong to this user', 404));
     }
     next();

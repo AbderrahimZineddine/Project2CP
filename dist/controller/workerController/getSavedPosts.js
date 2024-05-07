@@ -23,7 +23,7 @@ exports.getWorkerSavedPostsById = (0, catchAsync_1.default)(async (req, res, nex
         return {
             post,
             application: {
-                id: applied.id,
+                id: applied ? applied.id : null,
                 applied: applied != null,
             },
         };

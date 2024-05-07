@@ -8,7 +8,7 @@ export const checkOwnerPortfolioPost = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     if (
       !(req.user as WorkerDoc).portfolioPosts.find(
-        (val: any) => val.id === req.params.id
+        (val: any) => val.toString() === req.params.id
       )
     ) {
       return next(

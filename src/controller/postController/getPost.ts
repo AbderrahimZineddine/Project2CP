@@ -26,7 +26,7 @@ export const getPostById = catchAsync(
         status: 'success',
         post,
         application: {
-          id: applied.id,
+          id: applied ? applied.id : null,
           applied: applied != null,
         },
         isSaved,

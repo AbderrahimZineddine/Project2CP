@@ -61,13 +61,19 @@ exports.getPortfolioPostsFromWorkerById = (0, catchAsync_1.default)(async (req, 
     const slicedPortfolioPosts = worker.portfolioPosts.slice(skip, skip + limit);
     const data = [];
     for (const ppostId of slicedPortfolioPosts) {
-        const like = await Like_1.Like.findOne({
-            userId: req.user.id,
-            postId: ppostId,
-        });
+        let isLiked = false;
+        if (req.user && req.user.id) {
+            const like = await Like_1.Like.findOne({
+                userId: req.user.id,
+                postId: ppostId,
+            });
+            if (like) {
+                isLiked = true;
+            }
+        }
         data.push({
             portfolioPost: await PortfolioPost_1.PortfolioPost.findById(ppostId),
-            isLiked: like != null,
+            isLiked,
         });
     }
     res.status(200).json({

@@ -24,7 +24,7 @@ export const getMyRequests = catchAsync(
         return {
           post,
           application: {
-            id: applied.id,
+            id: applied ? applied.id : null,
             applied: applied != null,
           },
           isSaved,

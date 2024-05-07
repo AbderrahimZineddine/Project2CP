@@ -46,13 +46,7 @@ router.get(
   workerController.getWorkerById
 );
 
-router
-  .route('/')
-  .get(
-    authController.protect,
-    authController.restrictTo('User'),
-    workerController.getAllWorkers
-  );
+
 router.get(
   '/:id/reviews',
   reviewController.getWorkerReviews,
@@ -92,6 +86,14 @@ router.get(
   workerController.getWorkerById
 );
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
+
+router
+  .route('/')
+  .get(
+    authController.protect,
+    authController.restrictTo('User'),
+    workerController.getAllWorkers
+  );
 
 router.use(authController.protect);
 

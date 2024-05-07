@@ -25,7 +25,7 @@ exports.getPostById = (0, catchAsync_1.default)(async (req, res, next) => {
             status: 'success',
             post,
             application: {
-                id: applied.id,
+                id: applied ? applied.id : null,
                 applied: applied != null,
             },
             isSaved,
