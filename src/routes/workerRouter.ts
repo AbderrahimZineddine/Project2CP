@@ -81,8 +81,9 @@ router.patch(
 
 router.get(
   '/:id',
-  authController.protect,
-  authController.restrictTo('User'),
+  // authController.protect,
+  // authController.restrictTo('User'),
+  authController.isLoggedIn,
   workerController.getWorkerById
 );
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
