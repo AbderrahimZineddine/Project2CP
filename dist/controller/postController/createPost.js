@@ -36,7 +36,7 @@ exports.createPost = (0, catchAsync_1.default)(async (req, res, next) => {
         }
         return next(new appError_1.default('Error creating your Post! Please try again later', 500));
     }
-    res.status(200).json({
+    res.status(201).json({
         status: 'success',
         post,
     });

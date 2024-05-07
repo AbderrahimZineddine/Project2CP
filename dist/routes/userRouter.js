@@ -16,12 +16,7 @@ const router = express_1.default.Router();
 router.route('/').get(userController_1.default.getAllUsers);
 router.route('/map').get(userController_1.default.getMap);
 // router.use(authController.protect);
-// router.get(
-//   '/me/reviews',
-//   authController.protect,
-//   reviewController.getMyReviews,
-//   reviewController.getAllReviews
-// );
+router.get('/me/reviews', authController_1.default.protect, reviewController_1.default.getMyReviews, reviewController_1.default.getAllReviews);
 // router.get(
 //   '/me/posts',
 //   authController.protect,

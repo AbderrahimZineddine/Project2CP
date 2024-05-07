@@ -50,7 +50,7 @@ export const applyPost = catchAsync(
       );
     }
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       application,
     });

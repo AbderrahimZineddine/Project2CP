@@ -15,12 +15,12 @@ router.route('/map').get(userController.getMap);
 
 // router.use(authController.protect);
 
-// router.get(
-//   '/me/reviews',
-//   authController.protect,
-//   reviewController.getMyReviews,
-//   reviewController.getAllReviews
-// );
+router.get(
+  '/me/reviews',
+  authController.protect,
+  reviewController.getMyReviews,
+  reviewController.getAllReviews
+);
 
 // router.get(
 //   '/me/posts',

@@ -8,7 +8,7 @@ router.get(
   '/me',
   authController.protect,
   dealController.getMyDeals,
-  dealController.showDeletedMiddleware,
+  // dealController.showDeletedMiddleware,
   dealController.sortMiddleware,
   dealController.getAllDeals
 );
@@ -53,7 +53,7 @@ router.delete(
 
 router.get(
   '/',
-  dealController.showDeletedMiddleware,
+  // dealController.showDeletedMiddleware,
   dealController.sortMiddleware,
   dealController.getAllDeals
 );

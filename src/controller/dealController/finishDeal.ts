@@ -39,7 +39,7 @@ export const finishDealAccept = catchAsync(
     req.deal.status = DealStatus.Finished;
     req.deal.statusOrd = 3;
     req.deal._finishedAt = new Date(Date.now());
-    req.deal._deletedAt = new Date(Date.now());
+    // req.deal._deletedAt = new Date(Date.now());
 
     await req.deal.save();
 

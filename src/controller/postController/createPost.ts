@@ -40,7 +40,7 @@ export const createPost = catchAsync(
       );
     }
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       post,
     });
