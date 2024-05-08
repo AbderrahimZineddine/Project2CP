@@ -39,7 +39,9 @@ app.use(bodyParser.json());
 // app.use(multer().any());
 // app.use(express.urlencoded({extended:true})); //TODO i donno
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: 'https://easyhome-lcvx.onrender.com' })); // Set allowed origin here
+
 app.options('*', cors());
 app.use(morgan('dev'));
 // app.use(express.static(path.join(__dirname, '/public')));

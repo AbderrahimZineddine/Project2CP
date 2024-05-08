@@ -6,6 +6,7 @@ import AppError from '../../utils/appError';
 import catchAsync from '../../utils/catchAsync';
 import uploadController from '../uploadController';
 import { Post } from '../../models/Post';
+import { Deal } from '../../models/Deal';
 
 export const ValidateApplicationInputs = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -26,6 +27,12 @@ export const ValidateApplicationInputs = catchAsync(
     if (await Application.findOne({ worker: req.user.id, post: post.id })) {
       return next(new AppError('You have already applied for this post!', 400));
     }
+
+    if (await Deal.findOne({ worker: req.user.id, post: post.id })) {
+      return next(new AppError('You already have a deal with this post!', 400));
+    }
+
+
 
     req.post = post;
     next();
