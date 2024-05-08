@@ -34,9 +34,9 @@ app.use(body_parser_1.default.json());
 // app.use(ExpressFormidable());
 // app.use(multer().any());
 // app.use(express.urlencoded({extended:true})); //TODO i donno
-// app.use(cors());
+app.use((0, cors_1.default)());
 // app.use(cors({ origin: 'https://easyhome-lcvx.onrender.com' })); // Set allowed origin here
-// app.options('*', cors());
+app.options('*', (0, cors_1.default)());
 const allowedOrigins = ['http://localhost:5174', 'https://easyhome-lcvx.onrender.com'];
 app.use((0, cors_1.default)({
     origin: function (origin, callback) {
