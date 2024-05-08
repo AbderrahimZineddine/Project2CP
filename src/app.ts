@@ -40,9 +40,22 @@ app.use(bodyParser.json());
 // app.use(express.urlencoded({extended:true})); //TODO i donno
 
 // app.use(cors());
-app.use(cors({ origin: 'https://easyhome-lcvx.onrender.com' })); // Set allowed origin here
+// app.use(cors({ origin: 'https://easyhome-lcvx.onrender.com' })); // Set allowed origin here
 
-app.options('*', cors());
+// app.options('*', cors());
+
+const allowedOrigins = ['http://localhost:5174', 'https://easyhome-lcvx.onrender.com'];
+app.use(cors({
+  origin: function (origin, callback) {
+    // Check if the origin is allowed or if it's a browser preflight request
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(morgan('dev'));
 // app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/src/public')));

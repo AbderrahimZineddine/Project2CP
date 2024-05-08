@@ -35,8 +35,20 @@ app.use(body_parser_1.default.json());
 // app.use(multer().any());
 // app.use(express.urlencoded({extended:true})); //TODO i donno
 // app.use(cors());
-app.use((0, cors_1.default)({ origin: 'https://easyhome-lcvx.onrender.com' })); // Set allowed origin here
-app.options('*', (0, cors_1.default)());
+// app.use(cors({ origin: 'https://easyhome-lcvx.onrender.com' })); // Set allowed origin here
+// app.options('*', cors());
+const allowedOrigins = ['http://localhost:5174', 'https://easyhome-lcvx.onrender.com'];
+app.use((0, cors_1.default)({
+    origin: function (origin, callback) {
+        // Check if the origin is allowed or if it's a browser preflight request
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
 app.use((0, morgan_1.default)('dev'));
 // app.use(express.static(path.join(__dirname, '/public')));
 app.use(express_1.default.static(path_1.default.join(__dirname, '/src/public')));
