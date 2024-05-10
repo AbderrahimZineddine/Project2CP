@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812321369286",
+    "project_id": "easyhome-project2cp",
+    "storage_bucket": "easyhome-project2cp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812321369286:android:935c80fcae0b24b72bfbc7",
+        "android_client_info": {
+          "package_name": "com.easyHomeApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY8lTS2IsIvq2REFuAKbriOjh31HEoO0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

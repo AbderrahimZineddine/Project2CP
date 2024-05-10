@@ -9,7 +9,7 @@ export function createAndSendToken(
   req: MyRequest,
   res: Response
 ) {
-  console.log("user is : \n", user)
+  console.log('user is : \n', user);
   // payload : { _id: user._id.toString() }  This is the data you want to include in the JWT //TODO add current Role;
   const token = jwt.sign(
     { id: user.id.toString(), currentRole: user.currentRole },
@@ -22,7 +22,8 @@ export function createAndSendToken(
   const number = process.env.JWT_COOKIE_EXPIRES_IN as unknown as number;
   const cookieOptions = {
     expires: new Date(Date.now() + number * 24 * 60 * 60 * 1000), // 90days
-    secure: req.secure || req.headers['x-forwarded-proto'] == 'https',
+    // secure: req.secure || req.headers['x-forwarded-proto'] == 'https',
+    secure: false,
     httpOnly: true, //* cannot be accessed or modified through JavaScript on the client-side
   };
 
