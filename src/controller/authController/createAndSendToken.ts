@@ -22,7 +22,7 @@ export function createAndSendToken(
   const number = process.env.JWT_COOKIE_EXPIRES_IN as unknown as number;
   const cookieOptions = {
     expires: new Date(Date.now() + number * 24 * 60 * 60 * 1000), // 90days
-    // secure: req.secure || req.headers['x-forwarded-proto'] == 'https',
+    // secure: req.secure || req.headers['x-forwarded-proto'] == 'https', //TODO : change later 
     secure: false,
     httpOnly: true, //* cannot be accessed or modified through JavaScript on the client-side
   };
