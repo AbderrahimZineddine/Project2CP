@@ -67,7 +67,7 @@ import authController from '../controller/authController';
 const router = express.Router();
 
 router.use(authController.protect);
-router.use(authController.restrictTo('User'));
+router.use(authController.restrictTo('Admin'));
 
 router.get('/users/daily', getDailyDocs(User));
 router.get('/users/monthly', getMonthlyDocs(User));

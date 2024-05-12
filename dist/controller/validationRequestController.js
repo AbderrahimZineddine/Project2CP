@@ -69,15 +69,6 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
         worker.ratingsNumber = undefined;
         worker.portfolioPosts = undefined;
         worker.savedPosts = undefined;
-        await worker.save({ validateBeforeSave: false }); //TODO check if it is necessary
-        await Worker_1.Worker.findByIdAndUpdate(worker.id, {
-            role: UserDoc_1.Role.User,
-            currentRole: UserDoc_1.Role.User,
-        }, {
-            new: true,
-            overwriteDiscriminatorKey: true,
-            runValidators: false,
-        });
         if (worker.idPicture) {
             await uploadController_1.default.deleteFromCloudinary(worker.idPicture);
             worker.idPicture = undefined;
@@ -90,9 +81,18 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
             }
             worker.certificates = undefined;
         }
+        await worker.save({ validateBeforeSave: false }); //TODO check if it is necessary
+        await Worker_1.Worker.findByIdAndUpdate(worker.id, {
+            role: UserDoc_1.Role.User,
+            currentRole: UserDoc_1.Role.User,
+        }, {
+            new: true,
+            overwriteDiscriminatorKey: true,
+            runValidators: false,
+        });
         // await ValidationRequest.findByIdAndDelete(req.params.id);
         await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
-        res.status(200).json({ status: 'success', worker });
+        res.status(200).json({ status: 'success' });
     }
 });
 const validationRequestController = {

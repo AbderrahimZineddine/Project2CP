@@ -104,19 +104,6 @@ const disapproveValidationRequest = catchAsync(
       worker.ratingsNumber = undefined;
       worker.portfolioPosts = undefined;
       worker.savedPosts = undefined;
-      await worker.save({ validateBeforeSave: false }); //TODO check if it is necessary
-      await Worker.findByIdAndUpdate(
-        worker.id,
-        {
-          role: Role.User,
-          currentRole: Role.User,
-        },
-        {
-          new: true,
-          overwriteDiscriminatorKey: true,
-          runValidators: false,
-        }
-      );
       if (worker.idPicture) {
         await uploadController.deleteFromCloudinary(worker.idPicture);
         worker.idPicture = undefined;
@@ -130,6 +117,19 @@ const disapproveValidationRequest = catchAsync(
         }
         worker.certificates = undefined;
       }
+      await worker.save({ validateBeforeSave: false }); //TODO check if it is necessary
+      await Worker.findByIdAndUpdate(
+        worker.id,
+        {
+          role: Role.User,
+          currentRole: Role.User,
+        },
+        {
+          new: true,
+          overwriteDiscriminatorKey: true,
+          runValidators: false,
+        }
+      );
 
       // await ValidationRequest.findByIdAndDelete(req.params.id);
       await ValidationRequest.findByIdAndUpdate(
@@ -137,7 +137,8 @@ const disapproveValidationRequest = catchAsync(
         { _deletedAt: Date.now() },
         { new: true }
       );
-      res.status(200).json({ status: 'success', worker });
+
+      res.status(200).json({ status: 'success' });
     }
   }
 );
