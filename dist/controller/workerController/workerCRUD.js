@@ -14,10 +14,11 @@ const APIFeatures_1 = __importDefault(require("../../utils/APIFeatures"));
 exports.getAllWorkers = (0, catchAsync_1.default)(async (req, res, next) => {
     // Create APIFeatures instance to filter, sort, limit fields, and paginate
     let yasser = false; // for not sorting by fav is sort incluede rating ;
-    if ((req.query &&
+    if (req.query &&
         req.query.sort &&
-        req.query.sort.split(',').includes('rating')) ||
-        req.query.sort.split(',').includes('-rating')) {
+        req.query.sort.split(',') &&
+        (req.query.sort.split(',').includes('rating') ||
+            req.query.sort.split(',').includes('-rating'))) {
         yasser = true;
     }
     const features = new APIFeatures_1.default(Worker_1.Worker.find(), req.query)
@@ -29,10 +30,8 @@ exports.getAllWorkers = (0, catchAsync_1.default)(async (req, res, next) => {
     const workers = await features.query;
     // const workers : any[] = await Worker.find().sort('rating');
     let data;
-    console.log(req.user.role);
     if (req.user && req.user.currentRole === UserDoc_1.Role.User) {
         // Map workers and add isFavorite property
-        console.log('hi');
         data = workers.map((worker) => ({
             ...worker.toObject(),
             isFavorite: req.user.favoriteWorkers.includes(worker.id),

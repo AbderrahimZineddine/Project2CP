@@ -52,9 +52,8 @@ class APIFeatures {
         return this; //* so we can chain em
     }
     sort() {
-        if (this.queryString.sort) {
+        if (this.queryString.sort && this.queryString.sort.split(',')) {
             const sortBy = this.queryString.sort.split(',').join(' '); //TODO check again as string
-            console.log('sortBy : ', typeof sortBy);
             this.query = this.query.sort(sortBy);
         }
         else {

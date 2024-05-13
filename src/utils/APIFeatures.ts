@@ -62,9 +62,8 @@ class APIFeatures {
   }
 
   sort() {
-    if (this.queryString.sort) {
+    if (this.queryString.sort && (this.queryString.sort as string).split(',') ) {
       const sortBy = (this.queryString.sort as string).split(',').join(' '); //TODO check again as string
-      console.log('sortBy : ', typeof sortBy);
       this.query = this.query.sort(sortBy);
     } else {
       this.query = this.query.sort('-createdAt'); // TODO change : feed algorithm
