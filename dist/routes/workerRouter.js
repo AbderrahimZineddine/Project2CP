@@ -37,7 +37,7 @@ authController_1.default.isLoggedIn, workerController_1.default.getWorkerById);
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
 exports.router
     .route('/')
-    .get(authController_1.default.protect, authController_1.default.restrictTo('User'), workerController_1.default.getAllWorkers);
+    .get(authController_1.default.protect, authController_1.default.restrictTo('User', 'Admin'), workerController_1.default.getAllWorkers);
 exports.router.use(authController_1.default.protect);
 exports.router.use(authController_1.default.restrictTo('Worker'));
 exports.router.patch('/editMe', 

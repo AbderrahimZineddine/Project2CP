@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePost = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const appError_1 = __importDefault(require("../../utils/appError"));
 const Worker_1 = require("../../models/Worker");
 exports.updatePost = (0, catchAsync_1.default)(async (req, res, next) => {
     // add new images
@@ -78,19 +79,30 @@ exports.updatePost = (0, catchAsync_1.default)(async (req, res, next) => {
     //   { new: true, runValidators: true }
     // );
     // const post = await Post.findById(req.params.id);
-    let newList = [];
-    for (const id of req.body.selectedWorkers) {
-        if (await Worker_1.Worker.exists({ id: id })) {
-            newList.push(id);
-        }
+    if (!req.body.selectedWorkers) {
+        return next(new appError_1.default('no worker has been selected', 400));
     }
-    if (req.post.selectedWorkers) {
-        req.post.selectedWorkers = newList;
+    console.log(req.body.selectedWorkers);
+    let newList = [];
+    if (!Array.isArray(req.body.selectedWorkers)) {
+        newList.push(req.body.selectedWorkers);
     }
     else {
+        for (const id of req.body.selectedWorkers) {
+            console.log(id);
+            if (await Worker_1.Worker.findById(id)) {
+                newList.push(id);
+            }
+        }
+    }
+    if (req.post.selectedWorkers && req.post.selectedWorkers.length > 0) {
         req.post.selectedWorkers.push(newList);
     }
+    else {
+        req.post.selectedWorkers = newList;
+    }
     await req.post.save({ validateBeforeSave: false });
+    console.log(newList);
     res.status(200).json({
         status: 'success',
         post: req.post,

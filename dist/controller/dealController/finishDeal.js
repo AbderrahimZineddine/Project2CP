@@ -31,6 +31,8 @@ exports.finishDealAccept = (0, catchAsync_1.default)(async (req, res, next) => {
     req.deal.status = Deal_1.DealStatus.Finished;
     req.deal.statusOrd = 3;
     req.deal._finishedAt = new Date(Date.now());
+    req.deal.worker.experience++;
+    req.deal.worker.save({ validateBeforeSave: false });
     // req.deal._deletedAt = new Date(Date.now());
     await req.deal.save();
     res.status(200).json({
