@@ -36,7 +36,7 @@ app.use(body_parser_1.default.json());
 // app.use(express.urlencoded({extended:true})); //TODO i donno
 const allowedOrigins = [
     'http://localhost:5174',
-    'http://localhost:5173',
+    'http://127.0.0.1:5173',
     'https://easyhome-lcvx.onrender.com',
     '*',
 ];
