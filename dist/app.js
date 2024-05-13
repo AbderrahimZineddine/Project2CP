@@ -50,6 +50,7 @@ app.use((0, cors_1.default)({
         }
     },
     credentials: true, // Allow credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 }));
 // app.use(cors());
 // // app.use(cors({ origin: 'https://easyhome-lcvx.onrender.com' })); // Set allowed origin here

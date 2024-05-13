@@ -55,6 +55,7 @@ app.use(
       }
     },
     credentials: true, // Allow credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   })
 );
 
