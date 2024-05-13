@@ -92,7 +92,7 @@ router
   .route('/')
   .get(
     authController.protect,
-    authController.restrictTo('User'),
+    authController.restrictTo('User', 'Admin'),
     workerController.getAllWorkers
   );
 

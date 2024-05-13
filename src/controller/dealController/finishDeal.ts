@@ -4,6 +4,7 @@ import { Deal, DealStatus } from '../../models/Deal';
 import AppError from '../../utils/appError';
 import catchAsync from '../../utils/catchAsync';
 import { Role } from '../../models/UserDoc';
+import { WorkerDoc } from 'models/WorkerDoc';
 
 export const finishDealRequest = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -39,6 +40,9 @@ export const finishDealAccept = catchAsync(
     req.deal.status = DealStatus.Finished;
     req.deal.statusOrd = 3;
     req.deal._finishedAt = new Date(Date.now());
+    (req.deal.worker as any).experience++;
+    (req.deal.worker as any).save({ validateBeforeSave: false });
+
     // req.deal._deletedAt = new Date(Date.now());
 
     await req.deal.save();
