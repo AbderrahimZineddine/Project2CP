@@ -13,6 +13,7 @@ import { Worker } from '../models/Worker';
 import uploadController from './uploadController';
 import { Role } from '../models/UserDoc';
 import { WorkerDoc } from '../models/WorkerDoc';
+import { User } from '../models/User';
 
 const approveValidationRequest = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -118,7 +119,7 @@ const disapproveValidationRequest = catchAsync(
         worker.certificates = undefined;
       }
       await worker.save({ validateBeforeSave: false }); //TODO check if it is necessary
-      await Worker.findByIdAndUpdate(
+      await User.findByIdAndUpdate(
         worker.id,
         {
           role: Role.User,

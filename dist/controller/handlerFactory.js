@@ -37,7 +37,6 @@ const getAll = (Model) => (0, catchAsync_1.default)(async (req, res, next) => {
         .limitFields()
         .paginate();
     const doc = await features.query;
-    console.log(doc[0].worker.experience);
     res.status(200).json({ status: 'success', results: doc.length, data: doc });
 });
 exports.getAll = getAll;

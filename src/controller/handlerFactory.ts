@@ -42,8 +42,6 @@ export const getAll = (Model: any) =>
 
     const doc = await features.query;
 
-    console.log(doc[0].worker.experience);
-
     res.status(200).json({ status: 'success', results: doc.length, data: doc });
   });
 

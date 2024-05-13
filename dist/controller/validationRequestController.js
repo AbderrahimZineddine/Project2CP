@@ -8,9 +8,9 @@ const handlerFactory_1 = require("./handlerFactory");
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const appError_1 = __importDefault(require("../utils/appError"));
 const Certificate_1 = require("../models/Certificate");
-const Worker_1 = require("../models/Worker");
 const uploadController_1 = __importDefault(require("./uploadController"));
 const UserDoc_1 = require("../models/UserDoc");
+const User_1 = require("../models/User");
 const approveValidationRequest = (0, catchAsync_1.default)(async (req, res, next) => {
     const valReq = await validationRequest_1.ValidationRequest.findById(req.params.id);
     if (!valReq) {
@@ -82,7 +82,7 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
             worker.certificates = undefined;
         }
         await worker.save({ validateBeforeSave: false }); //TODO check if it is necessary
-        await Worker_1.Worker.findByIdAndUpdate(worker.id, {
+        await User_1.User.findByIdAndUpdate(worker.id, {
             role: UserDoc_1.Role.User,
             currentRole: UserDoc_1.Role.User,
         }, {
