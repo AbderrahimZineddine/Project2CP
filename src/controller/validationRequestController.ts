@@ -67,6 +67,7 @@ const approveValidationRequest = catchAsync(
 
 const disapproveValidationRequest = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
+    console.log(req.headers);
     const valReq = await ValidationRequest.findById(req.params.id);
     if (!valReq) {
       return next(

@@ -46,6 +46,7 @@ const approveValidationRequest = (0, catchAsync_1.default)(async (req, res, next
     }
 });
 const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, next) => {
+    console.log(req.headers);
     const valReq = await validationRequest_1.ValidationRequest.findById(req.params.id);
     if (!valReq) {
         return next(new appError_1.default('There is no validation request with id ' + req.params.id, 404));
