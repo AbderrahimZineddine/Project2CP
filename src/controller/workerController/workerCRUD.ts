@@ -19,6 +19,15 @@ import { WorkerDoc } from '../../models/WorkerDoc';
 export const getAllWorkers = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     // Create APIFeatures instance to filter, sort, limit fields, and paginate
+    let yasser = false; // for not sorting by fav is sort incluede rating ;
+    if (
+      (req.query &&
+        req.query.sort &&
+        (req.query.sort as string).split(',').includes('rating')) ||
+      (req.query.sort as string).split(',').includes('-rating')
+    ) {
+      yasser = true;
+    }
     const features = new APIFeatures(Worker.find(), req.query)
       .filter()
       .sort()
@@ -27,31 +36,51 @@ export const getAllWorkers = catchAsync(
 
     // Execute the query and retrieve workers
     const workers = await features.query;
-
+    // const workers : any[] = await Worker.find().sort('rating');
     let data;
-    if (req.user && req.user.role === Role.User) {
+    console.log(req.user.role);
+    if (req.user && req.user.currentRole === Role.User) {
       // Map workers and add isFavorite property
+      console.log('hi');
       data = workers.map((worker: WorkerDoc) => ({
         ...worker.toObject(),
         isFavorite: req.user.favoriteWorkers.includes(worker.id),
       }));
 
       // Sort data to show favorites on top
-      data.sort((a : any, b : any) => {
-        if (a.isFavorite && !b.isFavorite) {
-          return -1; // a comes before b
-        } else if (!a.isFavorite && b.isFavorite) {
-          return 1; // b comes before a
-        } else {
-          return 0; // maintain order
-        }
-      });
+      if (yasser) {
+        data.sort((a: any, b: any) => {
+          if (a.rating > b.rating) {
+            return -1; // a comes before b
+          } else if (a.rating < b.rating) {
+            return 1; // b comes before a
+          } else if (!a.isFavorite && b.isFavorite) {
+            return 1; // b comes before a
+          } else if (a.isFavorite && !b.isFavorite) {
+            return -1; // a comes before b
+          } else {
+            return 0; // maintain order
+          }
+        });
+      } else {
+        data.sort((a: any, b: any) => {
+          if (a.isFavorite && !b.isFavorite) {
+            return -1; // a comes before b
+          } else if (!a.isFavorite && b.isFavorite) {
+            return 1; // b comes before a
+          } else {
+            return 0; // maintain order
+          }
+        });
+      }
     } else {
       data = workers;
     }
 
     // Send response with sorted data
-    res.status(200).json({ status: 'success', results: workers.length, workers: data });
+    res
+      .status(200)
+      .json({ status: 'success', results: workers.length, workers: data });
   }
 );
 

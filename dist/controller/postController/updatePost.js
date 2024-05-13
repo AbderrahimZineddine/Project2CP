@@ -90,13 +90,16 @@ exports.updatePost = (0, catchAsync_1.default)(async (req, res, next) => {
     else {
         for (const id of req.body.selectedWorkers) {
             console.log(id);
-            if (await Worker_1.Worker.findById(id)) {
-                newList.push(id);
+            const work = await Worker_1.Worker.findById(id);
+            if (work) {
+                newList.push(work._id);
             }
         }
     }
     if (req.post.selectedWorkers && req.post.selectedWorkers.length > 0) {
-        req.post.selectedWorkers.push(newList);
+        for (const id of newList) {
+            req.post.selectedWorkers.push(id);
+        }
     }
     else {
         req.post.selectedWorkers = newList;

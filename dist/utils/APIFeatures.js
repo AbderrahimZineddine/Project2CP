@@ -54,6 +54,7 @@ class APIFeatures {
     sort() {
         if (this.queryString.sort) {
             const sortBy = this.queryString.sort.split(',').join(' '); //TODO check again as string
+            console.log('sortBy : ', typeof sortBy);
             this.query = this.query.sort(sortBy);
         }
         else {
