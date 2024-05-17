@@ -14,6 +14,11 @@ import uploadController from './uploadController';
 import { Role } from '../models/UserDoc';
 import { WorkerDoc } from '../models/WorkerDoc';
 import { User } from '../models/User';
+import {
+  Notification,
+  NotificationDataModel,
+  NotificationType,
+} from '../models/Notification';
 
 const approveValidationRequest = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -48,6 +53,15 @@ const approveValidationRequest = catchAsync(
         { _deletedAt: Date.now() },
         { new: true }
       );
+
+      await Notification.create({
+        receiverId: valReq.worker.id,
+        dataModel: NotificationDataModel.Certificate,
+        data: valReq.certificate.id,
+        title: 'Certificate Approved !',
+        body: 'Your certificate has been accepted by the admin',
+        type: NotificationType.CertificateApproved,
+      });
       res.status(200).json({ status: 'success', certificate: cert });
     } else {
       const worker = valReq.worker;
@@ -60,6 +74,14 @@ const approveValidationRequest = catchAsync(
         { _deletedAt: Date.now() },
         { new: true }
       );
+      await Notification.create({
+        receiverId: worker.id,
+        dataModel: NotificationDataModel.Worker,
+        data: worker.id,
+        title: 'Worker Account not accepted !',
+        body: 'Your request for a worker account has not been accepted by the admin',
+        type: NotificationType.WorkerAccountApproved,
+      });
       res.status(200).json({ status: 'success', worker });
     }
   }
@@ -94,6 +116,14 @@ const disapproveValidationRequest = catchAsync(
         { new: true }
       );
 
+      await Notification.create({
+        receiverId: valReq.worker.id,
+        dataModel: NotificationDataModel.Certificate,
+        data: valReq.worker.id,
+        title: 'Certificate Disapproved !',
+        body: 'Your certificate has not been accepted by the admin',
+        type: NotificationType.CertificateDisapproved,
+      });
       res.status(200).json({ status: 'success' });
     } else {
       const worker = valReq.worker;
@@ -140,6 +170,14 @@ const disapproveValidationRequest = catchAsync(
         { new: true }
       );
 
+      await Notification.create({
+        receiverId: worker.id,
+        dataModel: NotificationDataModel.User,
+        data: worker.id,
+        title: 'Worker Account not accepted !',
+        body: 'Your request for a worker account has not been accepted by the admin',
+        type: NotificationType.WorkerAccountDisapproved,
+      });
       res.status(200).json({ status: 'success' });
     }
   }

@@ -11,6 +11,7 @@ const Certificate_1 = require("../models/Certificate");
 const uploadController_1 = __importDefault(require("./uploadController"));
 const UserDoc_1 = require("../models/UserDoc");
 const User_1 = require("../models/User");
+const Notification_1 = require("../models/Notification");
 const approveValidationRequest = (0, catchAsync_1.default)(async (req, res, next) => {
     const valReq = await validationRequest_1.ValidationRequest.findById(req.params.id);
     if (!valReq) {
@@ -33,6 +34,14 @@ const approveValidationRequest = (0, catchAsync_1.default)(async (req, res, next
         await cert.save({ validateBeforeSave: false });
         // await ValidationRequest.findByIdAndDelete(req.params.id);
         await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
+        await Notification_1.Notification.create({
+            receiverId: valReq.worker.id,
+            dataModel: Notification_1.NotificationDataModel.Certificate,
+            data: valReq.certificate.id,
+            title: 'Certificate Approved !',
+            body: 'Your certificate has been accepted by the admin',
+            type: Notification_1.NotificationType.CertificateApproved,
+        });
         res.status(200).json({ status: 'success', certificate: cert });
     }
     else {
@@ -42,6 +51,14 @@ const approveValidationRequest = (0, catchAsync_1.default)(async (req, res, next
         await worker.checkCertifiedStatus();
         // await ValidationRequest.findByIdAndDelete(req.params.id);
         await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
+        await Notification_1.Notification.create({
+            receiverId: worker.id,
+            dataModel: Notification_1.NotificationDataModel.Worker,
+            data: worker.id,
+            title: 'Worker Account not accepted !',
+            body: 'Your request for a worker account has not been accepted by the admin',
+            type: Notification_1.NotificationType.WorkerAccountApproved,
+        });
         res.status(200).json({ status: 'success', worker });
     }
 });
@@ -57,6 +74,14 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
         await valReq.worker.checkCertifiedStatus();
         // await ValidationRequest.findByIdAndDelete(req.params.id);
         await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
+        await Notification_1.Notification.create({
+            receiverId: valReq.worker.id,
+            dataModel: Notification_1.NotificationDataModel.Certificate,
+            data: valReq.worker.id,
+            title: 'Certificate Disapproved !',
+            body: 'Your certificate has not been accepted by the admin',
+            type: Notification_1.NotificationType.CertificateDisapproved,
+        });
         res.status(200).json({ status: 'success' });
     }
     else {
@@ -93,6 +118,14 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
         });
         // await ValidationRequest.findByIdAndDelete(req.params.id);
         await validationRequest_1.ValidationRequest.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
+        await Notification_1.Notification.create({
+            receiverId: worker.id,
+            dataModel: Notification_1.NotificationDataModel.User,
+            data: worker.id,
+            title: 'Worker Account not accepted !',
+            body: 'Your request for a worker account has not been accepted by the admin',
+            type: Notification_1.NotificationType.WorkerAccountDisapproved,
+        });
         res.status(200).json({ status: 'success' });
     }
 });

@@ -8,6 +8,7 @@ const Deal_1 = require("../../models/Deal");
 const appError_1 = __importDefault(require("../../utils/appError"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Application_1 = require("../../models/Application");
+const Notification_1 = require("../../models/Notification");
 exports.ValidateDealInputs = (0, catchAsync_1.default)(async (req, res, next) => {
     const application = await Application_1.Application.findById(req.params.id);
     if (!application) {
@@ -33,6 +34,14 @@ exports.createDeal = (0, catchAsync_1.default)(async (req, res, next) => {
     req.application._acceptedAt = new Date(Date.now());
     req.application._deletedAt = new Date(Date.now());
     req.application.save({ validateBeforeSave: false });
+    await Notification_1.Notification.create({
+        receiverId: req.application.worker,
+        dataModel: Notification_1.NotificationDataModel.Deal,
+        data: deal.id,
+        title: 'New Deal',
+        body: `${req.user.name} accepted your application`,
+        type: Notification_1.NotificationType.NewDeal,
+    });
     res.status(201).json({
         status: 'success',
         deal,

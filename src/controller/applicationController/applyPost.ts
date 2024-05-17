@@ -7,6 +7,11 @@ import catchAsync from '../../utils/catchAsync';
 import uploadController from '../uploadController';
 import { Post } from '../../models/Post';
 import { Deal } from '../../models/Deal';
+import {
+  NotificationDataModel,
+  NotificationType,
+  Notification,
+} from '../../models/Notification';
 
 export const ValidateApplicationInputs = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -32,8 +37,6 @@ export const ValidateApplicationInputs = catchAsync(
       return next(new AppError('You already have a deal with this post!', 400));
     }
 
-
-
     req.post = post;
     next();
   }
@@ -56,6 +59,15 @@ export const applyPost = catchAsync(
         )
       );
     }
+
+    await Notification.create({
+      receiverId: req.post.user,
+      dataModel: NotificationDataModel.Application,
+      data: application.id,
+      title: 'New Application',
+      body: `${req.user.name} has applied to your post`,
+      type: NotificationType.NewApplication,
+    });
 
     res.status(201).json({
       status: 'success',

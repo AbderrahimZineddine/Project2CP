@@ -15,6 +15,12 @@ const getAll = (Model) => (0, catchAsync_1.default)(async (req, res, next) => {
         };
         delete req.query.user;
     }
+    if (req.query.receiverId) {
+        filter = {
+            receiverId: req.query.receiverId,
+        };
+        delete req.query.receiverId;
+    }
     if (req.query.worker) {
         filter = {
             worker: req.query.worker,
@@ -92,7 +98,7 @@ const deleteOne = (Model) => (0, catchAsync_1.default)(async (req, res, next) =>
     if (!doc) {
         return next(new appError_1.default('no Document found with that ID', 404));
     }
-    res.status(204).json({ status: 'success', message: 'delete succefully' }); //* 204
+    res.status(204).json({ status: 'success', message: 'delete successfully' }); //* 204
 });
 exports.deleteOne = deleteOne;
 //# sourceMappingURL=handlerFactory.js.map

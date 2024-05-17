@@ -11,7 +11,7 @@ exports.getMyReviews = (0, catchAsync_1.default)(async (req, res, next) => {
     //   status: 'success',
     //   reviews,
     // });
-    req.query.user = req.params.id;
+    req.query.user = req.user.id;
     next();
 });
 exports.getWorkerReviews = (0, catchAsync_1.default)(async (req, res, next) => {

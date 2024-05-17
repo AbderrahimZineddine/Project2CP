@@ -8,12 +8,23 @@ const Deal_1 = require("../../models/Deal");
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const UserDoc_1 = require("../../models/UserDoc");
 const Worker_1 = require("../../models/Worker");
+const Notification_1 = require("../../models/Notification");
+const User_1 = require("../../models/User");
 exports.finishDealRequest = (0, catchAsync_1.default)(async (req, res, next) => {
     if (req.dealRole === UserDoc_1.Role.Worker) {
         req.deal.status = Deal_1.DealStatus.FinishRequestSent;
         req.deal.statusOrd = 1;
     }
     await req.deal.save();
+    const user = await User_1.User.findById(req.deal.user);
+    await Notification_1.Notification.create({
+        receiverId: user.id,
+        dataModel: Notification_1.NotificationDataModel.Deal,
+        data: req.deal.id,
+        title: 'Deal Finish request',
+        body: `${req.user.name} requested to finish the deal`,
+        type: Notification_1.NotificationType.DealFinishRequest,
+    });
     res.status(200).json({
         status: 'success',
         deal: req.deal,
@@ -23,6 +34,15 @@ exports.finishDealDecline = (0, catchAsync_1.default)(async (req, res, next) => 
     req.deal.status = Deal_1.DealStatus.OnGoing;
     req.deal.statusOrd = 2;
     await req.deal.save();
+    const worker = await Worker_1.Worker.findById(req.deal.worker);
+    await Notification_1.Notification.create({
+        receiverId: worker.id,
+        dataModel: Notification_1.NotificationDataModel.Deal,
+        data: req.deal.id,
+        title: 'Deal Finish declined!',
+        body: `${req.user.name} declined your finish deal request`,
+        type: Notification_1.NotificationType.DealFinishDecline,
+    });
     res.status(200).json({
         status: 'success',
         deal: req.deal,
@@ -39,6 +59,14 @@ exports.finishDealAccept = (0, catchAsync_1.default)(async (req, res, next) => {
     await worker.save({ validateBeforeSave: false });
     // req.deal._deletedAt = new Date(Date.now());
     await req.deal.save();
+    await Notification_1.Notification.create({
+        receiverId: worker.id,
+        dataModel: Notification_1.NotificationDataModel.Deal,
+        data: req.deal.id,
+        title: 'Deal Finished!',
+        body: `${req.user.name} accepted your finish deal request`,
+        type: Notification_1.NotificationType.DealFinished,
+    });
     res.status(200).json({
         status: 'success',
         deal: req.deal,

@@ -5,6 +5,7 @@ import AppError from '../../utils/appError';
 import catchAsync from '../../utils/catchAsync';
 import { Post } from '../../models/Post';
 import { Deal, DealDoc, DealStatus } from '../../models/Deal';
+import { NotificationDataModel, NotificationType, Notification } from '../../models/Notification';
 
 export const ValidateReviewInputs = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -62,6 +63,15 @@ export const createReview = catchAsync(
       },
       { new: true }
     );
+
+    await Notification.create({
+      receiverId: review.worker,
+      dataModel: NotificationDataModel.Review,
+      data: review.id,
+      title: 'New Review',
+      body: `${req.user.name} left a review`,
+      type: NotificationType.NewReview,
+    });
 
     res.status(201).json({
       status: 'success',

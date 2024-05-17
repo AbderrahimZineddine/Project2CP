@@ -27,7 +27,6 @@ export const protect = catchAsync(
         new AppError('You are not logged in! Please login to get access', 401)
       );
     }
-
     // 2) Verify Token
     //! from http://stackoverflow.com/questions
     const jwtVerifyPromisified = (

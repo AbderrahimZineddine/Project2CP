@@ -9,6 +9,7 @@ const appError_1 = __importDefault(require("../../utils/appError"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Post_1 = require("../../models/Post");
 const Deal_1 = require("../../models/Deal");
+const Notification_1 = require("../../models/Notification");
 exports.ValidateReviewInputs = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!req.body.rating) {
         return next(new appError_1.default('A review must have a rating!', 400));
@@ -46,6 +47,14 @@ exports.createReview = (0, catchAsync_1.default)(async (req, res, next) => {
     await Post_1.Post.findByIdAndUpdate(req.deal.post, {
         _deletedAt: new Date(Date.now()),
     }, { new: true });
+    await Notification_1.Notification.create({
+        receiverId: review.worker,
+        dataModel: Notification_1.NotificationDataModel.Review,
+        data: review.id,
+        title: 'New Review',
+        body: `${req.user.name} left a review`,
+        type: Notification_1.NotificationType.NewReview,
+    });
     res.status(201).json({
         status: 'success',
         review,

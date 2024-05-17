@@ -20,6 +20,7 @@ import { ApplicationDoc } from 'models/Application';
 import { DealDoc } from '../models/Deal';
 import { ReviewDoc } from '../models/Review';
 import { getMap } from './userController/getMap';
+import { NotificationDoc } from '../models/Notification';
 
 export interface MyRequest extends Request {
   user: UserDoc | WorkerDoc;
@@ -36,6 +37,7 @@ export interface MyRequest extends Request {
   deal: DealDoc;
   dealRole: Role;
   review: ReviewDoc;
+  notification: NotificationDoc;
 }
 
 const userController = {

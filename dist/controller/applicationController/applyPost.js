@@ -9,6 +9,7 @@ const appError_1 = __importDefault(require("../../utils/appError"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Post_1 = require("../../models/Post");
 const Deal_1 = require("../../models/Deal");
+const Notification_1 = require("../../models/Notification");
 exports.ValidateApplicationInputs = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!req.body.description) {
         return next(new appError_1.default('Please enter a description for this application', 400));
@@ -37,6 +38,14 @@ exports.applyPost = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!application) {
         return next(new appError_1.default('Error creating your application! Please try again later.', 500));
     }
+    await Notification_1.Notification.create({
+        receiverId: req.post.user,
+        dataModel: Notification_1.NotificationDataModel.Application,
+        data: application.id,
+        title: 'New Application',
+        body: `${req.user.name} has applied to your post`,
+        type: Notification_1.NotificationType.NewApplication,
+    });
     res.status(201).json({
         status: 'success',
         application,

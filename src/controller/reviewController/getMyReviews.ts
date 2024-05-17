@@ -13,7 +13,7 @@ export const getMyReviews = catchAsync(
     //   status: 'success',
     //   reviews,
     // });
-    req.query.user = req.params.id
+    req.query.user = req.user.id
     next();
   }
 );

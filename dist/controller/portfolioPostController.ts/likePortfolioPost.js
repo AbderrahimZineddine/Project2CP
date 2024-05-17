@@ -8,6 +8,8 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const appError_1 = __importDefault(require("../../utils/appError"));
 const PortfolioPost_1 = require("../../models/PortfolioPost");
 const Like_1 = require("../../models/Like");
+const Notification_1 = require("../../models/Notification");
+const Worker_1 = require("../../models/Worker");
 exports.ToggleLikePortfolioPost = (0, catchAsync_1.default)(async (req, res, next) => {
     const post = await PortfolioPost_1.PortfolioPost.findById(req.params.id);
     if (!post) {
@@ -34,6 +36,19 @@ exports.ToggleLikePortfolioPost = (0, catchAsync_1.default)(async (req, res, nex
         });
         post.likes++;
         await post.save({ validateBeforeSave: false });
+        const worker = await Worker_1.Worker.findOne({
+            portfolioPosts: { $in: [post.id] },
+        });
+        if (worker) {
+            await Notification_1.Notification.create({
+                receiverId: worker.id,
+                dataModel: Notification_1.NotificationDataModel.PortfolioPost,
+                data: post.id,
+                title: 'Liked your post',
+                body: `${req.user.name} liked your post`,
+                type: Notification_1.NotificationType.PostLiked,
+            });
+        }
         res.status(200).json({
             status: 'success',
             message: 'Like created successfully',

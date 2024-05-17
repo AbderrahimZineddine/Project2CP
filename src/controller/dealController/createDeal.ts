@@ -5,6 +5,7 @@ import AppError from '../../utils/appError';
 import catchAsync from '../../utils/catchAsync';
 import { Post } from '../../models/Post';
 import { Application } from '../../models/Application';
+import { NotificationDataModel, NotificationType , Notification } from '../../models/Notification';
 
 export const ValidateDealInputs = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -42,6 +43,16 @@ export const createDeal = catchAsync(
     req.application._acceptedAt = new Date(Date.now());
     req.application._deletedAt = new Date(Date.now());
     req.application.save({validateBeforeSave: false});
+
+
+    await Notification.create({
+      receiverId: req.application.worker,
+      dataModel: NotificationDataModel.Deal,
+      data: deal.id,
+      title: 'New Deal',
+      body: `${req.user.name} accepted your application`,
+      type: NotificationType.NewDeal,
+    });
 
     res.status(201).json({
       status: 'success',

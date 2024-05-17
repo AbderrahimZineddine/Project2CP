@@ -7,6 +7,7 @@ import reviewController from '../controller/reviewController';
 import postController from '../controller/postController';
 import dealController from '../controller/dealController';
 import workerController from '../controller/workerController';
+import { notificationController } from '../models/Notification';
 
 const router = express.Router();
 router.route('/').get(userController.getAllUsers);
@@ -20,6 +21,20 @@ router.get(
   authController.protect,
   reviewController.getMyReviews,
   reviewController.getAllReviews
+);
+
+router.get(
+  '/me/notifications',
+  authController.protect,
+  notificationController.getMyNotificationsById,
+  notificationController.getAllNotifications
+);
+
+router.get(
+  '/me/notificationsCount',
+  authController.protect,
+  notificationController.getMyNotificationsById,
+  notificationController.newNotificationsCount
 );
 
 // router.get(
@@ -58,6 +73,18 @@ router.route('/').post(userController.createUser);
 // .get(userController.getAllUsers)
 
 router.get('/:id/favoriteWorkers', userController.getFavoriteWorkersFromUserId);
+
+router.get(
+  '/:id/notifications',
+  notificationController.getUserNotificationsById,
+  notificationController.getAllNotifications
+);
+
+router.get(
+  '/:id/notificationsCount',
+  notificationController.getUserNotificationsById,
+  notificationController.newNotificationsCount
+);
 
 router.get(
   '/:id/posts',

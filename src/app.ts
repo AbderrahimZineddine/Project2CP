@@ -21,6 +21,7 @@ import reviewRouter from './routes/reviewRouter';
 import validationRequestRouter from './routes/validationRequestRouter';
 import dashboardRouter from './routes/dashboardRouter';
 import modRouter from './routes/modRouter';
+import notificationRouter from './routes/notificationRouter';
 
 import morgan from 'morgan';
 import errorController from './controller/errorController';
@@ -70,6 +71,7 @@ app.use(express.static(path.join(__dirname, '/src/public')));
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/validationRequests', validationRequestRouter);
+app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/deals', dealRouter);
 app.use('/api/v1/applications', applicationRouter);

@@ -15,6 +15,13 @@ export const getAll = (Model: any) =>
       };
       delete req.query.user;
     }
+
+    if (req.query.receiverId) {
+      filter = {
+        receiverId: req.query.receiverId,
+      };
+      delete req.query.receiverId;
+    }
     
     if (req.query.worker) {
       filter = {
@@ -107,5 +114,5 @@ export const deleteOne = (Model: any) =>
     if (!doc) {
       return next(new AppError('no Document found with that ID', 404));
     }
-    res.status(204).json({ status: 'success', message: 'delete succefully' }); //* 204
+    res.status(204).json({ status: 'success', message: 'delete successfully' }); //* 204
   });

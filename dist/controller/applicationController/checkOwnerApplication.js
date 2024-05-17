@@ -8,6 +8,7 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const appError_1 = __importDefault(require("../../utils/appError"));
 const Application_1 = require("../../models/Application");
 const Post_1 = require("../../models/Post");
+const Notification_1 = require("../../models/Notification");
 exports.checkOwnerApplication = (0, catchAsync_1.default)(async (req, res, next) => {
     const application = await Application_1.Application.findById(req.params.id);
     if (!application) {
@@ -36,6 +37,14 @@ exports.checkSentApplication = (0, catchAsync_1.default)(async (req, res, next) 
         return next(new appError_1.default('You do not have the permission to update this Application!', 404));
     }
     req.application = application;
+    await Notification_1.Notification.create({
+        receiverId: application.worker,
+        dataModel: Notification_1.NotificationDataModel.Post,
+        data: post.id,
+        title: 'Application declined!',
+        body: `${req.user.name} declined your application!`,
+        type: Notification_1.NotificationType.ApplicationDeclined,
+    });
     next();
 });
 //# sourceMappingURL=checkOwnerApplication.js.map

@@ -6,6 +6,11 @@ import { Application } from '../../models/Application';
 import { WorkerDoc } from '../../models/WorkerDoc';
 import { Post } from '../../models/Post';
 import { UserDoc } from '../../models/UserDoc';
+import {
+  NotificationDataModel,
+  NotificationType,
+  Notification,
+} from '../../models/Notification';
 
 export const checkOwnerApplication = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -56,6 +61,16 @@ export const checkSentApplication = catchAsync(
     }
 
     req.application = application;
+
+    await Notification.create({
+      receiverId: application.worker,
+      dataModel: NotificationDataModel.Post,
+      data: post.id,
+      title: 'Application declined!',
+      body: `${req.user.name} declined your application!`,
+      type: NotificationType.ApplicationDeclined,
+    });
+
     next();
   }
 );
