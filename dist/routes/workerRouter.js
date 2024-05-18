@@ -14,6 +14,9 @@ const reviewController_1 = __importDefault(require("../controller/reviewControll
 const dealController_1 = __importDefault(require("../controller/dealController"));
 const portfolioPostsController_1 = __importDefault(require("../controller/workerController/portfolioPostsController"));
 exports.router = express_1.default.Router();
+exports.router
+    .route('/bestWorkers')
+    .get(authController_1.default.protect, workerController_1.default.getBestWorkers);
 exports.router.get('/me/reviews', authController_1.default.protect, authController_1.default.restrictTo('Worker'), reviewController_1.default.getMyWorkerReviews, reviewController_1.default.getAllReviews);
 exports.router.get('/me/portfolioPosts', authController_1.default.protect, authController_1.default.restrictTo('Worker'), portfolioPostsController_1.default.getMyPortfolioPosts);
 exports.router.get('/me/requests', authController_1.default.protect, authController_1.default.restrictTo('Worker'), workerController_1.default.getMyRequests);

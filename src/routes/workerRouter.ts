@@ -10,6 +10,14 @@ import portfolioPostsController from '../controller/workerController/portfolioPo
 
 export const router = express.Router();
 
+
+router
+  .route('/bestWorkers')
+  .get(
+    authController.protect,
+    workerController.getBestWorkers
+  );
+
 router.get(
   '/me/reviews',
   authController.protect,
@@ -87,6 +95,8 @@ router.get(
   workerController.getWorkerById
 );
 //! don't repeat that mistake !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ( route(:id)) other routes after are like id ( ex : me ) )
+
+
 
 router
   .route('/')

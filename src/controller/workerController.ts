@@ -22,7 +22,11 @@ import { checkOwnerPortfolioPost } from './portfolioPostController.ts/checkOwner
 import { getAll } from './handlerFactory';
 import { Certificate } from '../models/Certificate';
 import { getWorkerSavedPostsById } from './workerController/getSavedPosts';
-import { deleteRequestById, getMyRequests } from './workerController/getMyRequests';
+import {
+  deleteRequestById,
+  getMyRequests,
+} from './workerController/getMyRequests';
+import { getBestWorkers } from './workerController/bestWorkers';
 
 const workerController = {
   getWorkerById: getWorkerById,
@@ -42,9 +46,9 @@ const workerController = {
   checkOwnerCertificate: checkOwnerCertificate,
   getWorkerSavedPostsById: getWorkerSavedPostsById,
   getWorkerCertificatesById: getWorkerCertificatesById,
-  getMyRequests : getMyRequests,
-  deleteRequestById : deleteRequestById,
-
+  getMyRequests: getMyRequests,
+  deleteRequestById: deleteRequestById,
+  getBestWorkers: getBestWorkers,
 };
 
 export default workerController;
