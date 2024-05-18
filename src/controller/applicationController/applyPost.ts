@@ -32,8 +32,8 @@ export const ValidateApplicationInputs = catchAsync(
       return next(new AppError('You have already applied for this post!', 400));
     }
 
-    if (await Deal.findOne({ worker: req.user.id, post: post.id })) {
-      return next(new AppError('You already have a deal with this post!', 400));
+    if (await Deal.findOne({ post: post.id })) {
+      return next(new AppError('This post is already linked with a deal!', 400));
     }
 
     req.post = post;

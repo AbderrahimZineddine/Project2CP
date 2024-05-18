@@ -21,8 +21,8 @@ exports.ValidateApplicationInputs = (0, catchAsync_1.default)(async (req, res, n
     if (await Application_1.Application.findOne({ worker: req.user.id, post: post.id })) {
         return next(new appError_1.default('You have already applied for this post!', 400));
     }
-    if (await Deal_1.Deal.findOne({ worker: req.user.id, post: post.id })) {
-        return next(new appError_1.default('You already have a deal with this post!', 400));
+    if (await Deal_1.Deal.findOne({ post: post.id })) {
+        return next(new appError_1.default('This post is already linked with a deal!', 400));
     }
     req.post = post;
     next();

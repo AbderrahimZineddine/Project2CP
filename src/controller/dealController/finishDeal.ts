@@ -12,6 +12,8 @@ import {
   Notification,
 } from '../../models/Notification';
 import { User } from '../../models/User';
+import { Application } from '../../models/Application';
+import { Post } from '../../models/Post';
 
 export const finishDealRequest = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -76,6 +78,27 @@ export const finishDealAccept = catchAsync(
     // req.deal._deletedAt = new Date(Date.now());
 
     await req.deal.save();
+    const post = await Post.findByIdAndUpdate(
+      req.deal.post,
+      {
+        hidden: true,
+      },
+      { new: true }
+    );
+    const applications = await Application.find({ post: post.id });
+    for (const app of applications) {
+      app._deletedAt = new Date(Date.now());
+      app.save();
+
+      await Notification.create({
+        receiverId: app.worker,
+        dataModel: NotificationDataModel.Post,
+        data: post.id,
+        title: 'Application declined!',
+        body: `${req.user.name} declined your application!`,
+        type: NotificationType.ApplicationDeclined,
+      });
+    }
 
     await Notification.create({
       receiverId: worker.id,

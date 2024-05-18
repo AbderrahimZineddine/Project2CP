@@ -7,6 +7,8 @@ import { Worker } from '../models/Worker';
 import { WorkerDoc } from '../models/WorkerDoc';
 import { PortfolioPost } from '../models/PortfolioPost';
 import { Role, UserDoc } from '../models/UserDoc';
+import { Post } from '../models/Post';
+import { Deal } from '../models/Deal';
 
 const router = Router();
 
@@ -148,6 +150,35 @@ router.patch('/passwordUpdater', async (req, res, next) => {
     res.status(500).json({
       status: 'error',
       message: 'An error occurred while passwords mod .',
+      error: error.message,
+    });
+  }
+});
+
+router.patch('/postHiddenSetter', async (req, res, next) => {
+  try {
+    const posts = await Post.find();
+    for (const post of posts) {
+      if (
+        await Deal.findOne({
+          post: post.id,
+        })
+      ) {
+        post.hidden = true;
+        post.save();
+      } else {
+        post.hidden = false;
+        post.save();
+      }
+    }
+    res.status(200).json({
+      status: 'success',
+      message: 'All posts hidden checked .',
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while post hidden setter mod .',
       error: error.message,
     });
   }

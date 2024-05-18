@@ -10,6 +10,8 @@ const UserDoc_1 = require("../../models/UserDoc");
 const Worker_1 = require("../../models/Worker");
 const Notification_1 = require("../../models/Notification");
 const User_1 = require("../../models/User");
+const Application_1 = require("../../models/Application");
+const Post_1 = require("../../models/Post");
 exports.finishDealRequest = (0, catchAsync_1.default)(async (req, res, next) => {
     if (req.dealRole === UserDoc_1.Role.Worker) {
         req.deal.status = Deal_1.DealStatus.FinishRequestSent;
@@ -59,6 +61,22 @@ exports.finishDealAccept = (0, catchAsync_1.default)(async (req, res, next) => {
     await worker.save({ validateBeforeSave: false });
     // req.deal._deletedAt = new Date(Date.now());
     await req.deal.save();
+    const post = await Post_1.Post.findByIdAndUpdate(req.deal.post, {
+        hidden: true,
+    }, { new: true });
+    const applications = await Application_1.Application.find({ post: post.id });
+    for (const app of applications) {
+        app._deletedAt = new Date(Date.now());
+        app.save();
+        await Notification_1.Notification.create({
+            receiverId: app.worker,
+            dataModel: Notification_1.NotificationDataModel.Post,
+            data: post.id,
+            title: 'Application declined!',
+            body: `${req.user.name} declined your application!`,
+            type: Notification_1.NotificationType.ApplicationDeclined,
+        });
+    }
     await Notification_1.Notification.create({
         receiverId: worker.id,
         dataModel: Notification_1.NotificationDataModel.Deal,

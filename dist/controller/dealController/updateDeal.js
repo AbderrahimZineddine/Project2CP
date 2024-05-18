@@ -9,6 +9,7 @@ const appError_1 = __importDefault(require("../../utils/appError"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const UserDoc_1 = require("../../models/UserDoc");
 const Notification_1 = require("../../models/Notification");
+const Post_1 = require("../../models/Post");
 exports.updateDeal = (0, catchAsync_1.default)(async (req, res, next) => {
     if (req.dealRole === UserDoc_1.Role.Worker) {
         if (req.body.title) {
@@ -33,6 +34,11 @@ exports.updateDeal = (0, catchAsync_1.default)(async (req, res, next) => {
     });
 });
 exports.deleteDeal = (0, catchAsync_1.default)(async (req, res, next) => {
+    const post = await Post_1.Post.findById(req.deal.post);
+    if (post) {
+        post.hidden = false;
+        await post.save();
+    }
     const doc = await Deal_1.Deal.findByIdAndUpdate(req.params.id, { _deletedAt: Date.now() }, { new: true });
     if (!doc) {
         return next(new appError_1.default(`No Deal found with ID : ${req.params.id}`, 404));

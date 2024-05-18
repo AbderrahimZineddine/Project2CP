@@ -42,6 +42,10 @@ const PostSchema = new mongoose_1.default.Schema({
         type: Date,
         default: null,
     },
+    hidden: {
+        type: Boolean,
+        default: false,
+    },
 }, { timestamps: true });
 PostSchema.pre(/^find/, function (next) {
     // Filter out documents with _deletedAt set (including non-null values)

@@ -10,6 +10,8 @@ const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const Worker_1 = require("../models/Worker");
 const PortfolioPost_1 = require("../models/PortfolioPost");
 const UserDoc_1 = require("../models/UserDoc");
+const Post_1 = require("../models/Post");
+const Deal_1 = require("../models/Deal");
 const router = (0, express_1.Router)();
 router.patch('/makeAllUsersVerified', async (req, res) => {
     try {
@@ -136,6 +138,34 @@ router.patch('/passwordUpdater', async (req, res, next) => {
         res.status(500).json({
             status: 'error',
             message: 'An error occurred while passwords mod .',
+            error: error.message,
+        });
+    }
+});
+router.patch('/postHiddenSetter', async (req, res, next) => {
+    try {
+        const posts = await Post_1.Post.find();
+        for (const post of posts) {
+            if (await Deal_1.Deal.findOne({
+                post: post.id,
+            })) {
+                post.hidden = true;
+                post.save();
+            }
+            else {
+                post.hidden = false;
+                post.save();
+            }
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'All posts hidden checked .',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while post hidden setter mod .',
             error: error.message,
         });
     }

@@ -9,6 +9,7 @@ import {
   NotificationDataModel,
   Notification,
 } from '../../models/Notification';
+import { Post } from '../../models/Post';
 
 export const updateDeal = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -38,7 +39,11 @@ export const updateDeal = catchAsync(
 
 export const deleteDeal = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
-
+    const post = await Post.findById(req.deal.post);
+    if (post) {
+      post.hidden = false;
+      await post.save();
+    }
     const doc = await Deal.findByIdAndUpdate(
       req.params.id,
       { _deletedAt: Date.now() },

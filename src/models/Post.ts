@@ -11,7 +11,8 @@ export interface PostDoc extends mongoose.Document {
   images: string[];
   selectedWorkers: mongoose.Schema.Types.ObjectId[];
   price: number;
-  location : Location,
+  hidden: boolean;
+  location: Location;
 }
 
 const PostSchema = new mongoose.Schema(
@@ -50,6 +51,10 @@ const PostSchema = new mongoose.Schema(
     _deletedAt: {
       type: Date,
       default: null,
+    },
+    hidden: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
