@@ -8,6 +8,7 @@ import { Application } from '../../models/Application';
 import { WorkerDoc } from '../../models/WorkerDoc';
 import { Role } from '../../models/UserDoc';
 import APIFeatures from '../../utils/APIFeatures';
+import { Deal } from '../../models/Deal';
 
 export const getPostById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -19,7 +20,11 @@ export const getPostById = catchAsync(
     if (req.user && req.user.currentRole === Role.Worker) {
       const applied = await Application.findOne({
         worker: req.user.id,
-        post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
+        post: post._id,
+      });
+      const deal = await Deal.findOne({
+        worker: req.user.id,
+        post: post._id, 
       });
       const isSaved = (req.user as WorkerDoc).savedPosts.includes(post._id);
       res.status(200).json({
@@ -27,7 +32,7 @@ export const getPostById = catchAsync(
         post,
         application: {
           id: applied ? applied.id : null,
-          applied: applied != null,
+          applied: (applied != null) || (deal != null),
         },
         isSaved,
       });
@@ -68,12 +73,15 @@ export const getAllPosts = catchAsync(
     const doc = await features.query;
 
     if (req.user && req.user.currentRole === Role.Worker) {
-      console.log('hi');
       const data = await Promise.all(
         doc.map(async (post: PostDoc) => {
           const applied = await Application.findOne({
             worker: req.user.id,
             post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
+          });
+          const deal = await Deal.findOne({
+            worker: req.user.id,
+            post: post._id, 
           });
           const isSaved = (req.user as WorkerDoc).savedPosts.includes(post._id);
 
@@ -81,7 +89,7 @@ export const getAllPosts = catchAsync(
             post,
             application: {
               id: applied ? applied.id : null,
-              applied: applied != null,
+              applied: (applied != null) || (deal != null),
             },
             isSaved,
           };

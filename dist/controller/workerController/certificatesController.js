@@ -117,7 +117,7 @@ exports.addCertificate = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!req.certificate || !req.body.title) {
         return next(new appError_1.default('Please provide a certificate image and title !', 404));
     }
-    // console.log(req);
+    //
     let pushed = false;
     try {
         const certificate = await Certificate_1.Certificate.create({

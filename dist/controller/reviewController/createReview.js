@@ -7,9 +7,9 @@ exports.createReview = exports.ValidateReviewInputs = void 0;
 const Review_1 = require("../../models/Review");
 const appError_1 = __importDefault(require("../../utils/appError"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
-const Post_1 = require("../../models/Post");
 const Deal_1 = require("../../models/Deal");
 const Notification_1 = require("../../models/Notification");
+const deletePost_1 = require("../../controller/postController/deletePost");
 exports.ValidateReviewInputs = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!req.body.rating) {
         return next(new appError_1.default('A review must have a rating!', 400));
@@ -43,10 +43,15 @@ exports.createReview = (0, catchAsync_1.default)(async (req, res, next) => {
     }
     //TODO : delete stuff after leaving review:  post, deal ....
     req.deal._deletedAt = new Date(Date.now());
-    req.deal.save();
-    await Post_1.Post.findByIdAndUpdate(req.deal.post, {
-        _deletedAt: new Date(Date.now()),
-    }, { new: true });
+    await req.deal.save();
+    // await Post.findByIdAndUpdate(
+    //   req.deal.post,
+    //   {
+    //     _deletedAt: new Date(Date.now()),
+    //   },
+    //   { new: true }
+    // );
+    (0, deletePost_1.deletePostById2)(req.deal.post.toString(), req.user.name, next);
     await Notification_1.Notification.create({
         receiverId: review.worker,
         dataModel: Notification_1.NotificationDataModel.Review,

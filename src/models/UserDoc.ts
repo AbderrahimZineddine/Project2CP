@@ -38,6 +38,7 @@ export interface UserDoc extends mongoose.Document {
   };
   _deletedAt: Date;
   createdAt: Date;
+  fcmTokens: string[];
   correctPassword: (
     candidatePassword: string,
     userPassword: string

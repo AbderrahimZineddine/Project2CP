@@ -14,11 +14,13 @@ export const login = catchAsync(
       );
     }
 
+    // console.log('********************************')
+    // console.log(await User.find())
+    // console.log('********************************')
+
     const user = await User.findOne({ email }).select(
       '+authentication.password'
     );
-
-    console.log(user);
 
     if (
       !user ||
@@ -36,6 +38,17 @@ export const login = catchAsync(
       ); //TODO 400 ?
     }
     // everything good
+    //Store fcm token
+    if (req.body.fcmToken) {
+      if (!user.fcmTokens) {
+        user.fcmTokens = [];
+        user.fcmTokens.push(req.body.fcmToken);
+        user.save({ validateBeforeSave: false });
+      } else if (!user.fcmTokens.includes(req.body.fcmToken)) {
+        user.fcmTokens.push(req.body.fcmToken);
+        user.save({ validateBeforeSave: false });
+      }
+    }
     createAndSendToken(user, 200, req, res); //TODO: code correct?
   }
 );

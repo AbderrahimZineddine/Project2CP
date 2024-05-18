@@ -16,12 +16,12 @@ export const updateReview = catchAsync(
       if (req.body.rating < 0 || req.body.rating > 5) {
         return next('Rating must be between 0 and 5');
       }
-      const worker: WorkerDoc = await Worker.findById(req.review.worker);
+      // const worker: WorkerDoc = await Worker.findById(req.review.worker);
 
-      worker.rating =
-        (req.body.rating - req.review.rating + worker.rating) /
-        worker.ratingsNumber;
-      await worker.save({validateModifiedOnly:  true});
+      // worker.rating =
+      //   (req.body.rating - req.review.rating + worker.rating) /
+      //   worker.ratingsNumber;
+      // await worker.save({validateModifiedOnly:  true});
       req.review.rating = req.body.rating;
     }
 

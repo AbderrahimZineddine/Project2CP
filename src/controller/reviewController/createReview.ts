@@ -5,7 +5,12 @@ import AppError from '../../utils/appError';
 import catchAsync from '../../utils/catchAsync';
 import { Post } from '../../models/Post';
 import { Deal, DealDoc, DealStatus } from '../../models/Deal';
-import { NotificationDataModel, NotificationType, Notification } from '../../models/Notification';
+import {
+  NotificationDataModel,
+  NotificationType,
+  Notification,
+} from '../../models/Notification';
+import { deletePostById2 } from '../../controller/postController/deletePost';
 
 export const ValidateReviewInputs = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -55,14 +60,16 @@ export const createReview = catchAsync(
 
     //TODO : delete stuff after leaving review:  post, deal ....
     req.deal._deletedAt = new Date(Date.now());
-    req.deal.save();
-    await Post.findByIdAndUpdate(
-      req.deal.post,
-      {
-        _deletedAt: new Date(Date.now()),
-      },
-      { new: true }
-    );
+    await req.deal.save();
+    // await Post.findByIdAndUpdate(
+    //   req.deal.post,
+    //   {
+    //     _deletedAt: new Date(Date.now()),
+    //   },
+    //   { new: true }
+    // );
+
+    deletePostById2(req.deal.post.toString(), req.user.name, next);
 
     await Notification.create({
       receiverId: review.worker,

@@ -10,6 +10,7 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Application_1 = require("../../models/Application");
 const UserDoc_1 = require("../../models/UserDoc");
 const APIFeatures_1 = __importDefault(require("../../utils/APIFeatures"));
+const Deal_1 = require("../../models/Deal");
 exports.getPostById = (0, catchAsync_1.default)(async (req, res, next) => {
     const post = await Post_1.Post.findById(req.params.id);
     if (!post) {
@@ -18,7 +19,11 @@ exports.getPostById = (0, catchAsync_1.default)(async (req, res, next) => {
     if (req.user && req.user.currentRole === UserDoc_1.Role.Worker) {
         const applied = await Application_1.Application.findOne({
             worker: req.user.id,
-            post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
+            post: post._id,
+        });
+        const deal = await Deal_1.Deal.findOne({
+            worker: req.user.id,
+            post: post._id,
         });
         const isSaved = req.user.savedPosts.includes(post._id);
         res.status(200).json({
@@ -26,7 +31,7 @@ exports.getPostById = (0, catchAsync_1.default)(async (req, res, next) => {
             post,
             application: {
                 id: applied ? applied.id : null,
-                applied: applied != null,
+                applied: (applied != null) || (deal != null),
             },
             isSaved,
         });
@@ -61,18 +66,21 @@ exports.getAllPosts = (0, catchAsync_1.default)(async (req, res, next) => {
     }
     const doc = await features.query;
     if (req.user && req.user.currentRole === UserDoc_1.Role.Worker) {
-        console.log('hi');
         const data = await Promise.all(doc.map(async (post) => {
             const applied = await Application_1.Application.findOne({
                 worker: req.user.id,
                 post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
+            });
+            const deal = await Deal_1.Deal.findOne({
+                worker: req.user.id,
+                post: post._id,
             });
             const isSaved = req.user.savedPosts.includes(post._id);
             return {
                 post,
                 application: {
                     id: applied ? applied.id : null,
-                    applied: applied != null,
+                    applied: (applied != null) || (deal != null),
                 },
                 isSaved,
             };

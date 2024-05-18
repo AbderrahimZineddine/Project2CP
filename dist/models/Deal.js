@@ -53,7 +53,6 @@ const DealSchema = new mongoose_1.default.Schema({
 });
 DealSchema.pre(/^find/, function (next) {
     const query = this.getQuery();
-    console.log(query);
     if (query &&
         query['$or'] &&
         query['$or'][2] &&

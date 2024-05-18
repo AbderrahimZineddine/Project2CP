@@ -14,7 +14,6 @@ exports.ValidateApplicationInputs = (0, catchAsync_1.default)(async (req, res, n
     if (!req.body.description) {
         return next(new appError_1.default('Please enter a description for this application', 400));
     }
-    console.log(req);
     const post = await Post_1.Post.findById(req.params.id);
     if (!post) {
         return next(new appError_1.default('There is no post with id ' + req.params.id, 404));

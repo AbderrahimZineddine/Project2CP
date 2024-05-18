@@ -153,7 +153,7 @@ export const addCertificate = catchAsync(
         new AppError('Please provide a certificate image and title !', 404)
       );
     }
-    // console.log(req);
+    //
     let pushed = false;
     try {
       const certificate = await Certificate.create({

@@ -8,6 +8,7 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Application_1 = require("../../models/Application");
 const appError_1 = __importDefault(require("../../utils/appError"));
 const Post_1 = require("../../models/Post");
+const Deal_1 = require("../../models/Deal");
 exports.getMyRequests = (0, catchAsync_1.default)(async (req, res, next) => {
     const posts = await Post_1.Post.find({
         selectedWorkers: { $in: [req.user.id] },
@@ -17,12 +18,16 @@ exports.getMyRequests = (0, catchAsync_1.default)(async (req, res, next) => {
             worker: req.user.id,
             post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
         });
+        const deal = await Deal_1.Deal.findOne({
+            worker: req.user.id,
+            post: post._id,
+        });
         const isSaved = req.user.savedPosts.includes(post._id);
         return {
             post,
             application: {
                 id: applied ? applied.id : null,
-                applied: applied != null,
+                applied: applied != null || deal != null,
             },
             isSaved,
         };

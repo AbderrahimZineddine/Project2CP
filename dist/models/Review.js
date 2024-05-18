@@ -50,24 +50,45 @@ ReviewSchema.pre(/^find/, function (next) {
 ReviewSchema.pre('save', async function (next) {
     if (this.isNew) {
         const worker = await Worker_1.Worker.findById(this.worker);
-        if (!this.worker) {
+        if (!worker) {
             return next(new appError_1.default('There is no worker with id ' + this.worker, 400));
         }
+        // Calculate the new average rating
+        worker.rating =
+            (worker.rating * worker.ratingsNumber + this.rating) /
+                (worker.ratingsNumber + 1);
         worker.ratingsNumber++;
-        worker.rating = (this.rating + worker.rating) / worker.ratingsNumber; //or here ++worker.ratingsNumber
-        await worker.save({ validateModifiedOnly: true });
+        await worker.save();
+    }
+    else if (this.isModified('rating')) {
+        const worker = await Worker_1.Worker.findById(this.worker);
+        if (!worker) {
+            return next(new appError_1.default('There is no worker with id ' + this.worker, 400));
+        }
+        const oldDoc = await exports.Review.findById(this._id);
+        if (!oldDoc) {
+            return next(new Error('Document not found'));
+        }
+        worker.rating =
+            ((worker.rating * worker.ratingsNumber) -
+                oldDoc.rating +
+                this.rating) /
+                worker.ratingsNumber;
+        // tODO : previous idk if it works
+        await worker.save();
     }
     next();
-    //   } else if (!this.isModified('rating')) {
-    //     const worker: WorkerDoc = await Worker.findById(this.worker);
-    //     if (!this.worker) {
-    //       return next(
-    //         new AppError('There is no worker with id ' + this.worker, 400)
-    //       );
-    //     }
-    //     worker.rating = (this.rating + worker.rating) / worker.ratingsNumber;
-    //     await worker.save();
-    //   }
+});
+ReviewSchema.pre("find", function (next) {
+    this.populate({
+        path: 'user',
+        select: 'name profilePicture', // Select specific fields from the user model
+    });
+    // this.populate({
+    //   path: 'worker',
+    //   select: 'name profilePicture job isCertified experience', // Select specific fields from the user model
+    // });
+    next();
 });
 exports.Review = mongoose_1.default.model('Review', ReviewSchema);
 //# sourceMappingURL=Review.js.map

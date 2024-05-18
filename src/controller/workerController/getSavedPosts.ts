@@ -5,6 +5,7 @@ import { WorkerDoc } from '../../models/WorkerDoc';
 import catchAsync from '../../utils/catchAsync';
 import { Application } from '../../models/Application';
 import AppError from '../../utils/appError';
+import { Deal } from '../../models/Deal';
 
 export const getWorkerSavedPostsById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -24,11 +25,15 @@ export const getWorkerSavedPostsById = catchAsync(
           worker: worker.id,
           post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
         });
+        const deal = await Deal.findOne({
+          worker: worker.id,
+          post: post._id,
+        });
         return {
           post,
           application: {
             id: applied ? applied.id : null,
-            applied: applied != null,
+            applied: applied != null || deal != null,
           },
         };
       })

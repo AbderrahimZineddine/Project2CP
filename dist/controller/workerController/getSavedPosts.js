@@ -8,6 +8,7 @@ const Worker_1 = require("../../models/Worker");
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const Application_1 = require("../../models/Application");
 const appError_1 = __importDefault(require("../../utils/appError"));
+const Deal_1 = require("../../models/Deal");
 exports.getWorkerSavedPostsById = (0, catchAsync_1.default)(async (req, res, next) => {
     const worker = await Worker_1.Worker.findById(req.params.id).populate({
         path: 'savedPosts',
@@ -20,11 +21,15 @@ exports.getWorkerSavedPostsById = (0, catchAsync_1.default)(async (req, res, nex
             worker: worker.id,
             post: post._id, // Assuming `savedPosts` contains objects with `_id` properties
         });
+        const deal = await Deal_1.Deal.findOne({
+            worker: worker.id,
+            post: post._id,
+        });
         return {
             post,
             application: {
                 id: applied ? applied.id : null,
-                applied: applied != null,
+                applied: applied != null || deal != null,
             },
         };
     }));

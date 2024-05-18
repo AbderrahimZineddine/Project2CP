@@ -116,6 +116,11 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null, //TODO : check default and add validator
     },
+    fcmTokens: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true, discriminatorKey: 'role' }
 );

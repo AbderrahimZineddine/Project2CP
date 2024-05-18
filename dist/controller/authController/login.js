@@ -13,8 +13,10 @@ exports.login = (0, catchAsync_1.default)(async (req, res, next) => {
     if (!email || !password) {
         return next(new appError_1.default('Please enter a valid email and password.', 404));
     }
+    // console.log('********************************')
+    // console.log(await User.find())
+    // console.log('********************************')
     const user = await User_1.User.findOne({ email }).select('+authentication.password');
-    console.log(user);
     if (!user ||
         !(await user.correctPassword(password, user.authentication.password))) {
         return next(new appError_1.default('Incorrect Email or Password.', 404));
@@ -23,6 +25,18 @@ exports.login = (0, catchAsync_1.default)(async (req, res, next) => {
         return next(new appError_1.default('You are not verified! Please verify your email account and login', 400)); //TODO 400 ?
     }
     // everything good
+    //Store fcm token
+    if (req.body.fcmToken) {
+        if (!user.fcmTokens) {
+            user.fcmTokens = [];
+            user.fcmTokens.push(req.body.fcmToken);
+            user.save({ validateBeforeSave: false });
+        }
+        else if (!user.fcmTokens.includes(req.body.fcmToken)) {
+            user.fcmTokens.push(req.body.fcmToken);
+            user.save({ validateBeforeSave: false });
+        }
+    }
     (0, createAndSendToken_1.createAndSendToken)(user, 200, req, res); //TODO: code correct?
 });
 //# sourceMappingURL=login.js.map

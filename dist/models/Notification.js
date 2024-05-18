@@ -8,6 +8,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const handlerFactory_1 = require("../controller/handlerFactory");
 const appError_1 = __importDefault(require("../utils/appError"));
+const User_1 = require("./User");
+const firebase_1 = require("../firebase");
 var NotificationType;
 (function (NotificationType) {
     NotificationType["CertificateDisapproved"] = "CertificateDisapproved";
@@ -22,6 +24,8 @@ var NotificationType;
     NotificationType["DealFinishDecline"] = "DealFinishDecline";
     NotificationType["DealFinishRequest"] = "DealFinishRequest";
     NotificationType["ApplicationDeclined"] = "ApplicationDeclined";
+    // ref: 'dataModel',
+    NotificationType["DealCanceled"] = "DealCanceled";
 })(NotificationType || (exports.NotificationType = NotificationType = {}));
 var NotificationDataModel;
 (function (NotificationDataModel) {
@@ -69,6 +73,29 @@ const NotificationSchema = new mongoose_1.default.Schema({
 }, {
     timestamps: true,
 });
+NotificationSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'receiverId',
+        select: 'name profilePicture', // Select specific fields from the user model
+    });
+    // this.populate({
+    //   path: 'data',
+    // });
+    next();
+});
+NotificationSchema.pre('save', async function (next) {
+    if (this.isNew) {
+        console.log('A new notifications has been created !');
+        // Perform additional actions for new user creation
+        const user = await User_1.User.findById(this.receiverId);
+        if (user && user.fcmTokens) {
+            for (const token of user.fcmTokens) {
+                (0, firebase_1.sendPushNotification)(token, this.title, this.body);
+            }
+        }
+    }
+    next();
+});
 exports.Notification = mongoose_1.default.model('Notification', NotificationSchema);
 // const createNotification = async (
 //   receiverId: string,
@@ -95,7 +122,10 @@ const deleteNotificationById = (0, catchAsync_1.default)(async (req, res, next) 
     if (!notification) {
         return next(new appError_1.default('no Document found with that ID', 404));
     }
-    res.status(204).json({ status: 'success', message: 'notification deleted successfully' }); //* 204
+    res.status(204).json({
+        status: 'success',
+        message: 'notification deleted successfully',
+    }); //* 204
 });
 const getMyNotificationsById = (0, catchAsync_1.default)(async (req, res, next) => {
     // req.query.sort = 'statusOrd -createdAt'; //default already

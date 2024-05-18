@@ -21,7 +21,6 @@ export const ValidateApplicationInputs = catchAsync(
       );
     }
 
-    console.log(req);
     const post = await Post.findById(req.params.id);
     if (!post) {
       return next(

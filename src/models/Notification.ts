@@ -4,6 +4,8 @@ import { deleteOne, getAll, getOne } from '../controller/handlerFactory';
 import { MyRequest } from '../controller/userController';
 import { NextFunction, Response } from 'express';
 import AppError from '../utils/appError';
+import { User } from './User';
+import { sendPushNotification } from '../firebase';
 
 export enum NotificationType {
   CertificateDisapproved = 'CertificateDisapproved',
@@ -18,6 +20,8 @@ export enum NotificationType {
   DealFinishDecline = 'DealFinishDecline',
   DealFinishRequest = 'DealFinishRequest',
   ApplicationDeclined = 'ApplicationDeclined',
+  // ref: 'dataModel',
+  DealCanceled = "DealCanceled",
 }
 
 export enum NotificationDataModel {
@@ -80,6 +84,31 @@ const NotificationSchema = new mongoose.Schema(
   }
 );
 
+NotificationSchema.pre(/^find/, function <NotificationDoc>(next: NextFunction) {
+  this.populate({
+    path: 'receiverId',
+    select: 'name profilePicture', // Select specific fields from the user model
+  });
+  // this.populate({
+  //   path: 'data',
+  // });
+  next();
+});
+
+NotificationSchema.pre('save', async function (next: NextFunction) {
+  if (this.isNew) {
+    console.log('A new notifications has been created !');
+    // Perform additional actions for new user creation
+    const user = await User.findById(this.receiverId);
+    if (user && user.fcmTokens) {
+      for (const token of user.fcmTokens) {
+        sendPushNotification(token, this.title, this.body);
+      }
+    }
+  }
+  next();
+});
+
 export const Notification = mongoose.model<NotificationDoc>(
   'Notification',
   NotificationSchema
@@ -111,13 +140,14 @@ const getUserNotificationsById = catchAsync(
 const deleteNotificationById = catchAsync(
   async (req: MyRequest, res: Response, next: NextFunction) => {
     // req.query.sort = 'statusOrd -createdAt'; //default already
-    const notification = await Notification.findByIdAndDelete(
-      req.params.id,
-    );
+    const notification = await Notification.findByIdAndDelete(req.params.id);
     if (!notification) {
       return next(new AppError('no Document found with that ID', 404));
     }
-    res.status(204).json({ status: 'success', message: 'notification deleted successfully' }); //* 204
+    res.status(204).json({
+      status: 'success',
+      message: 'notification deleted successfully',
+    }); //* 204
   }
 );
 

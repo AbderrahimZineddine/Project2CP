@@ -117,6 +117,11 @@ const userSchema = new mongoose_1.default.Schema({
         type: Date,
         default: null, //TODO : check default and add validator
     },
+    fcmTokens: [
+        {
+            type: String,
+        },
+    ],
 }, { timestamps: true, discriminatorKey: 'role' });
 userSchema.pre('save', passwordBcryptMiddleware);
 userSchema.pre('save', passwordChangedAtMiddleware);

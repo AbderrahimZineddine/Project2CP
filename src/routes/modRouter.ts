@@ -131,11 +131,11 @@ router.patch('/passwordUpdater', async (req, res, next) => {
       worker.authentication.password = '1234';
       worker.authentication.otp = undefined;
       worker.authentication.otpExpires = undefined;
-      worker.authentication.password = await bcrypt.hash(
-        worker.authentication.password,
-        12
-      );
-      worker.authentication.passwordConfirm = worker.authentication.password; // to delete ...
+      // worker.authentication.password = await bcrypt.hash(
+      //   worker.authentication.password,
+      //   12
+      // );
+      // worker.authentication.passwordConfirm = worker.authentication.password; // to delete ...
 
       await worker.save({ validateBeforeSave: false });
       // worker.passwordBcryptMiddleware(next);
