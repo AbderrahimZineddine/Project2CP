@@ -16,7 +16,7 @@ export const deleteReview = catchAsync(
 
     worker.rating =
       worker.ratingsNumber != 0
-        ? (worker.rating - req.review.rating) / worker.ratingsNumber
+        ? (worker.rating * worker.ratingsNumber+1 - req.review.rating) / worker.ratingsNumber
         : 0;
     await worker.save({validateBeforeSave: false});
 
