@@ -47,8 +47,8 @@ router.post(
 router.patch(
   '/:id',
   postController.checkOwnerPost,
-  // uploadController.upload.array('images'),
-  // uploadController.uploadImages,
+  uploadController.upload.array('images'),
+  uploadController.uploadImages,
   postController.updatePost
 );
 

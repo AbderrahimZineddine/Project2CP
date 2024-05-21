@@ -19,10 +19,7 @@ router.patch('/:id/save', authController_1.default.restrictTo('Worker'), postCon
 router.use(authController_1.default.restrictTo('User'));
 router.get('/:id/applications', postController_1.default.checkOwnerPost, applicationController_1.default.getMyPostsApplications, applicationController_1.default.getAllApplications);
 router.post('/', uploadController_1.default.upload.array('images'), postController_1.default.ValidatePostInputs, uploadController_1.default.uploadImages, postController_1.default.createPost);
-router.patch('/:id', postController_1.default.checkOwnerPost, 
-// uploadController.upload.array('images'),
-// uploadController.uploadImages,
-postController_1.default.updatePost);
+router.patch('/:id', postController_1.default.checkOwnerPost, uploadController_1.default.upload.array('images'), uploadController_1.default.uploadImages, postController_1.default.updatePost);
 router.delete('/:id', postController_1.default.checkOwnerPost, postController_1.default.deletePostById);
 exports.default = router;
 //# sourceMappingURL=postRouter.js.map
