@@ -47,7 +47,7 @@ exports.deleteRequestById = (0, catchAsync_1.default)(async (req, res, next) => 
         post.selectedWorkers = post.selectedWorkers.filter((workerId) => workerId.toString() !== req.user.id);
         await post.save({ validateBeforeSave: false });
     }
-    res.status(200).json({
+    res.status(204).json({
         status: 'success',
         message: 'Request deleted successfully',
     });

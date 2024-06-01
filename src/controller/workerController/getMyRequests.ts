@@ -59,7 +59,7 @@ export const deleteRequestById = catchAsync(
 
       await post.save({ validateBeforeSave: false });
     }
-    res.status(200).json({
+    res.status(204).json({
       status: 'success',
       message: 'Request deleted successfully',
     });
