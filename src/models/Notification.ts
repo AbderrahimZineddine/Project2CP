@@ -21,7 +21,7 @@ export enum NotificationType {
   DealFinishRequest = 'DealFinishRequest',
   ApplicationDeclined = 'ApplicationDeclined',
   // ref: 'dataModel',
-  DealCanceled = "DealCanceled",
+  DealCanceled = 'DealCanceled',
 }
 
 export enum NotificationDataModel {
@@ -167,7 +167,15 @@ const checkReceiverNotifications = catchAsync(
         new AppError('There is no notification with id ' + req.params.id, 404)
       );
     }
-    if (notification.receiverId != req.user.id) {
+
+    console.log(
+      (notification.receiverId as any).id.toString(),
+      '||||||',
+      req.user.id.toString()
+    );
+    if (
+      (notification.receiverId as any).id.toString() != req.user.id.toString()
+    ) {
       return next(
         new AppError(
           "This notification doesn't belong to the current user ",

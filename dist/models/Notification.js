@@ -137,7 +137,8 @@ const checkReceiverNotifications = (0, catchAsync_1.default)(async (req, res, ne
     if (!notification) {
         return next(new appError_1.default('There is no notification with id ' + req.params.id, 404));
     }
-    if (notification.receiverId != req.user.id) {
+    console.log(notification.receiverId.id.toString(), '||||||', req.user.id.toString());
+    if (notification.receiverId.id.toString() != req.user.id.toString()) {
         return next(new appError_1.default("This notification doesn't belong to the current user ", 404));
     }
     req.notification = notification;
