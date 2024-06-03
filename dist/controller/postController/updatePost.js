@@ -58,6 +58,9 @@ exports.updatePost = (0, catchAsync_1.default)(async (req, res, next) => {
         description: req.body.description,
         price: req.body.price,
         title: req.body.title,
+        'location.lat': req.body.lat,
+        'location.lng': req.body.lng,
+        'location.title': req.body.locationTitle,
     }, { new: true, runValidators: true });
     // if (! req.body.selectedWorkers) {
     //   return next(new AppError('no worker has been selected', 400));

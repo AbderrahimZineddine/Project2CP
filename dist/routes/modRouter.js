@@ -114,6 +114,40 @@ router.patch('/workersLocations', async (req, res) => {
         });
     }
 });
+router.patch('/postsLocations', async (req, res) => {
+    try {
+        const centerLat = 35.65; // Sidibelabbas latitude
+        const centerLng = 4.9667; // Sidibelabbas longitude
+        const radius = 5000 * 111300; // Radius of the circle in meters
+        // Fetch existing workers from the database
+        const posts = await Post_1.Post.find({});
+        // Iterate over each worker and update their location
+        for (const post of posts) {
+            const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
+            const randomOffsetLng = (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat))); // Random offset within +/- radius in longitude
+            const newLat = centerLat + randomOffsetLat;
+            const newLng = centerLng + randomOffsetLng;
+            // Update the worker's location
+            post.location.lat = newLat;
+            post.location.lng = newLng;
+            // worker.location.title = `${worker.name}'s location`;
+            // Save the updated worker to the database
+            await post.save();
+        }
+        console.log('post locations updated successfully!');
+        res.status(200).json({
+            status: 'success',
+            message: 'All post locations updated checked .',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while location mod .',
+            error: error.message,
+        });
+    }
+});
 router.patch('/passwordUpdater', async (req, res, next) => {
     try {
         const workers = await User_1.User.find();
