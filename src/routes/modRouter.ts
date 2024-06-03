@@ -7,7 +7,7 @@ import { Worker } from '../models/Worker';
 import { WorkerDoc } from '../models/WorkerDoc';
 import { PortfolioPost } from '../models/PortfolioPost';
 import { Role, UserDoc } from '../models/UserDoc';
-import { Post } from '../models/Post';
+import { Post, PostDoc } from '../models/Post';
 import { Deal } from '../models/Deal';
 
 const router = Router();
@@ -133,10 +133,10 @@ try {
     const radius = 5000 * 111300; // Radius of the circle in meters
 
     // Fetch existing workers from the database
-    const workers: WorkerDoc[] = await Worker.find({});
+    const posts: PostDoc[] = await Post.find({});
 
     // Iterate over each worker and update their location
-    for (const worker of workers) {
+    for (const post of posts) {
       const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
       const randomOffsetLng =
         (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat))); // Random offset within +/- radius in longitude
@@ -145,18 +145,18 @@ try {
       const newLng = centerLng + randomOffsetLng;
 
       // Update the worker's location
-      worker.location.lat = newLat;
-      worker.location.lng = newLng;
+      post.location.lat = newLat;
+      post.location.lng = newLng;
       // worker.location.title = `${worker.name}'s location`;
       // Save the updated worker to the database
-      await worker.save();
+      await post.save();
     }
 
-    console.log('Worker locations updated successfully!');
+    console.log('post locations updated successfully!');
 
     res.status(200).json({
       status: 'success',
-      message: 'All workers locations updated checked .',
+      message: 'All post locations updated checked .',
     });
   } catch (error) {
     res.status(500).json({

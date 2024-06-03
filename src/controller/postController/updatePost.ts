@@ -77,6 +77,9 @@ export const updatePost = catchAsync(
         description: req.body.description,
         price: req.body.price,
         title: req.body.title,
+        'location.lat': req.body.lat,
+        'location.lng': req.body.lng,
+        'location.title': req.body.locationTitle,
       },
       { new: true, runValidators: true }
     );
