@@ -86,9 +86,50 @@ router.patch('/checkPortfolioPosts', async (req, res) => {
 });
 
 router.patch('/workersLocations', async (req, res) => {
-  try {
-    const centerLat = 35.65; // Sidibelabbas latitude
-    const centerLng = 4.9667; // Sidibelabbas longitude
+try {
+  const centerLat = 35.65; // Sidibelabbas latitude
+  const centerLng = 4.9667; // Sidibelabbas longitude
+    const radius = 5000 * 111300; // Radius of the circle in meters
+
+    // Fetch existing workers from the database
+    const workers: WorkerDoc[] = await Worker.find({});
+
+    // Iterate over each worker and update their location
+    for (const worker of workers) {
+      const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
+      const randomOffsetLng =
+        (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat))); // Random offset within +/- radius in longitude
+
+      const newLat = centerLat + randomOffsetLat;
+      const newLng = centerLng + randomOffsetLng;
+
+      // Update the worker's location
+      worker.location.lat = newLat;
+      worker.location.lng = newLng;
+      // worker.location.title = `${worker.name}'s location`;
+      // Save the updated worker to the database
+      await worker.save();
+    }
+
+    console.log('Worker locations updated successfully!');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'All workers locations updated checked .',
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while location mod .',
+      error: error.message,
+    });
+  }
+});
+
+router.patch('/postsLocations', async (req, res) => {
+try {
+  const centerLat = 35.65; // Sidibelabbas latitude
+  const centerLng = 4.9667; // Sidibelabbas longitude
     const radius = 5000 * 111300; // Radius of the circle in meters
 
     // Fetch existing workers from the database

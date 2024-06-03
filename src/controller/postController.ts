@@ -4,6 +4,7 @@ import { getAllPosts, getMyPosts, getPostById, getPostsFromUserById } from './po
 import { savePost } from './postController/savePost';
 import { updatePost } from './postController/updatePost';
 import { checkOwnerPost } from './postController/checkOwnerPost';
+import { getMap } from './postController/getMapPosts';
 
 const postController = {
   createPost: createPost,
@@ -16,6 +17,7 @@ const postController = {
   updatePost: updatePost,
   deletePostById: deletePostById,
   savePost: savePost,
+  getMap: getMap,
 };
 
 export default postController;

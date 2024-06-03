@@ -6,6 +6,9 @@ import applicationController from '../controller/applicationController';
 
 const router = Router();
 
+router.route('/map').get(postController.getMap);
+
+
 router.get(
   '/me',
   authController.protect,

@@ -9,6 +9,7 @@ const postController_1 = __importDefault(require("../controller/postController")
 const express_1 = require("express");
 const applicationController_1 = __importDefault(require("../controller/applicationController"));
 const router = (0, express_1.Router)();
+router.route('/map').get(postController_1.default.getMap);
 router.get('/me', authController_1.default.protect, authController_1.default.restrictTo('User'), postController_1.default.getMyPosts, postController_1.default.getAllPosts);
 router.get('/:id', authController_1.default.isLoggedIn, postController_1.default.getPostById);
 // router.get('/:id', authController.protect, authController.restrictTo('Worker'), postController.getPostById);
