@@ -1,0 +1,183 @@
+Date : 2024-06-03 18:39:31
+Directory : d:\Lenovo\Documents\Project2CP\src
+Total : 138 files,  7616 codes, 1583 comments, 1074 blanks, all 10273 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| TypeScript |        123 |      7,022 |      1,571 |      1,028 |      9,621 |
+| Pug        |         14 |        581 |         12 |         45 |        638 |
+| JSON       |          1 |         13 |          0 |          1 |         14 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                   |        138 |      7,616 |      1,583 |      1,074 |     10,273 |
+| . (Files)                                                                                           |          5 |        199 |         94 |         49 |        342 |
+| controller                                                                                          |         88 |      4,832 |        809 |        655 |      6,296 |
+| controller (Files)                                                                                  |         11 |        612 |         55 |         64 |        731 |
+| controller\applicationController                                                                    |          5 |        203 |         23 |         36 |        262 |
+| controller\authController                                                                           |         16 |        617 |        184 |         92 |        893 |
+| controller\dashboardController                                                                      |         12 |        960 |        325 |        145 |      1,430 |
+| controller\dealController                                                                           |          5 |        302 |         22 |         39 |        363 |
+| controller\portfolioPostController.ts                                                               |          6 |        326 |          7 |         29 |        362 |
+| controller\postController                                                                           |          7 |        465 |         11 |         44 |        520 |
+| controller\reviewController                                                                         |          5 |        172 |         35 |         35 |        242 |
+| controller\uploadController                                                                         |          8 |        328 |         72 |         60 |        460 |
+| controller\userController                                                                           |          6 |        318 |         36 |         47 |        401 |
+| controller\workerController                                                                         |          7 |        529 |         39 |         64 |        632 |
+| models                                                                                              |         14 |      1,060 |        433 |        119 |      1,612 |
+| routes                                                                                              |         13 |        809 |         68 |        175 |      1,052 |
+| utils                                                                                               |          4 |        135 |        167 |         31 |        333 |
+| views                                                                                               |         14 |        581 |         12 |         45 |        638 |
+| views (Files)                                                                                       |          9 |        248 |          9 |         35 |        292 |
+| views\emails                                                                                        |          5 |        333 |          3 |         10 |        346 |
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                            | language   | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\Lenovo\Documents\Project2CP\src\app.ts                                                           | TypeScript |         74 |         15 |         12 |        101 |
+| d:\Lenovo\Documents\Project2CP\src\controller\applicationController.ts                              | TypeScript |         30 |          0 |          3 |         33 |
+| d:\Lenovo\Documents\Project2CP\src\controller\applicationController\applyPost.ts                    | TypeScript |         67 |          0 |         10 |         77 |
+| d:\Lenovo\Documents\Project2CP\src\controller\applicationController\checkOwnerApplication.ts        | TypeScript |         70 |          0 |          7 |         77 |
+| d:\Lenovo\Documents\Project2CP\src\controller\applicationController\getMyApplications.ts            | TypeScript |         27 |         13 |         10 |         50 |
+| d:\Lenovo\Documents\Project2CP\src\controller\applicationController\getMyPostsApplications.ts       | TypeScript |         10 |         10 |          5 |         25 |
+| d:\Lenovo\Documents\Project2CP\src\controller\applicationController\updateApplication.ts            | TypeScript |         29 |          0 |          4 |         33 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController.ts                                     | TypeScript |         43 |          0 |          4 |         47 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\createAndSendToken.ts                  | TypeScript |         23 |         16 |          2 |         41 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\forgotPassword.ts                      | TypeScript |         36 |         18 |          8 |         62 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\isLoggedIn.ts                          | TypeScript |         47 |          4 |          7 |         58 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\login.ts                               | TypeScript |         44 |          5 |          6 |         55 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\logout.ts                              | TypeScript |          8 |         14 |          1 |         23 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\protect.ts                             | TypeScript |         41 |         52 |          5 |         98 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\resendEmailVerification.ts             | TypeScript |         44 |          0 |         10 |         54 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\resetPassword.ts                       | TypeScript |         32 |          6 |          7 |         45 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\restrictTo.ts                          | TypeScript |         16 |          3 |          4 |         23 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\signup.ts                              | TypeScript |         57 |          4 |         10 |         71 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\signupAsWorker.ts                      | TypeScript |        128 |         21 |          8 |        157 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\switchRole.ts                          | TypeScript |         39 |          9 |          4 |         52 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\updateEmail.ts                         | TypeScript |         26 |         26 |          5 |         57 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\updatePassword.ts                      | TypeScript |         26 |          6 |          5 |         37 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\verifyEmail.ts                         | TypeScript |         33 |          0 |          7 |         40 |
+| d:\Lenovo\Documents\Project2CP\src\controller\authController\verifyWorkerSignup.ts                  | TypeScript |         17 |          0 |          3 |         20 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\applicationDashboard.ts           | TypeScript |         81 |         22 |         17 |        120 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\certificateDashboard.ts           | TypeScript |         52 |         17 |          6 |         75 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\dashboard1model.ts                | TypeScript |        160 |         22 |         24 |        206 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\dashboard2models.ts               | TypeScript |        182 |         30 |         22 |        234 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\dashboard3models.ts               | TypeScript |        179 |         30 |         22 |        231 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\dealDashboard.ts                  | TypeScript |         52 |         15 |          7 |         74 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\generalDonutChart.ts              | TypeScript |         79 |         66 |         10 |        155 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\postDashboard.ts                  | TypeScript |         34 |         17 |          7 |         58 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\reviewDashboard.ts                | TypeScript |         35 |         11 |          7 |         53 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\test.ts                           | TypeScript |          0 |         59 |          1 |         60 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\userDashboard.ts                  | TypeScript |         45 |         18 |         10 |         73 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dashboardController\workerDashboard.ts                | TypeScript |         61 |         18 |         12 |         91 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dealController.ts                                     | TypeScript |         33 |          0 |          2 |         35 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dealController\checkOwnerDeal.ts                      | TypeScript |         40 |          2 |          5 |         47 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dealController\createDeal.ts                          | TypeScript |         54 |          0 |          9 |         63 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dealController\finishDeal.ts                          | TypeScript |        101 |          3 |         14 |        118 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dealController\getMyDeals.ts                          | TypeScript |         34 |         14 |          6 |         54 |
+| d:\Lenovo\Documents\Project2CP\src\controller\dealController\updateDeal.ts                          | TypeScript |         73 |          3 |          5 |         81 |
+| d:\Lenovo\Documents\Project2CP\src\controller\errorController.ts                                    | TypeScript |         76 |         26 |         15 |        117 |
+| d:\Lenovo\Documents\Project2CP\src\controller\handlerFactory.ts                                     | TypeScript |         91 |         15 |         13 |        119 |
+| d:\Lenovo\Documents\Project2CP\src\controller\portfolioPostController.ts\checkOwnerPortfolioPost.ts | TypeScript |         19 |          0 |          2 |         21 |
+| d:\Lenovo\Documents\Project2CP\src\controller\portfolioPostController.ts\createPortfolioPost.ts     | TypeScript |         28 |          0 |          3 |         31 |
+| d:\Lenovo\Documents\Project2CP\src\controller\portfolioPostController.ts\deletePortfolioPost.ts     | TypeScript |         35 |          2 |          5 |         42 |
+| d:\Lenovo\Documents\Project2CP\src\controller\portfolioPostController.ts\getPortfolioPostById.ts    | TypeScript |         96 |          0 |         12 |        108 |
+| d:\Lenovo\Documents\Project2CP\src\controller\portfolioPostController.ts\likePortfolioPost.ts       | TypeScript |         59 |          1 |          4 |         64 |
+| d:\Lenovo\Documents\Project2CP\src\controller\portfolioPostController.ts\updatePortfolioPost.ts     | TypeScript |         89 |          4 |          3 |         96 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController.ts                                     | TypeScript |         21 |          0 |          3 |         24 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController\checkOwnerPost.ts                      | TypeScript |         21 |          0 |          2 |         23 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController\createPost.ts                          | TypeScript |         52 |          0 |          6 |         58 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController\deletePost.ts                          | TypeScript |         90 |          2 |          8 |        100 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController\getMapPosts.ts                         | TypeScript |         47 |          2 |          8 |         57 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController\getPost.ts                             | TypeScript |        111 |          0 |          9 |        120 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController\savePost.ts                            | TypeScript |         39 |          0 |          3 |         42 |
+| d:\Lenovo\Documents\Project2CP\src\controller\postController\updatePost.ts                          | TypeScript |        105 |          7 |          8 |        120 |
+| d:\Lenovo\Documents\Project2CP\src\controller\reviewController.ts                                   | TypeScript |         29 |          0 |          2 |         31 |
+| d:\Lenovo\Documents\Project2CP\src\controller\reviewController\checkOwnerReview.ts                  | TypeScript |         27 |          0 |          3 |         30 |
+| d:\Lenovo\Documents\Project2CP\src\controller\reviewController\createReview.ts                      | TypeScript |         61 |         15 |         13 |         89 |
+| d:\Lenovo\Documents\Project2CP\src\controller\reviewController\deleteReview.ts                      | TypeScript |         28 |          1 |          6 |         35 |
+| d:\Lenovo\Documents\Project2CP\src\controller\reviewController\getMyReviews.ts                      | TypeScript |         30 |         14 |          8 |         52 |
+| d:\Lenovo\Documents\Project2CP\src\controller\reviewController\updateReview.ts                      | TypeScript |         26 |          5 |          5 |         36 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController.ts                                   | TypeScript |         17 |          0 |          2 |         19 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\deleteCloudinary.ts                  | TypeScript |         13 |          0 |          3 |         16 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\multerStorage.ts                     | TypeScript |         67 |         24 |         10 |        101 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\upload.ts                            | TypeScript |         24 |          0 |          4 |         28 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\uploadCert.ts                        | TypeScript |         29 |          6 |         10 |         45 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\uploadCertificate.ts                 | TypeScript |         87 |          8 |          9 |        104 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\uploadId.ts                          | TypeScript |         35 |          6 |          9 |         50 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\uploadImages.ts                      | TypeScript |         41 |         22 |          4 |         67 |
+| d:\Lenovo\Documents\Project2CP\src\controller\uploadController\uploadPfp.ts                         | TypeScript |         32 |          6 |         11 |         49 |
+| d:\Lenovo\Documents\Project2CP\src\controller\userController.ts                                     | TypeScript |         54 |          0 |          4 |         58 |
+| d:\Lenovo\Documents\Project2CP\src\controller\userController\ToggleFavoriteWorker.ts                | TypeScript |         63 |          0 |          6 |         69 |
+| d:\Lenovo\Documents\Project2CP\src\controller\userController\editMe.ts                              | TypeScript |         80 |         16 |          8 |        104 |
+| d:\Lenovo\Documents\Project2CP\src\controller\userController\editMeUser.ts                          | TypeScript |         83 |         17 |         16 |        116 |
+| d:\Lenovo\Documents\Project2CP\src\controller\userController\getAllUsers.ts                         | TypeScript |         39 |          1 |          7 |         47 |
+| d:\Lenovo\Documents\Project2CP\src\controller\userController\getMap.ts                              | TypeScript |         47 |          2 |          8 |         57 |
+| d:\Lenovo\Documents\Project2CP\src\controller\userController\getMe.ts                               | TypeScript |          6 |          0 |          2 |          8 |
+| d:\Lenovo\Documents\Project2CP\src\controller\validationRequestController.ts                        | TypeScript |        166 |         14 |         13 |        193 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController.ts                                   | TypeScript |         52 |          0 |          3 |         55 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController\bestWorkers.ts                       | TypeScript |         56 |          1 |         10 |         67 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController\certificatesController.ts            | TypeScript |        217 |         18 |         21 |        256 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController\editMeWorker.ts                      | TypeScript |         21 |         11 |          5 |         37 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController\getMyRequests.ts                     | TypeScript |         60 |          0 |          8 |         68 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController\getSavedPosts.ts                     | TypeScript |         44 |          0 |          5 |         49 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController\portfolioPostsController.ts          | TypeScript |         24 |          0 |          3 |         27 |
+| d:\Lenovo\Documents\Project2CP\src\controller\workerController\workerCRUD.ts                        | TypeScript |        107 |          9 |         12 |        128 |
+| d:\Lenovo\Documents\Project2CP\src\easyhome-project2cp-firebase-adminsdk-oypl8-e6a828557a.json      | JSON       |         13 |          0 |          1 |         14 |
+| d:\Lenovo\Documents\Project2CP\src\firebase.ts                                                      | TypeScript |         16 |          7 |          6 |         29 |
+| d:\Lenovo\Documents\Project2CP\src\models\Application.ts                                            | TypeScript |         75 |         19 |          9 |        103 |
+| d:\Lenovo\Documents\Project2CP\src\models\Certificate.ts                                            | TypeScript |         56 |          1 |          5 |         62 |
+| d:\Lenovo\Documents\Project2CP\src\models\Deal.ts                                                   | TypeScript |         91 |          2 |         11 |        104 |
+| d:\Lenovo\Documents\Project2CP\src\models\Like.ts                                                   | TypeScript |         16 |          0 |          5 |         21 |
+| d:\Lenovo\Documents\Project2CP\src\models\Notification.ts                                           | TypeScript |        120 |         96 |         10 |        226 |
+| d:\Lenovo\Documents\Project2CP\src\models\PortfolioPost.ts                                          | TypeScript |         47 |          1 |          6 |         54 |
+| d:\Lenovo\Documents\Project2CP\src\models\Post.ts                                                   | TypeScript |         71 |          2 |          7 |         80 |
+| d:\Lenovo\Documents\Project2CP\src\models\Review.ts                                                 | TypeScript |         94 |          7 |         16 |        117 |
+| d:\Lenovo\Documents\Project2CP\src\models\User.ts                                                   | TypeScript |         63 |        151 |          3 |        217 |
+| d:\Lenovo\Documents\Project2CP\src\models\UserDoc.ts                                                | TypeScript |         36 |          9 |          4 |         49 |
+| d:\Lenovo\Documents\Project2CP\src\models\Worker.ts                                                 | TypeScript |        113 |         45 |         14 |        172 |
+| d:\Lenovo\Documents\Project2CP\src\models\WorkerDoc.ts                                              | TypeScript |         34 |          7 |          4 |         45 |
+| d:\Lenovo\Documents\Project2CP\src\models\data.ts                                                   | TypeScript |        148 |         77 |         15 |        240 |
+| d:\Lenovo\Documents\Project2CP\src\models\validationRequest.ts                                      | TypeScript |         96 |         16 |         10 |        122 |
+| d:\Lenovo\Documents\Project2CP\src\routes\applicationRouter.ts                                      | TypeScript |         43 |          1 |         12 |         56 |
+| d:\Lenovo\Documents\Project2CP\src\routes\authRouter.ts                                             | TypeScript |         36 |          4 |          5 |         45 |
+| d:\Lenovo\Documents\Project2CP\src\routes\certificateRouter.ts                                      | TypeScript |         27 |          1 |          8 |         36 |
+| d:\Lenovo\Documents\Project2CP\src\routes\dashboardRouter.ts                                        | TypeScript |        110 |          6 |         15 |        131 |
+| d:\Lenovo\Documents\Project2CP\src\routes\dealRouter.ts                                             | TypeScript |         48 |          2 |         11 |         61 |
+| d:\Lenovo\Documents\Project2CP\src\routes\modRouter.ts                                              | TypeScript |        195 |         28 |         35 |        258 |
+| d:\Lenovo\Documents\Project2CP\src\routes\notificationRouter.ts                                     | TypeScript |         19 |          0 |          8 |         27 |
+| d:\Lenovo\Documents\Project2CP\src\routes\portfolioRouter.ts                                        | TypeScript |         42 |          2 |          8 |         52 |
+| d:\Lenovo\Documents\Project2CP\src\routes\postRouter.ts                                             | TypeScript |         49 |          2 |         14 |         65 |
+| d:\Lenovo\Documents\Project2CP\src\routes\reviewRouter.ts                                           | TypeScript |         36 |          0 |         11 |         47 |
+| d:\Lenovo\Documents\Project2CP\src\routes\userRouter.ts                                             | TypeScript |         86 |         11 |         20 |        117 |
+| d:\Lenovo\Documents\Project2CP\src\routes\validationRequestRouter.ts                                | TypeScript |         16 |          0 |          7 |         23 |
+| d:\Lenovo\Documents\Project2CP\src\routes\workerRouter.ts                                           | TypeScript |        102 |         11 |         21 |        134 |
+| d:\Lenovo\Documents\Project2CP\src\server.ts                                                        | TypeScript |         53 |         65 |         19 |        137 |
+| d:\Lenovo\Documents\Project2CP\src\serverOnline.ts                                                  | TypeScript |         43 |          7 |         11 |         61 |
+| d:\Lenovo\Documents\Project2CP\src\utils\APIFeatures.ts                                             | TypeScript |         28 |         87 |          8 |        123 |
+| d:\Lenovo\Documents\Project2CP\src\utils\appError.ts                                                | TypeScript |         13 |          0 |          2 |         15 |
+| d:\Lenovo\Documents\Project2CP\src\utils\catchAsync.ts                                              | TypeScript |         17 |          2 |          3 |         22 |
+| d:\Lenovo\Documents\Project2CP\src\utils\email.ts                                                   | TypeScript |         77 |         78 |         18 |        173 |
+| d:\Lenovo\Documents\Project2CP\src\views\_footer.pug                                                | Pug        |         10 |          0 |          1 |         11 |
+| d:\Lenovo\Documents\Project2CP\src\views\_header.pug                                                | Pug        |         14 |          0 |          1 |         15 |
+| d:\Lenovo\Documents\Project2CP\src\views\_reviewCard.pug                                            | Pug        |         10 |          0 |          1 |         11 |
+| d:\Lenovo\Documents\Project2CP\src\views\account.pug                                                | Pug        |         55 |          0 |          5 |         60 |
+| d:\Lenovo\Documents\Project2CP\src\views\base.pug                                                   | Pug        |         20 |          8 |          4 |         32 |
+| d:\Lenovo\Documents\Project2CP\src\views\emails\_style.pug                                          | Pug        |        258 |          0 |          0 |        258 |
+| d:\Lenovo\Documents\Project2CP\src\views\emails\baseEmail.pug                                       | Pug        |         36 |          3 |          6 |         45 |
+| d:\Lenovo\Documents\Project2CP\src\views\emails\passwordReset.pug                                   | Pug        |          6 |          0 |          2 |          8 |
+| d:\Lenovo\Documents\Project2CP\src\views\emails\verifyEmail.pug                                     | Pug        |         17 |          0 |          1 |         18 |
+| d:\Lenovo\Documents\Project2CP\src\views\emails\welcome.pug                                         | Pug        |         16 |          0 |          1 |         17 |
+| d:\Lenovo\Documents\Project2CP\src\views\error.pug                                                  | Pug        |          8 |          0 |          1 |          9 |
+| d:\Lenovo\Documents\Project2CP\src\views\login.pug                                                  | Pug        |         14 |          0 |          1 |         15 |
+| d:\Lenovo\Documents\Project2CP\src\views\overview.pug                                               | Pug        |         41 |          0 |          5 |         46 |
+| d:\Lenovo\Documents\Project2CP\src\views\tour.pug                                                   | Pug        |         76 |          1 |         16 |         93 |
+| Total                                                                                               |            |      7,616 |      1,583 |      1,074 |     10,273 |
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

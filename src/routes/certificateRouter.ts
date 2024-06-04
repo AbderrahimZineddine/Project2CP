@@ -5,8 +5,8 @@ import authController from '../controller/authController';
 
 const router = Router();
 
-router.get('/:id', workerController.getCertificateById);
 router.get('/me', workerController.getMyCertificate);
+router.get('/:id', workerController.getCertificateById);
 router.get('/', workerController.getAllCertificates);
 
 router.use(authController.protect);
