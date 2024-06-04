@@ -5,11 +5,13 @@ import authController from '../controller/authController';
 
 const router = Router();
 
-router.get('/me', workerController.getMyCertificate);
+
+router.use(authController.protect);
+
+router.get('/me', authController.restrictTo('Worker'), workerController.getMyCertificate);
 router.get('/:id', workerController.getCertificateById);
 router.get('/', workerController.getAllCertificates);
 
-router.use(authController.protect);
 router.use(authController.restrictTo('Worker'));
 
 router.patch(

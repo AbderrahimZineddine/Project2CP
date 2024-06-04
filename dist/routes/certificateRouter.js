@@ -8,10 +8,10 @@ const uploadController_1 = __importDefault(require("../controller/uploadControll
 const express_1 = require("express");
 const authController_1 = __importDefault(require("../controller/authController"));
 const router = (0, express_1.Router)();
-router.get('/me', workerController_1.default.getMyCertificate);
+router.use(authController_1.default.protect);
+router.get('/me', authController_1.default.restrictTo('Worker'), workerController_1.default.getMyCertificate);
 router.get('/:id', workerController_1.default.getCertificateById);
 router.get('/', workerController_1.default.getAllCertificates);
-router.use(authController_1.default.protect);
 router.use(authController_1.default.restrictTo('Worker'));
 router.patch('/:id/title', workerController_1.default.checkOwnerCertificate, workerController_1.default.updateCertificateTitle);
 router.delete('/:id', workerController_1.default.checkOwnerCertificate, workerController_1.default.deleteCertificateById);
