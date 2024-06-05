@@ -262,6 +262,11 @@ router.patch('/verifyAcc', async (req, res, next) => {
       user.workerAccountVerified = false;
     }
   }
+
+  res.status(200).json({
+    status: 'success',
+    message: 'All users passwords updated checked .',
+  });
   } catch (error) {
     res.status(500).json({
       status: 'error',
