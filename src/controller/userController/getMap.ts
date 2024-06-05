@@ -39,12 +39,16 @@ export const getMap = catchAsync(
       } else {
         workers = await Worker.find();
       }
-
+      let i= 1 ;
       // Filter workers based on distance from the center point
       const workersWithinDiameter = workers.filter((worker: any) => {
         const workerLat = worker.location.lat;
         const workerLng = worker.location.lng;
         const distance = haversineDistance(lat, lng, workerLat, workerLng);
+        console.log(i++,' : ' , distance);
+        console.log(i,' : ' , workerLat);
+        console.log(i,' : ' , workerLng);
+        console.log("**************************");
         return distance <= diameter / 2;
       });
 

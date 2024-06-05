@@ -38,11 +38,16 @@ exports.getMap = (0, catchAsync_1.default)(async (req, res, next) => {
         else {
             workers = await Worker_1.Worker.find();
         }
+        let i = 1;
         // Filter workers based on distance from the center point
         const workersWithinDiameter = workers.filter((worker) => {
             const workerLat = worker.location.lat;
             const workerLng = worker.location.lng;
             const distance = haversineDistance(lat, lng, workerLat, workerLng);
+            console.log(i++, ' : ', distance);
+            console.log(i, ' : ', workerLat);
+            console.log(i, ' : ', workerLng);
+            console.log("**************************");
             return distance <= diameter / 2;
         });
         res.status(200).json({

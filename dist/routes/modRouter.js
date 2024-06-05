@@ -82,15 +82,19 @@ router.patch('/checkPortfolioPosts', async (req, res) => {
 });
 router.patch('/workersLocations', async (req, res) => {
     try {
-        const centerLat = 35.65; // Sidibelabbas latitude
-        const centerLng = 4.9667; // Sidibelabbas longitude
-        const radius = 5000 * 111300; // Radius of the circle in meters
+        const centerLat = 35.2; // Your current latitude
+        const centerLng = -0.64; // Your current longitude
+        const diameters = [10, 20, 40, 50, 100]; // Diameters in kilometers
         // Fetch existing workers from the database
         const workers = await Worker_1.Worker.find({});
         // Iterate over each worker and update their location
-        for (const worker of workers) {
+        for (let i = 0; i < workers.length; i++) {
+            const worker = workers[i];
+            // Determine the radius for this worker based on their index
+            const radius = (diameters[Math.floor(i / (workers.length / diameters.length))] / 2) * 1000; // Radius in meters
+            // Generate random offsets
             const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
-            const randomOffsetLng = (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat))); // Random offset within +/- radius in longitude
+            const randomOffsetLng = (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat * Math.PI / 180))); // Random offset within +/- radius in longitude
             const newLat = centerLat + randomOffsetLat;
             const newLng = centerLng + randomOffsetLng;
             // Update the worker's location
@@ -98,18 +102,18 @@ router.patch('/workersLocations', async (req, res) => {
             worker.location.lng = newLng;
             // worker.location.title = `${worker.name}'s location`;
             // Save the updated worker to the database
-            await worker.save();
+            await worker.save({ validateBeforeSave: false });
         }
         console.log('Worker locations updated successfully!');
         res.status(200).json({
             status: 'success',
-            message: 'All workers locations updated checked .',
+            message: 'All workers locations updated and checked.',
         });
     }
     catch (error) {
         res.status(500).json({
             status: 'error',
-            message: 'An error occurred while location mod .',
+            message: 'An error occurred while updating locations.',
             error: error.message,
         });
     }
