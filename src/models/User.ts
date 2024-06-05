@@ -98,12 +98,12 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['User', 'Worker'],
+      enum: ['User', 'Worker', "Admin"],
       default: 'User',
     },
     currentRole: {
       type: String,
-      enum: ['User', 'Worker'],
+      enum: ['User', 'Worker', "Admin"],
       default: 'User',
       validate: {
         //TODO recheck

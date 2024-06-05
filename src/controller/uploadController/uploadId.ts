@@ -32,7 +32,7 @@ const uploadId = async (req: MyRequest, res: Response, next: NextFunction) => {
       transformation: {
         format: 'jpg',
       },
-      folder: req.user.id,
+      // folder: req.user.id,
     });
 
     // Update user profile picture and save

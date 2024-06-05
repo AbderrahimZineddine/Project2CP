@@ -5,5 +5,6 @@ var Role;
 (function (Role) {
     Role["User"] = "User";
     Role["Worker"] = "Worker";
+    Role["Admin"] = "Admin";
 })(Role || (exports.Role = Role = {}));
 //# sourceMappingURL=UserDoc.js.map

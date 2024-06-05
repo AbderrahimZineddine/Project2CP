@@ -21,12 +21,12 @@ export const editMe = (role: any) => {
         );
       }
 
-      if (req.user.role === Role.Worker && req.body.name) {
-        throw new AppError(
-          'You cannot change your name because it is linked to your id card!',
-          400
-        );
-      }
+      // if (req.user.role === Role.Worker && req.body.name) {
+      //   throw new AppError(
+      //     'You cannot change your name because it is linked to your id card!',
+      //     400
+      //   );
+      // }
 
       const oldPfp = req.user.profilePicture;
       const updatedUser = await role.findByIdAndUpdate(

@@ -3,15 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUsersName = void 0;
 const express_1 = require("express");
 const User_1 = require("../models/User");
-const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const Worker_1 = require("../models/Worker");
 const PortfolioPost_1 = require("../models/PortfolioPost");
 const UserDoc_1 = require("../models/UserDoc");
 const Post_1 = require("../models/Post");
 const Deal_1 = require("../models/Deal");
+const appError_1 = __importDefault(require("../utils/appError"));
+const uploadController_1 = __importDefault(require("../controller/uploadController"));
+const Certificate_1 = require("../models/Certificate");
 const router = (0, express_1.Router)();
 router.patch('/makeAllUsersVerified', async (req, res) => {
     try {
@@ -91,16 +92,19 @@ router.patch('/workersLocations', async (req, res) => {
         for (let i = 0; i < workers.length; i++) {
             const worker = workers[i];
             // Determine the radius for this worker based on their index
-            const radius = (diameters[Math.floor(i / (workers.length / diameters.length))] / 2) * 1000; // Radius in meters
+            const radius = (diameters[Math.floor(i / (workers.length / diameters.length))] / 2) *
+                1000; // Radius in meters
             // Generate random offsets
             const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
-            const randomOffsetLng = (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat * Math.PI / 180))); // Random offset within +/- radius in longitude
+            const randomOffsetLng = (Math.random() - 0.5) *
+                2 *
+                (radius / (111300 * Math.cos((centerLat * Math.PI) / 180))); // Random offset within +/- radius in longitude
             const newLat = centerLat + randomOffsetLat;
             const newLng = centerLng + randomOffsetLng;
             // Update the worker's location
             worker.location.lat = newLat;
             worker.location.lng = newLng;
-            worker.location.title = "title";
+            worker.location.title = 'title';
             // worker.location.title = `${worker.name}'s location`;
             // Save the updated worker to the database
             await worker.save({ validateBeforeSave: false });
@@ -130,16 +134,19 @@ router.patch('/postsLocations', async (req, res) => {
         for (let i = 0; i < workers.length; i++) {
             const worker = workers[i];
             // Determine the radius for this worker based on their index
-            const radius = (diameters[Math.floor(i / (workers.length / diameters.length))] / 2) * 1000; // Radius in meters
+            const radius = (diameters[Math.floor(i / (workers.length / diameters.length))] / 2) *
+                1000; // Radius in meters
             // Generate random offsets
             const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
-            const randomOffsetLng = (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat * Math.PI / 180))); // Random offset within +/- radius in longitude
+            const randomOffsetLng = (Math.random() - 0.5) *
+                2 *
+                (radius / (111300 * Math.cos((centerLat * Math.PI) / 180))); // Random offset within +/- radius in longitude
             const newLat = centerLat + randomOffsetLat;
             const newLng = centerLng + randomOffsetLng;
             // Update the worker's location
             worker.location.lat = newLat;
             worker.location.lng = newLng;
-            worker.location.title = "title";
+            worker.location.title = 'title';
             // worker.location.title = `${worker.name}'s location`;
             // Save the updated worker to the database
             await worker.save({ validateBeforeSave: false });
@@ -272,7 +279,112 @@ router.patch('/postHiddenSetter', async (req, res, next) => {
         });
     }
 });
-exports.updateUsersName = (0, catchAsync_1.default)(async (req, res, next) => {
+router.patch('/changePfp', uploadController_1.default.upload.fields([
+    {
+        name: 'idPicture',
+        maxCount: 1,
+    },
+]), uploadController_1.default.uploadId, async (req, res, next) => {
+    try {
+        if (!req.idPicture) {
+            return next(new appError_1.default('Please provide all required information for signing up as a worker', 400));
+        }
+        const workers = await User_1.User.find();
+        for (const worker of workers) {
+            const old = worker.profilePicture;
+            worker.profilePicture = req.idPicture;
+            await worker.save({ validateBeforeSave: false });
+            try {
+                await uploadController_1.default.deleteFromCloudinary(old);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'All ids checked .',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while post hidden setter mod .',
+            error: error.message,
+        });
+    }
+});
+router.patch('/changeIdPictures', uploadController_1.default.upload.fields([
+    {
+        name: 'idPicture',
+        maxCount: 1,
+    },
+]), uploadController_1.default.uploadId, async (req, res, next) => {
+    try {
+        if (!req.idPicture) {
+            return next(new appError_1.default('Please provide all required information for signing up as a worker', 400));
+        }
+        const workers = await Worker_1.Worker.find();
+        for (const worker of workers) {
+            const old = worker.idPicture;
+            worker.idPicture = req.idPicture;
+            await worker.save({ validateBeforeSave: false });
+            try {
+                await uploadController_1.default.deleteFromCloudinary(old);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'All ids checked .',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while post hidden setter mod .',
+            error: error.message,
+        });
+    }
+});
+router.patch('/changeCerts', uploadController_1.default.upload.fields([
+    {
+        name: 'idPicture',
+        maxCount: 1,
+    },
+]), uploadController_1.default.uploadId, async (req, res, next) => {
+    try {
+        if (!req.idPicture) {
+            return next(new appError_1.default('Please provide all required information for signing up as a worker', 400));
+        }
+        const certificates = await Certificate_1.Certificate.find();
+        for (const cert of certificates) {
+            const old = cert.image;
+            cert.image = req.idPicture;
+            await cert.save({ validateBeforeSave: false });
+            try {
+                await uploadController_1.default.deleteFromCloudinary(old);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'All ids checked .',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while post hidden setter mod .',
+            error: error.message,
+        });
+    }
+});
+router.patch('/updateUsersName', async (req, res, next) => {
     // Define the new name
     const newName = 'NewName this very nice'; // Replace 'NewName' with the desired new name
     // Fetch all users from the database
@@ -292,6 +404,87 @@ exports.updateUsersName = (0, catchAsync_1.default)(async (req, res, next) => {
     }
     res.status(200).json({ message: 'Names updated successfully' });
 });
-router.patch('/updateUsersName', exports.updateUsersName);
+const wilayas = [
+    'Adrar',
+    'Chlef',
+    'Laghouat',
+    'Oum El Bouaghi',
+    'Batna',
+    'Béjaïa',
+    'Biskra',
+    'Béchar',
+    'Blida',
+    'Bouira',
+    'Tamanrasset',
+    'Tébessa',
+    'Tlemcen',
+    'Tiaret',
+    'Tizi Ouzou',
+    'Alger',
+    'Djelfa',
+    'Jijel',
+    'Sétif',
+    'Saïda',
+    'Skikda',
+    'Sidi Bel Abbès',
+    'Annaba',
+    'Guelma',
+    'Constantine',
+    'Médéa',
+    'Mostaganem',
+    "M'Sila",
+    'Mascara',
+    'Ouargla',
+    'Oran',
+    'El Bayadh',
+    'Illizi',
+    'Bordj Bou Arréridj',
+    'Boumerdès',
+    'El Tarf',
+    'Tindouf',
+    'Tissemsilt',
+    'El Oued',
+    'Khenchela',
+    'Souk Ahras',
+    'Tipaza',
+    'Mila',
+    'Aïn Defla',
+    'Naâma',
+    'Aïn Témouchent',
+    'Ghardaïa',
+    'Relizane',
+];
+const jobs = [
+    "Architect",
+    "Mason",
+    "Painter",
+    "Plumber",
+    "Electrician",
+    "Interior Designer",
+    "Landscaper",
+    "Cleaner",
+    "Security System Installer",
+];
+router.patch('/updateWilaya', async (req, res, next) => {
+    try {
+        const users = await Worker_1.Worker.find();
+        for (const user of users) {
+            const randomIndex = Math.floor(Math.random() * wilayas.length);
+            user.job = jobs[randomIndex];
+            await user.save({ validateBeforeSave: false }); // Save the updated user back to the database
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'Updated successfully for all users.',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while updating wilayas.',
+            error: error.message,
+        });
+    }
+});
 exports.default = router;
 //# sourceMappingURL=modRouter.js.map

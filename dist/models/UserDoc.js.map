@@ -1,1 +1,1 @@
-{"version":3,"file":"UserDoc.js","sourceRoot":"","sources":["../../src/models/UserDoc.ts"],"names":[],"mappings":";;;AAEA,IAAY,IAGX;AAHD,WAAY,IAAI;IACd,qBAAa,CAAA;IACb,yBAAiB,CAAA;AACnB,CAAC,EAHW,IAAI,oBAAJ,IAAI,QAGf"}
+{"version":3,"file":"UserDoc.js","sourceRoot":"","sources":["../../src/models/UserDoc.ts"],"names":[],"mappings":";;;AAEA,IAAY,IAIX;AAJD,WAAY,IAAI;IACd,qBAAa,CAAA;IACb,yBAAiB,CAAA;IACjB,uBAAe,CAAA;AACjB,CAAC,EAJW,IAAI,oBAAJ,IAAI,QAIf"}

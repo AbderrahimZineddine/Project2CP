@@ -26,7 +26,7 @@ const uploadId = async (req, res, next) => {
             transformation: {
                 format: 'jpg',
             },
-            folder: req.user.id,
+            // folder: req.user.id,
         });
         // Update user profile picture and save
         req.idPicture = result.secure_url;

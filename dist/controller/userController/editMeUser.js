@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.editMe = void 0;
 const appError_1 = __importDefault(require("../../utils/appError"));
-const UserDoc_1 = require("../../models/UserDoc");
 const uploadController_1 = __importDefault(require("../../controller/uploadController"));
 const editMe = (role) => {
     return async (req, res, next) => {
@@ -16,9 +15,12 @@ const editMe = (role) => {
                     req.body.authentication.passwordConfirm)) {
                 throw new appError_1.default('This route is not for password updates. Please use /updateMyPassword', 400);
             }
-            if (req.user.role === UserDoc_1.Role.Worker && req.body.name) {
-                throw new appError_1.default('You cannot change your name because it is linked to your id card!', 400);
-            }
+            // if (req.user.role === Role.Worker && req.body.name) {
+            //   throw new AppError(
+            //     'You cannot change your name because it is linked to your id card!',
+            //     400
+            //   );
+            // }
             const oldPfp = req.user.profilePicture;
             const updatedUser = await role.findByIdAndUpdate(req.user.id, {
                 name: req.body.name,

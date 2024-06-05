@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 export enum Role {
   User = 'User',
   Worker = 'Worker',
+  Admin = 'Admin',
 }
 
 export interface UserDoc extends mongoose.Document {
