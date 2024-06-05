@@ -55,7 +55,7 @@ export const getAllPosts = catchAsync(
       features = new APIFeatures(
         Post.find({ user: qUser }).populate({
           path: 'user',
-          select: 'name profilePicture wilaya', // Select specific fields from the user model
+          select: 'name profilePicture wilaya phoneNumber', // Select specific fields from the user model
         }),
         req.query
       )

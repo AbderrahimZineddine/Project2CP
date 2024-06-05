@@ -72,11 +72,11 @@ DealSchema.pre(/^find/, function (next) {
 DealSchema.pre("find", function (next) {
     this.populate({
         path: 'user',
-        select: 'name profilePicture wilaya', // Select specific fields from the user model
+        select: 'name profilePicture wilaya phoneNumber', // Select specific fields from the user model
     });
     this.populate({
         path: 'worker',
-        select: 'name profilePicture job isCertified experience', // Select specific fields from the user model
+        select: 'name profilePicture job isCertified experience phoneNumber', // Select specific fields from the user model
     });
     next();
 });

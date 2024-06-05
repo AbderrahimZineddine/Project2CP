@@ -50,7 +50,7 @@ exports.getAllPosts = (0, catchAsync_1.default)(async (req, res, next) => {
         delete req.query.user;
         features = new APIFeatures_1.default(Post_1.Post.find({ user: qUser }).populate({
             path: 'user',
-            select: 'name profilePicture wilaya', // Select specific fields from the user model
+            select: 'name profilePicture wilaya phoneNumber', // Select specific fields from the user model
         }), req.query)
             .filter()
             .sort()

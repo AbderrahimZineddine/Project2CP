@@ -3,6 +3,20 @@ import AppError from '../../utils/appError';
 import catchAsync from '../../utils/catchAsync';
 import { Post } from '../../models/Post';
 
+// Helper function to calculate the Haversine distance between two points
+const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const toRad = (value: number) => value * Math.PI / 180;
+
+  const R = 6371; // Radius of the Earth in kilometers
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in kilometers
+};
+
 export const getMap = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -11,43 +25,33 @@ export const getMap = catchAsync(
         return next(new AppError('Missing parameters', 400));
       }
 
-        if (
-          isNaN(parseFloat(req.query.lat as string)) ||
-          isNaN(parseFloat(req.query.lng as string)) ||
-          isNaN(parseFloat(req.query.diameter as string))
-        ) {
-          return next(new AppError('Invalid parameters provided', 400));
-        }
-
       const lat = parseFloat(req.query.lat as string);
       const lng = parseFloat(req.query.lng as string);
       const diameter = parseFloat(req.query.diameter as string);
 
-      // Calculate the geographical area boundaries
-      const xLat = lat - diameter / 2;
-      const xLng = lng - diameter / 2;
-      const yLat = lat + diameter / 2;
-      const yLng = lng + diameter / 2;
-
-      let posts : any = [];
-      if (req.query.job) {
-        posts = await Post.find({
-          'location.lat': { $gte: xLat, $lte: yLat },
-          'location.lng': { $gte: xLng, $lte: yLng },
-          job: req.query.job,
-        });
-      } else {
-
-        posts = await Post.find({
-          'location.lat': { $gte: xLat, $lte: yLat },
-          'location.lng': { $gte: xLng, $lte: yLng },
-        });
+      if (isNaN(lat) || isNaN(lng) || isNaN(diameter)) {
+        return next(new AppError('Invalid parameters provided', 400));
       }
+
+      let posts: any = [];
+      if (req.query.job) {
+        posts = await Post.find({ job: req.query.job });
+      } else {
+        posts = await Post.find();
+      }
+
+      // Filter posts based on distance from the center point
+      const postsWithinDiameter = posts.filter((post: any) => {
+        const postLat = post.location.lat;
+        const postLng = post.location.lng;
+        const distance = haversineDistance(lat, lng, postLat, postLng);
+        return distance <= diameter / 2;
+      });
 
       res.status(200).json({
         status: 'success',
-        results : posts.length,
-        posts,
+        results: postsWithinDiameter.length,
+        posts: postsWithinDiameter,
       });
     } catch (error) {
       next(new AppError(error.message, 500));

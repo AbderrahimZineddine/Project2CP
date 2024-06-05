@@ -82,7 +82,7 @@ ReviewSchema.pre('save', async function (next) {
 ReviewSchema.pre("find", function (next) {
     this.populate({
         path: 'user',
-        select: 'name profilePicture', // Select specific fields from the user model
+        select: 'name profilePicture phoneNumber', // Select specific fields from the user model
     });
     // this.populate({
     //   path: 'worker',
