@@ -33,19 +33,7 @@ export const switchRole = catchAsync(
 
     // already signed in as worker :
     if (req.user.role === Role.Worker) {
-        // all good :
-        // req.user.currentRole = Role.Worker;
-        req.user = await User.findByIdAndUpdate(
-          req.user.id,
-          { currentRole: Role.Worker },
-          { overwriteDiscriminatorKey: true, new: true }
-        );
-        return createAndSendToken(req.user, 200, req, res);
       
-
-      // return next(
-      //   new AppError('Your Worker account has not been validated yet', 404)
-      // ); //TODO check 404 ?
       res.status(403).json({
         status: 'success',
         message: 'Your Worker account has not been validated yet',
