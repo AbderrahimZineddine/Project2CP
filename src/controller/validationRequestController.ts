@@ -126,7 +126,7 @@ const disapproveValidationRequest = catchAsync(
       res.status(200).json({ status: 'success' });
     } else {
       const worker = valReq.worker;
-      worker.workerAccountVerified = undefined;
+      worker.workerAccountVerified = false;
       worker.job = undefined;
       worker.isCertified = undefined;
       worker.experience = undefined;

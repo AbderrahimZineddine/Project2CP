@@ -8,10 +8,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const User_1 = require("./User");
 const Certificate_1 = require("./Certificate");
 const workerSchema = new mongoose_1.default.Schema({
-    workerAccountVerified: {
-        type: Boolean,
-        default: true, //TODO change later
-    },
     job: {
         type: String,
         enum: [

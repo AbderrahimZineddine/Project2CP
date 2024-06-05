@@ -100,6 +100,7 @@ router.patch('/workersLocations', async (req, res) => {
             // Update the worker's location
             worker.location.lat = newLat;
             worker.location.lng = newLng;
+            worker.location.title = "title";
             // worker.location.title = `${worker.name}'s location`;
             // Save the updated worker to the database
             await worker.save({ validateBeforeSave: false });
@@ -108,6 +109,45 @@ router.patch('/workersLocations', async (req, res) => {
         res.status(200).json({
             status: 'success',
             message: 'All workers locations updated and checked.',
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while updating locations.',
+            error: error.message,
+        });
+    }
+});
+router.patch('/postsLocations', async (req, res) => {
+    try {
+        const centerLat = 35.2; // Your current latitude
+        const centerLng = -0.64; // Your current longitude
+        const diameters = [10, 20, 40, 50, 100]; // Diameters in kilometers
+        // Fetch existing workers from the database
+        const workers = await Post_1.Post.find({});
+        // Iterate over each worker and update their location
+        for (let i = 0; i < workers.length; i++) {
+            const worker = workers[i];
+            // Determine the radius for this worker based on their index
+            const radius = (diameters[Math.floor(i / (workers.length / diameters.length))] / 2) * 1000; // Radius in meters
+            // Generate random offsets
+            const randomOffsetLat = (Math.random() - 0.5) * 2 * (radius / 111300); // Random offset within +/- radius in latitude
+            const randomOffsetLng = (Math.random() - 0.5) * 2 * (radius / (111300 * Math.cos(centerLat * Math.PI / 180))); // Random offset within +/- radius in longitude
+            const newLat = centerLat + randomOffsetLat;
+            const newLng = centerLng + randomOffsetLng;
+            // Update the worker's location
+            worker.location.lat = newLat;
+            worker.location.lng = newLng;
+            worker.location.title = "title";
+            // worker.location.title = `${worker.name}'s location`;
+            // Save the updated worker to the database
+            await worker.save({ validateBeforeSave: false });
+        }
+        console.log('posts locations updated successfully!');
+        res.status(200).json({
+            status: 'success',
+            message: 'All posts locations updated and checked.',
         });
     }
     catch (error) {
@@ -171,6 +211,26 @@ router.patch('/passwordUpdater', async (req, res, next) => {
             status: 'success',
             message: 'All users passwords updated checked .',
         });
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'error',
+            message: 'An error occurred while passwords mod .',
+            error: error.message,
+        });
+    }
+});
+router.patch('/verifyAcc', async (req, res, next) => {
+    try {
+        const users = await User_1.User.find();
+        for (const user of users) {
+            if (user.role == UserDoc_1.Role.Worker) {
+                user.workerAccountVerified = true;
+            }
+            else {
+                user.workerAccountVerified = false;
+            }
+        }
     }
     catch (error) {
         res.status(500).json({

@@ -16,14 +16,18 @@ exports.switchRole = (0, catchAsync_1.default)(async (req, res, next) => {
         return (0, createAndSendToken_1.createAndSendToken)(req.user, 200, req, res);
         // this should end here
     }
+    if (req.user.workerAccountVerified) {
+        // all good :
+        // req.user.currentRole = Role.Worker;
+        req.user = await User_1.User.findByIdAndUpdate(req.user.id, { currentRole: authController_1.Role.Worker }, { overwriteDiscriminatorKey: true, new: true });
+        return (0, createAndSendToken_1.createAndSendToken)(req.user, 200, req, res);
+    }
     // already signed in as worker :
     if (req.user.role === authController_1.Role.Worker) {
-        if (req.user.workerAccountVerified) {
-            // all good :
-            // req.user.currentRole = Role.Worker;
-            req.user = await User_1.User.findByIdAndUpdate(req.user.id, { currentRole: authController_1.Role.Worker }, { overwriteDiscriminatorKey: true, new: true });
-            return (0, createAndSendToken_1.createAndSendToken)(req.user, 200, req, res);
-        }
+        // all good :
+        // req.user.currentRole = Role.Worker;
+        req.user = await User_1.User.findByIdAndUpdate(req.user.id, { currentRole: authController_1.Role.Worker }, { overwriteDiscriminatorKey: true, new: true });
+        return (0, createAndSendToken_1.createAndSendToken)(req.user, 200, req, res);
         // return next(
         //   new AppError('Your Worker account has not been validated yet', 404)
         // ); //TODO check 404 ?

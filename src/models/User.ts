@@ -121,6 +121,10 @@ const userSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    workerAccountVerified: {
+      type: Boolean,
+      default: false, //TODO change later
+    },
   },
   { timestamps: true, discriminatorKey: 'role' }
 );

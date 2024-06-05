@@ -122,6 +122,10 @@ const userSchema = new mongoose_1.default.Schema({
             type: String,
         },
     ],
+    workerAccountVerified: {
+        type: Boolean,
+        default: false, //TODO change later
+    },
 }, { timestamps: true, discriminatorKey: 'role' });
 userSchema.pre('save', passwordBcryptMiddleware);
 userSchema.pre('save', passwordChangedAtMiddleware);

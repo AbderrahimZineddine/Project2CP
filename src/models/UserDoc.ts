@@ -16,6 +16,7 @@ export interface UserDoc extends mongoose.Document {
   phoneNumber: string;
   facebook: string;
   reported: number;
+  workerAccountVerified: boolean;
   // role: 'User' | 'Worker'; //TODO : role check
   role: Role;
   currentRole: Role;

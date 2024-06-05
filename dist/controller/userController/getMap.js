@@ -27,10 +27,11 @@ exports.getMap = (0, catchAsync_1.default)(async (req, res, next) => {
         }
         const lat = parseFloat(req.query.lat);
         const lng = parseFloat(req.query.lng);
-        const diameter = parseFloat(req.query.diameter);
+        let diameter = parseFloat(req.query.diameter);
         if (isNaN(lat) || isNaN(lng) || isNaN(diameter)) {
             return next(new appError_1.default('Invalid parameters provided', 400));
         }
+        diameter = diameter / 1000;
         let workers = [];
         if (req.query.job) {
             workers = await Worker_1.Worker.find({ job: req.query.job });
@@ -44,10 +45,6 @@ exports.getMap = (0, catchAsync_1.default)(async (req, res, next) => {
             const workerLat = worker.location.lat;
             const workerLng = worker.location.lng;
             const distance = haversineDistance(lat, lng, workerLat, workerLng);
-            console.log(i++, ' : ', distance);
-            console.log(i, ' : ', workerLat);
-            console.log(i, ' : ', workerLng);
-            console.log("**************************");
             return distance <= diameter / 2;
         });
         res.status(200).json({

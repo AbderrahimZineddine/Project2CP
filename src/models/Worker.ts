@@ -8,10 +8,7 @@ import { Certificate, CertificateDoc } from './Certificate';
 
 const workerSchema = new mongoose.Schema(
   {
-    workerAccountVerified: {
-      type: Boolean,
-      default: true, //TODO change later
-    },
+    
     job: {
       type: String,
       enum: [

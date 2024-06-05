@@ -85,7 +85,7 @@ const disapproveValidationRequest = (0, catchAsync_1.default)(async (req, res, n
     }
     else {
         const worker = valReq.worker;
-        worker.workerAccountVerified = undefined;
+        worker.workerAccountVerified = false;
         worker.job = undefined;
         worker.isCertified = undefined;
         worker.experience = undefined;

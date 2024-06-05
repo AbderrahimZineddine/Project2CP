@@ -27,10 +27,11 @@ exports.getMap = (0, catchAsync_1.default)(async (req, res, next) => {
         }
         const lat = parseFloat(req.query.lat);
         const lng = parseFloat(req.query.lng);
-        const diameter = parseFloat(req.query.diameter);
+        let diameter = parseFloat(req.query.diameter);
         if (isNaN(lat) || isNaN(lng) || isNaN(diameter)) {
             return next(new appError_1.default('Invalid parameters provided', 400));
         }
+        diameter = diameter / 1000;
         let posts = [];
         if (req.query.job) {
             posts = await Post_1.Post.find({ job: req.query.job });
@@ -38,6 +39,7 @@ exports.getMap = (0, catchAsync_1.default)(async (req, res, next) => {
         else {
             posts = await Post_1.Post.find();
         }
+        let i = 1;
         // Filter posts based on distance from the center point
         const postsWithinDiameter = posts.filter((post) => {
             const postLat = post.location.lat;

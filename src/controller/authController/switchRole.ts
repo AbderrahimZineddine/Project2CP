@@ -18,9 +18,21 @@ export const switchRole = catchAsync(
       return createAndSendToken(req.user, 200, req, res);
       // this should end here
     }
+
+    if ((req.user as WorkerDoc).workerAccountVerified) {
+      // all good :
+      // req.user.currentRole = Role.Worker;
+      req.user = await User.findByIdAndUpdate(
+        req.user.id,
+        { currentRole: Role.Worker },
+        { overwriteDiscriminatorKey: true, new: true }
+      );
+      return createAndSendToken(req.user, 200, req, res);
+    }
+
+
     // already signed in as worker :
     if (req.user.role === Role.Worker) {
-      if ((req.user as WorkerDoc).workerAccountVerified) {
         // all good :
         // req.user.currentRole = Role.Worker;
         req.user = await User.findByIdAndUpdate(
@@ -29,7 +41,7 @@ export const switchRole = catchAsync(
           { overwriteDiscriminatorKey: true, new: true }
         );
         return createAndSendToken(req.user, 200, req, res);
-      }
+      
 
       // return next(
       //   new AppError('Your Worker account has not been validated yet', 404)
